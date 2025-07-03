@@ -1,0 +1,123 @@
+﻿@* @model IEnumerable<DAL_Empty.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a href="/admin/supplier/create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id= item.Id}) |
+                    
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+ *@
+
+@model IEnumerable<DAL_Empty.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Danh sách nhà cung cấp";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+                    <div class="card-style mb-30">
+                        <div class="d-flex justify-content-between align-items-center mb-20">
+                            <h6 class="mb-10">Danh sách nhà cung cấp</h6>
+                            <a href="/admin/supplier/create" class="main-btn primary-btn btn-hover">
+                                <i class="lni lni-plus me-2"></i> Thêm mới
+                            </a>
+                        </div>
+
+                        <div class="table-wrapper table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><h6>Mã</h6></th>
+                                        <th><h6>Tên</h6></th>
+                                        <th><h6>Liên hệ</h6></th>
+                                        <th><h6>Email</h6></th>
+                                        <th><h6>Địa chỉ</h6></th>
+                                        <th><h6>Thao tác</h6></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            @* <td class="min-width"><p>@item.Code</p></td> *@
+                                            <td class="min-width"><p>@item.Name</p></td>
+                                            <td class="min-width"><p>@item.Contact</p></td>
+                                            <td class="min-width"><p><a href="mailto:@item.Email">@item.Email</a></p></td>
+                                            <td class="min-width"><p>@item.Address</p></td>
+                                            <td>
+                                                <div class="action d-flex">
+                                                    <a href="@Url.Action("Edit", "Supplier", new { area = "Admin", id = item.Id })" class="text-primary me-2">
+                                                        <i class="lni lni-pencil"></i>
+                                                    </a>
+                                                    
+                                                   
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div> <!-- end card -->
+
+                
+@* @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@

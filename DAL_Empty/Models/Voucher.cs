@@ -1,0 +1,63 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DAL_Empty.Models
+{
+    public enum DiscountType
+    {
+        Percentage = 1,
+        FixedAmount = 2
+    }
+    public enum VoucherStatus
+    {
+        Active = 1,
+        Inactive = 2,
+        Expired = 3,
+        Draft = 4
+    }
+    public class Voucher
+    {
+        [Key]
+        public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "Mã voucher là bắt buộc")]
+        [StringLength(50, ErrorMessage = "Mã voucher không được vượt quá 50 ký tự")]
+        public string Code { get; set; }
+
+        [StringLength(500, ErrorMessage = "Mô tả không được vượt quá 500 ký tự")]
+        public string? Description { get; set; }
+
+        [Required(ErrorMessage = "Loại giảm giá là bắt buộc")]
+        public DiscountType DiscountType { get; set; }
+
+        [Required(ErrorMessage = "Giá trị giảm giá là bắt buộc")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Giá trị giảm giá phải lớn hơn 0")]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal DiscountValue { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Số tiền đơn hàng tối thiểu không được âm")]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MinOrderAmount { get; set; }
+
+        [Required(ErrorMessage = "Ngày bắt đầu là bắt buộc")]
+        [Column(TypeName = "datetime2")]
+        public DateTime StartDate { get; set; }
+
+        [Required(ErrorMessage = "Ngày kết thúc là bắt buộc")]
+        [Column(TypeName = "datetime2")]
+        public DateTime EndDate { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Số lần sử dụng tối đa mỗi khách hàng phải lớn hơn 0")]
+        public int? MaxUsagePerCustomer { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Tổng số lần sử dụng phải lớn hơn 0")]
+        public int? TotalUsageLimit { get; set; }
+
+        [Required(ErrorMessage = "Trạng thái là bắt buộc")]
+        public VoucherStatus Status { get; set; } = VoucherStatus.Active;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; }
+
+        public virtual ICollection<CustomerVoucher> CustomerVouchers { get; set; } = new List<CustomerVoucher>();
+    }
+}
