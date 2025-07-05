@@ -9,6 +9,5 @@ namespace API.Domain.Service.IService
         Task<BrandDto?> GetByIdAsync(Guid id);
         Task<BrandDto> CreateAsync(CreateBrandRequest request);
         Task<BrandDto> UpdateAsync(Guid id, UpdateBrandRequest request);
-        Task<bool> DeleteAsync(Guid id);
     }
 }

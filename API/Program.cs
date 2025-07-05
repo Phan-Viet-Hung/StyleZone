@@ -31,6 +31,8 @@ builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 builder.Services.AddScoped<IColorService, ColorService>();
 builder.Services.AddScoped<ISizeService, SizeService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IMaterialService, MaterialService>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

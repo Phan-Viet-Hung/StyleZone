@@ -8,6 +8,5 @@ namespace API.Domain.Service.IService
         Task<SizeDto?> GetByIdAsync(Guid id);
         Task<SizeDto> CreateAsync(string code, string name);
         Task<SizeDto> UpdateAsync(Guid id, string code, string name);
-        Task<bool> DeleteAsync(Guid id);
     }
 }

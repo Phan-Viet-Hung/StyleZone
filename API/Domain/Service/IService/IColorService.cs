@@ -4,5 +4,4 @@
     Task<ColorDto?> GetByIdAsync(Guid id);
     Task<ColorDto> CreateAsync(CreateColorRequest request);
     Task<ColorDto> UpdateAsync(UpdateColorRequest request);
-    Task<bool> DeleteAsync(Guid id);
 }

@@ -76,21 +76,5 @@ namespace API.Domain.Controllers
             }
         }
 
-        // DELETE: api/Brands/{id}
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            try
-            {
-                bool deleted = await _brandService.DeleteAsync(id);
-                if (deleted)
-                    return NoContent();
-                return BadRequest(new { message = "Xóa thương hiệu không thành công." });
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-        }
     }
 }

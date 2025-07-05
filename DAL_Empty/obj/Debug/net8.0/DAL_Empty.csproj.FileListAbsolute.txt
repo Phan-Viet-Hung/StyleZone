@@ -418,3 +418,4 @@ D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\refint\DAL_Empty.dll
 D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\DAL_Empty.pdb
 D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\DAL_Empty.genruntimeconfig.cache
 D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\ref\DAL_Empty.dll
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\DAL_Empty.sourcelink.json

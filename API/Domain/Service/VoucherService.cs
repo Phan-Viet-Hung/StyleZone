@@ -119,16 +119,5 @@ namespace StyleZone_API.Domain.Service
 
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            var voucher = await _context.Vouchers.FindAsync(id);
-            if (voucher == null)
-                throw new Exception("Voucher không tồn tại.");
-
-            _context.Vouchers.Remove(voucher);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
     }
 }

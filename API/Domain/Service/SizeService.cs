@@ -68,15 +68,5 @@ namespace API.Domain.Service
             return size.ToDto();
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            var size = await _context.Sizes.FindAsync(id);
-            if (size == null)
-                throw new Exception("Không tìm thấy size.");
-
-            _context.Sizes.Remove(size);
-            await _context.SaveChangesAsync();
-            return true;
-        }
     }
 }

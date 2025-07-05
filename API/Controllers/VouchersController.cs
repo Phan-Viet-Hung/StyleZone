@@ -64,18 +64,5 @@ namespace StyleZone_API.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            try
-            {
-                var result = await _voucherService.DeleteAsync(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
     }
 }

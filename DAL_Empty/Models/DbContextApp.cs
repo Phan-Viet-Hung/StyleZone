@@ -147,6 +147,8 @@ namespace DAL_Empty.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
                 entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime2").IsRequired();
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime2");
             });
 
             modelBuilder.Entity<Cart>(entity =>
@@ -196,6 +198,9 @@ namespace DAL_Empty.Models
                     .HasDefaultValueSql("(newid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(500);
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime2").IsRequired();
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime2");
             });
 
             modelBuilder.Entity<ChatMessage>(entity =>
@@ -315,6 +320,9 @@ namespace DAL_Empty.Models
                     .HasDefaultValueSql("(newid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(500);
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime2").IsRequired();
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime2");
             });
 
             modelBuilder.Entity<ModeOfPayment>(entity =>
@@ -432,6 +440,9 @@ namespace DAL_Empty.Models
                     .HasDefaultValueSql("(newid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(500);
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime2").IsRequired();
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime2");
             });
 
             modelBuilder.Entity<PaymentMethod>(entity =>
@@ -603,6 +614,8 @@ namespace DAL_Empty.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
                 entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime2").IsRequired();
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime2");
             });
 
             modelBuilder.Entity<Supplier>(entity =>

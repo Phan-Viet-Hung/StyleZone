@@ -216,10 +216,20 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Category__3214EC27664D474C");
@@ -430,10 +440,20 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Material__3214EC27025D3F05");
@@ -664,10 +684,20 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Origin__3214EC27501CB207");

@@ -67,19 +67,5 @@ namespace StyleZone_API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            try
-            {
-                var result = await _colorService.DeleteAsync(id);
-                return Ok(new { success = result });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
     }
 }

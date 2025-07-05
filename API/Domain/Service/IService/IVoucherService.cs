@@ -9,6 +9,5 @@ namespace StyleZone_API.Domain.Service.IService
         Task<VoucherDto?> GetByIdAsync(Guid id);
         Task<VoucherDto?> CreateAsync(CreateVoucherRequest request);
         Task<VoucherDto?> UpdateAsync(UpdateVoucherRequest request);
-        Task<bool> DeleteAsync(Guid id);
     }
 }

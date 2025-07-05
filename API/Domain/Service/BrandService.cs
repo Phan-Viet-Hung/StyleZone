@@ -77,17 +77,5 @@ namespace API.Domain.Service
 
             return brand.ToDto();
         }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
-                throw new KeyNotFoundException("Không tìm thấy thương hiệu.");
-
-            _context.Brands.Remove(brand);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
     }
 }

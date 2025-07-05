@@ -70,22 +70,5 @@ namespace API.Domain.Service
             var color = await _context.Colors.FindAsync(id);
             return color?.ToDto();
         }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            var color = await _context.Colors
-                .Include(c => c.ProductDetails)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (color == null)
-                throw new Exception("Không tìm thấy màu cần xoá.");
-
-            if (color.ProductDetails.Any())
-                throw new Exception("Không thể xoá màu vì đang được sử dụng trong sản phẩm.");
-
-            _context.Colors.Remove(color);
-            await _context.SaveChangesAsync();
-            return true;
-        }
     }
 }

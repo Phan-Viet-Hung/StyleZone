@@ -66,25 +66,6 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/Sizes/{id}
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            try
-            {
-                var result = await _sizeService.DeleteAsync(id);
-                if (result)
-                    return NoContent();
-                else
-                    return BadRequest(new { message = "Xóa size không thành công." });
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Contains("Không tìm thấy"))
-                    return NotFound(new { message = ex.Message });
-                return BadRequest(new { message = ex.Message });
-            }
-        }
     }
 
 }
