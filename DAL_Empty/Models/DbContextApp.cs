@@ -304,7 +304,11 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Url)
                     .HasMaxLength(255)
                     .HasColumnName("URL");
-
+                entity.Property(e => e.FileName).HasMaxLength(100).IsRequired();
+                entity.Property(e => e.AltText).HasMaxLength(200);
+                entity.Property(e => e.IsMainImage).HasDefaultValue(false);
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime2").IsRequired();
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime2");
                 entity.HasOne(d => d.ProductDetail).WithMany(p => p.Images)
                     .HasForeignKey(d => d.ProductDetailId)
                     .HasConstraintName("FK__Image__ProductDe__6FE99F9F");

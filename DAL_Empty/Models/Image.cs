@@ -7,14 +7,25 @@ namespace DAL_Empty.Models
     {
         [Key]
         public Guid Id { get; set; }
+
         [Required(ErrorMessage = "URL hình ảnh không được để trống.")]
-        [Url(ErrorMessage = "URL hình ảnh không đúng định dạng.")]
         [MaxLength(500, ErrorMessage = "URL hình ảnh không được vượt quá 500 ký tự.")]
-        public string? Url { get; set; }
-        [Required(ErrorMessage = "ProductDetailId không được để trống.")]
+        public string Url { get; set; }
+
+        [Required(ErrorMessage = "Tên file không được để trống.")]
+        [MaxLength(100, ErrorMessage = "Tên file không được vượt quá 100 ký tự.")]
+        public string FileName { get; set; }
+
+        [MaxLength(200, ErrorMessage = "Mô tả hình ảnh không được vượt quá 200 ký tự.")]
+        public string? AltText { get; set; }
+
+        public bool IsMainImage { get; set; } = false;
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; }
+
         [ForeignKey("ProductDetail")]
         public Guid? ProductDetailId { get; set; }
-
         public virtual ProductDetail? ProductDetail { get; set; }
     }
 }

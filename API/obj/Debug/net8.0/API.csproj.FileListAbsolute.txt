@@ -343,3 +343,4 @@ D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\API.csproj.Up2Date
 D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\ref\API.dll
 D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\API.sourcelink.json
+D:\Code\DATN2\DATN\DATN\Empty\API\bin\Debug\net8.0\API.staticwebassets.runtime.json

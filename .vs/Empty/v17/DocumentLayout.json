@@ -3,12 +3,92 @@
   "WorkspaceRootPath": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\productdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\models\\productdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\models\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\imagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\controllers\\imagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\imagerequest\\updateimagerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\request\\imagerequest\\updateimagerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\iimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\iimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\dtos\\imagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\dtos\\imagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\icolorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\icolorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\imaterialservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\imaterialservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\productdetailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\controllers\\productdetailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\productdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\productdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\colorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\controllers\\colorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\iproductdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\iproductdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\productdetairequest\\updateproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\request\\productdetairequest\\updateproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\productdetairequest\\createproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\request\\productdetairequest\\createproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\extentions\\productdetailextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\extentions\\productdetailextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\dtos\\productdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\dtos\\productdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\imagerequest\\uploadmultipleimagesrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\request\\imagerequest\\uploadmultipleimagesrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\dbcontextapp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\models\\dbcontextapp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250706083008_fiximg.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DAL_Empty\\Migrations\\20250706083008_fiximg.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\migrations\\20250705090523_fix-db-12.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\migrations\\20250705090523_fix-db-12.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,14 +105,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\models\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\models\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\productdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\models\\productdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\supplier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -57,14 +129,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\migrations\\20250702135817_fix-db4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\migrations\\20250702135817_fix-db4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -131,14 +195,6 @@
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\isizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\imaterialservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\imaterialservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\icolorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\icolorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\ibrandservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\ibrandservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -163,10 +219,6 @@
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\brandservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\productdetailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\controllers\\productdetailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -185,10 +237,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\materialcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\controllers\\materialcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\colorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\controllers\\colorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\controllers\\brandscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -243,16 +291,8 @@
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\productdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\productdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\service\\iservice\\iproductdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\service\\iservice\\iproductdetailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\voucherrequest\\updatevoucherrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -281,14 +321,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\productrequest\\createproductrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\request\\productrequest\\createproductrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\productdetairequest\\updateproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\request\\productdetairequest\\updateproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\productdetairequest\\createproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\request\\productdetairequest\\createproductdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\request\\corlorrequest\\updatecolorrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -327,10 +359,6 @@
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\extentions\\productextentions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\extentions\\productdetailextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\extentions\\productdetailextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\extentions\\colorextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\extentions\\colorextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -345,10 +373,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|d:\\code\\datn2\\datn\\datn\\empty\\api\\domain\\dtos\\productdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{51DF3ACF-E605-4F87-B670-C9E807D32566}|API\\API.csproj|solutionrelative:api\\domain\\dtos\\productdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\models\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -429,6 +453,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\migrations\\20250703053938_fix-db-9.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\migrations\\20250703053938_fix-db-9.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|d:\\code\\datn2\\datn\\datn\\empty\\dal_empty\\migrations\\20250705084110_fix-db-11.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10445E94-94FC-4862-962B-63021AF49F85}|DAL_Empty\\DAL_Empty.csproj|solutionrelative:dal_empty\\migrations\\20250705084110_fix-db-11.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -438,609 +466,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250705090523_fix-db-12.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
-              "RelativeToolTip": "DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T09:05:24.412Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "20250702095202_fix-db2.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
-              "RelativeToolTip": "DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:43:15.978Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "ProductDetail.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ProductDetail.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\ProductDetail.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ProductDetail.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\ProductDetail.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAA4wEAAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:00:07.916Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Brand.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Brand.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Brand.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Brand.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Brand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:47:05.379Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Category.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Category.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Category.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Category.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Category.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:17:47.67Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Color.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Color.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Color.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Color.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Color.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:01:19.879Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Material.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Material.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Material.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Material.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Material.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:32:43.156Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Origin.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Origin.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Origin.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Origin.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Origin.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:00:02.149Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Size.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Size.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Size.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Size.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Size.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:17:11.328Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Supplier.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Supplier.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Supplier.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Supplier.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Supplier.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:30:26.752Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Image.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Image.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Image.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Image.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Image.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:01:54.205Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DbContextApp.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\DbContextApp.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\DbContextApp.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\DbContextApp.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\DbContextApp.cs",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAhwJQAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:26:32.054Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "20250702135817_fix-db4.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
-              "RelativeToolTip": "DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:42:48.709Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "20250705084110_fix-db-11.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
-              "RelativeToolTip": "DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:41:11.222Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "CategoryController.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\CategoryController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\CategoryController.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\CategoryController.cs",
-              "RelativeToolTip": "API\\Controllers\\CategoryController.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAA5wEAAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:39:03.587Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "CategoryService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\CategoryService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\CategoryService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\CategoryService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\CategoryService.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAhwDYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:36:38.483Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "UpdateCategoryRequest.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
-              "RelativeToolTip": "API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:35:58.429Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "CreateCategoryRequest.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
-              "RelativeToolTip": "API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:35:36.952Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "CategoryDto.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\CategoryDto.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\DTOs\\CategoryDto.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\CategoryDto.cs",
-              "RelativeToolTip": "API\\Domain\\DTOs\\CategoryDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:34:52.882Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "20250702094316_fix-db.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
-              "RelativeToolTip": "DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
-              "ViewState": "AgIAAJQAAAAAAAAAAAAQwBkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:26:44.879Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "ICategoryService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ICategoryService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\ICategoryService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ICategoryService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\ICategoryService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:36:22.98Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "OriginController.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\OriginController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\OriginController.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\OriginController.cs",
-              "RelativeToolTip": "API\\Controllers\\OriginController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBsAAABVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:32:11.799Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "OriginService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\OriginService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\OriginService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\OriginService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\OriginService.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAApwBMAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:31:27.307Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Program.cs",
-              "RelativeDocumentMoniker": "API\\Program.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Program.cs",
-              "RelativeToolTip": "API\\Program.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACIAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:07:42.061Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "IOriginService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IOriginService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IOriginService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IOriginService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\IOriginService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:30:52.746Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "UpdateOriginRequest.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
-              "RelativeToolTip": "API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:30:34.161Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "CreateOriginRequest.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
-              "RelativeToolTip": "API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:30:13.555Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "OriginDto.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\OriginDto.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\DTOs\\OriginDto.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\OriginDto.cs",
-              "RelativeToolTip": "API\\Domain\\DTOs\\OriginDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:29:24.557Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "IVoucherService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IVoucherService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IVoucherService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IVoucherService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\IVoucherService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:18:50.588Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "VoucherService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\VoucherService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\VoucherService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\VoucherService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\VoucherService.cs",
-              "ViewState": "AgIAAHAAAAAAAAAAAAAkwHcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:18:19.88Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "ColorService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ColorService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\ColorService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ColorService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\ColorService.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAkwEcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:29:33.682Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "IBrandService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IBrandService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IBrandService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IBrandService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\IBrandService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:56:09.839Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
               "Title": "IColorService.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IColorService.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IColorService.cs",
               "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IColorService.cs",
               "RelativeToolTip": "API\\Domain\\Service\\IService\\IColorService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAA+wAUAAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAqwAUAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-03T05:28:31.916Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "IMaterialService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IMaterialService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IMaterialService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IMaterialService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\IMaterialService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABFAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "ImageDto.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ImageDto.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\DTOs\\ImageDto.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ImageDto.cs",
+              "RelativeToolTip": "API\\Domain\\DTOs\\ImageDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAwwAcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:10:31.644Z",
+              "WhenOpened": "2025-07-06T08:24:41.832Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "ISizeService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISizeService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\ISizeService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISizeService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\ISizeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:28:49.299Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "OrderPaymentMethod.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\OrderPaymentMethod.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\OrderPaymentMethod.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\OrderPaymentMethod.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\OrderPaymentMethod.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:32:00.754Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "BrandService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\BrandService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\BrandService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\BrandService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\BrandService.cs",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAowE4AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:57:04.622Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "ProductDetailController.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductDetailController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\ProductDetailController.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductDetailController.cs",
-              "RelativeToolTip": "API\\Controllers\\ProductDetailController.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAowEwAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:06:37.325Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "ISupplierService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISupplierService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\ISupplierService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISupplierService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\ISupplierService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:45:00.423Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "Product.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Product.cs",
-              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Product.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Product.cs",
-              "RelativeToolTip": "DAL_Empty\\Models\\Product.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAYwAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T07:22:01.238Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
-              "Title": "ProductsController.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductsController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\ProductsController.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductsController.cs",
-              "RelativeToolTip": "API\\Controllers\\ProductsController.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAgwBoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T07:22:30.557Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 43,
-              "Title": "SizesController.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\SizesController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\SizesController.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\SizesController.cs",
-              "RelativeToolTip": "API\\Controllers\\SizesController.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:37:07.676Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 44,
-              "Title": "VouchersController.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\VouchersController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\VouchersController.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\VouchersController.cs",
-              "RelativeToolTip": "API\\Controllers\\VouchersController.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAgwEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:46:05.472Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "MaterialService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\MaterialService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\MaterialService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\MaterialService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\MaterialService.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAkwEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:11:35.255Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "SizeService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\SizeService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\SizeService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\SizeService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\SizeService.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAmwEUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:29:30.302Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 45,
-              "Title": "MaterialController.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\MaterialController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\MaterialController.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\MaterialController.cs",
-              "RelativeToolTip": "API\\Controllers\\MaterialController.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAkwEcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:12:57.404Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 12,
               "Title": "ColorController.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ColorController.cs",
               "RelativeDocumentMoniker": "API\\Controllers\\ColorController.cs",
@@ -1053,7 +509,710 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IProductDetailService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IProductDetailService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IProductDetailService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IProductDetailService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\IProductDetailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:56:31.726Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UpdateImageRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ImageRequest\\UpdateImageRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\ImageRequest\\UpdateImageRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ImageRequest\\UpdateImageRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\ImageRequest\\UpdateImageRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T08:25:42.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ImageController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ImageController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\ImageController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ImageController.cs",
+              "RelativeToolTip": "API\\Controllers\\ImageController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAzwB8AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T08:28:30.582Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IImageService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IImageService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IImageService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IImageService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\IImageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T08:26:54.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ImageService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ImageService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\ImageService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ImageService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\ImageService.cs",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T08:27:14.147Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Image.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Image.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Image.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Image.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Image.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAswBwAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:01:54.205Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductDetail.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ProductDetail.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\ProductDetail.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ProductDetail.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\ProductDetail.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAmwD4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:00:07.916Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IMaterialService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IMaterialService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IMaterialService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IMaterialService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\IMaterialService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:10:31.644Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ProductDetailController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductDetailController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\ProductDetailController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductDetailController.cs",
+              "RelativeToolTip": "API\\Controllers\\ProductDetailController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAuwBMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:06:37.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Program.cs",
+              "RelativeDocumentMoniker": "API\\Program.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Program.cs",
+              "RelativeToolTip": "API\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAkwBQAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:07:42.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CreateProductDetailRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAowCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:05:37.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ProductDetailService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ProductDetailService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\ProductDetailService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ProductDetailService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\ProductDetailService.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAkwGEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:06:02.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UpdateProductDetailRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:05:42.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ProductDetailExtension.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\ProductDetailExtension.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Extentions\\ProductDetailExtension.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\ProductDetailExtension.cs",
+              "RelativeToolTip": "API\\Domain\\Extentions\\ProductDetailExtension.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:26:45.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ProductDetailDto.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ProductDetailDto.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\DTOs\\ProductDetailDto.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ProductDetailDto.cs",
+              "RelativeToolTip": "API\\Domain\\DTOs\\ProductDetailDto.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwCQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:05:16.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "20250706083008_fiximg.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250706083008_fiximg.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250706083008_fiximg.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250706083008_fiximg.cs",
+              "RelativeToolTip": "DAL_Empty\\Migrations\\20250706083008_fiximg.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAAC8AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T08:30:09.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "UploadMultipleImagesRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ImageRequest\\UploadMultipleImagesRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\ImageRequest\\UploadMultipleImagesRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ImageRequest\\UploadMultipleImagesRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\ImageRequest\\UploadMultipleImagesRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T08:25:27.315Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "DbContextApp.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\DbContextApp.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\DbContextApp.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\DbContextApp.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\DbContextApp.cs",
+              "ViewState": "AgIAAB0BAAAAAAAAAAAAACoBAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:26:32.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "20250705090523_fix-db-12.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
+              "RelativeToolTip": "DAL_Empty\\Migrations\\20250705090523_fix-db-12.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T09:05:24.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "20250702095202_fix-db2.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
+              "RelativeToolTip": "DAL_Empty\\Migrations\\20250702095202_fix-db2.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:43:15.978Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Brand.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Brand.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Brand.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Brand.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Brand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:47:05.379Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Category.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Category.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:17:47.67Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Color.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Color.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Color.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Color.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Color.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:01:19.879Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Material.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Material.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Material.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Material.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Material.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:32:43.156Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Origin.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Origin.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Origin.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Origin.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Origin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:00:02.149Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Size.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Size.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Size.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Size.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Size.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:17:11.328Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Supplier.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Supplier.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Supplier.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Supplier.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Supplier.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:30:26.752Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "20250702135817_fix-db4.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
+              "RelativeToolTip": "DAL_Empty\\Migrations\\20250702135817_fix-db4.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:42:48.709Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 113,
+              "Title": "20250705084110_fix-db-11.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
+              "RelativeToolTip": "DAL_Empty\\Migrations\\20250705084110_fix-db-11.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:41:11.222Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\CategoryController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "API\\Controllers\\CategoryController.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAA5wEAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:39:03.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "CategoryService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\CategoryService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\CategoryService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\CategoryService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\CategoryService.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAhwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:36:38.483Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "UpdateCategoryRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\CategoryRequest\\UpdateCategoryRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:35:58.429Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "CreateCategoryRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\CategoryRequest\\CreateCategoryRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:35:36.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "CategoryDto.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\CategoryDto.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\DTOs\\CategoryDto.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\CategoryDto.cs",
+              "RelativeToolTip": "API\\Domain\\DTOs\\CategoryDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:34:52.882Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "20250702094316_fix-db.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
+              "RelativeToolTip": "DAL_Empty\\Migrations\\20250702094316_fix-db.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAQwBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:26:44.879Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "ICategoryService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ICategoryService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\ICategoryService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ICategoryService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\ICategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:36:22.98Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "OriginController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\OriginController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\OriginController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\OriginController.cs",
+              "RelativeToolTip": "API\\Controllers\\OriginController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBsAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:32:11.799Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "OriginService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\OriginService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\OriginService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\OriginService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\OriginService.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAApwBMAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:31:27.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "IOriginService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IOriginService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IOriginService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IOriginService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\IOriginService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:30:52.746Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "UpdateOriginRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\OriginRequest\\UpdateOriginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:30:34.161Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "CreateOriginRequest.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
+              "RelativeToolTip": "API\\Domain\\Request\\OriginRequest\\CreateOriginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:30:13.555Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "OriginDto.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\OriginDto.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\DTOs\\OriginDto.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\OriginDto.cs",
+              "RelativeToolTip": "API\\Domain\\DTOs\\OriginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:29:24.557Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "IVoucherService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IVoucherService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IVoucherService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IVoucherService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\IVoucherService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:18:50.588Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "VoucherService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\VoucherService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\VoucherService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\VoucherService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\VoucherService.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAkwHcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:18:19.88Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "ColorService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ColorService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\ColorService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ColorService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\ColorService.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAkwEcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:29:33.682Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "IBrandService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IBrandService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IBrandService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IBrandService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\IBrandService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:56:09.839Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 47,
+              "Title": "ISizeService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISizeService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\ISizeService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISizeService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\ISizeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:28:49.299Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "OrderPaymentMethod.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\OrderPaymentMethod.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\OrderPaymentMethod.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\OrderPaymentMethod.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\OrderPaymentMethod.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:32:00.754Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "BrandService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\BrandService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\BrandService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\BrandService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\BrandService.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAowE4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:57:04.622Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "ISupplierService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISupplierService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\ISupplierService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\ISupplierService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\IService\\ISupplierService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:45:00.423Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "DAL_Empty\\Models\\Product.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Product.cs",
+              "RelativeToolTip": "DAL_Empty\\Models\\Product.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAYwAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T07:22:01.238Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\ProductsController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "API\\Controllers\\ProductsController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAgwBoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T07:22:30.557Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "SizesController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\SizesController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\SizesController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\SizesController.cs",
+              "RelativeToolTip": "API\\Controllers\\SizesController.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:37:07.676Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "VouchersController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\VouchersController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\VouchersController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\VouchersController.cs",
+              "RelativeToolTip": "API\\Controllers\\VouchersController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T08:46:05.472Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "MaterialService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\MaterialService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\MaterialService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\MaterialService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\MaterialService.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAkwEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:11:35.255Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "SizeService.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\SizeService.cs",
+              "RelativeDocumentMoniker": "API\\Domain\\Service\\SizeService.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\SizeService.cs",
+              "RelativeToolTip": "API\\Domain\\Service\\SizeService.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAmwEUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T05:29:30.302Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "MaterialController.cs",
+              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\MaterialController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\MaterialController.cs",
+              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\MaterialController.cs",
+              "RelativeToolTip": "API\\Controllers\\MaterialController.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAkwEcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T08:12:57.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
               "Title": "BrandsController.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Controllers\\BrandsController.cs",
               "RelativeDocumentMoniker": "API\\Controllers\\BrandsController.cs",
@@ -1061,12 +1220,11 @@
               "RelativeToolTip": "API\\Controllers\\BrandsController.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAAAuwE0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:57:55.049Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-03T05:57:55.049Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 60,
               "Title": "MaterialExtensions.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\MaterialExtensions.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Extentions\\MaterialExtensions.cs",
@@ -1074,12 +1232,11 @@
               "RelativeToolTip": "API\\Domain\\Extentions\\MaterialExtensions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:10:52.325Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T08:10:52.325Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 61,
               "Title": "UpdateMaterialRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\MaterialRequest\\UpdateMaterialRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\MaterialRequest\\UpdateMaterialRequest.cs",
@@ -1087,12 +1244,11 @@
               "RelativeToolTip": "API\\Domain\\Request\\MaterialRequest\\UpdateMaterialRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:10:14.324Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T08:10:14.324Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 62,
               "Title": "CreateMaterialRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\MaterialRequest\\CreateMaterialRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\MaterialRequest\\CreateMaterialRequest.cs",
@@ -1100,12 +1256,11 @@
               "RelativeToolTip": "API\\Domain\\Request\\MaterialRequest\\CreateMaterialRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T08:09:53.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T08:09:53.856Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 63,
               "Title": "MaterialDto.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\MaterialDto.cs",
               "RelativeDocumentMoniker": "API\\Domain\\DTOs\\MaterialDto.cs",
@@ -1113,12 +1268,11 @@
               "RelativeToolTip": "API\\Domain\\DTOs\\MaterialDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T10:39:33.728Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-04T10:39:33.728Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 64,
               "Title": "20250703084859_fix-code-db.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250703084859_fix-code-db.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250703084859_fix-code-db.cs",
@@ -1130,7 +1284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 70,
               "Title": "SizeDto.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\SizeDto.cs",
               "RelativeDocumentMoniker": "API\\Domain\\DTOs\\SizeDto.cs",
@@ -1142,7 +1296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 69,
               "Title": "SizeExtensions.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\SizeExtensions.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Extentions\\SizeExtensions.cs",
@@ -1154,7 +1308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 66,
               "Title": "Create.cshtml",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\MVC\\Areas\\Admin\\Views\\Supplier\\Create.cshtml",
               "RelativeDocumentMoniker": "MVC\\Areas\\Admin\\Views\\Supplier\\Create.cshtml",
@@ -1166,7 +1320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 67,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\MVC\\Areas\\Admin\\Views\\Supplier\\Edit.cshtml",
               "RelativeDocumentMoniker": "MVC\\Areas\\Admin\\Views\\Supplier\\Edit.cshtml",
@@ -1178,7 +1332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 65,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\MVC\\Areas\\Admin\\Views\\Supplier\\Index.cshtml",
               "RelativeDocumentMoniker": "MVC\\Areas\\Admin\\Views\\Supplier\\Index.cshtml",
@@ -1190,7 +1344,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 68,
               "Title": "CreateSizeRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\SizeRequest\\CreateSizeRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\SizeRequest\\CreateSizeRequest.cs",
@@ -1202,7 +1356,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 71,
               "Title": "ProductService.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ProductService.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Service\\ProductService.cs",
@@ -1214,31 +1368,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
-              "Title": "ProductDetailService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ProductDetailService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\ProductDetailService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\ProductDetailService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\ProductDetailService.cs",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAkwEMAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:06:02.722Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 62,
-              "Title": "IProductDetailService.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IProductDetailService.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IProductDetailService.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IProductDetailService.cs",
-              "RelativeToolTip": "API\\Domain\\Service\\IService\\IProductDetailService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T05:56:31.726Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 73,
               "Title": "UpdateVoucherRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\VoucherRequest\\UpdateVoucherRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\VoucherRequest\\UpdateVoucherRequest.cs",
@@ -1250,7 +1380,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 74,
               "Title": "CreateVoucherRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\VoucherRequest\\CreateVoucherRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\VoucherRequest\\CreateVoucherRequest.cs",
@@ -1262,7 +1392,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 76,
               "Title": "SeedSizesRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\SizeRequest\\SeedSizesRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\SizeRequest\\SeedSizesRequest.cs",
@@ -1274,7 +1404,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 72,
               "Title": "IProductService.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Service\\IService\\IProductService.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Service\\IService\\IProductService.cs",
@@ -1286,7 +1416,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 78,
               "Title": "UpdateProductRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductRequest\\UpdateProductRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\ProductRequest\\UpdateProductRequest.cs",
@@ -1298,7 +1428,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 79,
               "Title": "CreateProductRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductRequest\\CreateProductRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\ProductRequest\\CreateProductRequest.cs",
@@ -1310,19 +1440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 70,
-              "Title": "UpdateProductDetailRequest.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
-              "RelativeToolTip": "API\\Domain\\Request\\ProductDetaiRequest\\UpdateProductDetailRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:05:42.337Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 75,
               "Title": "Voucher.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Voucher.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Voucher.cs",
@@ -1334,7 +1452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 77,
               "Title": "UpdateSizeRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\SizeRequest\\UpdateSizeRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\SizeRequest\\UpdateSizeRequest.cs",
@@ -1346,19 +1464,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 71,
-              "Title": "CreateProductDetailRequest.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
-              "RelativeToolTip": "API\\Domain\\Request\\ProductDetaiRequest\\CreateProductDetailRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:05:37.056Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 72,
+              "DocumentIndex": 80,
               "Title": "UpdateColorRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CorlorRequest\\UpdateColorRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\CorlorRequest\\UpdateColorRequest.cs",
@@ -1370,7 +1476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 73,
+              "DocumentIndex": 81,
               "Title": "SeedColorsRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CorlorRequest\\SeedColorsRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\CorlorRequest\\SeedColorsRequest.cs",
@@ -1382,7 +1488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 74,
+              "DocumentIndex": 82,
               "Title": "CreateColorRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\CorlorRequest\\CreateColorRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\CorlorRequest\\CreateColorRequest.cs",
@@ -1394,7 +1500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 75,
+              "DocumentIndex": 83,
               "Title": "UpdateBrandRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\BrandRequest\\UpdateBrandRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\BrandRequest\\UpdateBrandRequest.cs",
@@ -1406,7 +1512,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 76,
+              "DocumentIndex": 84,
               "Title": "CreateBrandRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Request\\BrandRequest\\CreateBrandRequest.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Request\\BrandRequest\\CreateBrandRequest.cs",
@@ -1418,7 +1524,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 77,
+              "DocumentIndex": 85,
               "Title": "BrandDto.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\BrandDto.cs",
               "RelativeDocumentMoniker": "API\\Domain\\DTOs\\BrandDto.cs",
@@ -1430,7 +1536,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 78,
+              "DocumentIndex": 86,
               "Title": "BrandExtensions.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\BrandExtensions.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Extentions\\BrandExtensions.cs",
@@ -1442,7 +1548,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 79,
+              "DocumentIndex": 87,
               "Title": "VoucherExtensions.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\VoucherExtensions.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Extentions\\VoucherExtensions.cs",
@@ -1454,7 +1560,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 80,
+              "DocumentIndex": 88,
               "Title": "ProductExtentions.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\ProductExtentions.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Extentions\\ProductExtentions.cs",
@@ -1466,19 +1572,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 81,
-              "Title": "ProductDetailExtension.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\ProductDetailExtension.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\Extentions\\ProductDetailExtension.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\ProductDetailExtension.cs",
-              "RelativeToolTip": "API\\Domain\\Extentions\\ProductDetailExtension.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAzwAkAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:26:45.887Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 82,
+              "DocumentIndex": 89,
               "Title": "ColorExtensions.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\Extentions\\ColorExtensions.cs",
               "RelativeDocumentMoniker": "API\\Domain\\Extentions\\ColorExtensions.cs",
@@ -1490,7 +1584,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 83,
+              "DocumentIndex": 90,
               "Title": "VoucherDto.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\VoucherDto.cs",
               "RelativeDocumentMoniker": "API\\Domain\\DTOs\\VoucherDto.cs",
@@ -1502,7 +1596,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 84,
+              "DocumentIndex": 91,
               "Title": "ColorDto.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ColorDto.cs",
               "RelativeDocumentMoniker": "API\\Domain\\DTOs\\ColorDto.cs",
@@ -1514,7 +1608,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 85,
+              "DocumentIndex": 92,
               "Title": "ProductDto.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ProductDto.cs",
               "RelativeDocumentMoniker": "API\\Domain\\DTOs\\ProductDto.cs",
@@ -1526,19 +1620,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 86,
-              "Title": "ProductDetailDto.cs",
-              "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ProductDetailDto.cs",
-              "RelativeDocumentMoniker": "API\\Domain\\DTOs\\ProductDetailDto.cs",
-              "ToolTip": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\API\\Domain\\DTOs\\ProductDetailDto.cs",
-              "RelativeToolTip": "API\\Domain\\DTOs\\ProductDetailDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T08:05:16.066Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 87,
+              "DocumentIndex": 93,
               "Title": "Account.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Account.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Account.cs",
@@ -1550,7 +1632,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 88,
+              "DocumentIndex": 94,
               "Title": "Address.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Address.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Address.cs",
@@ -1562,7 +1644,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 91,
+              "DocumentIndex": 97,
               "Title": "Customer.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Customer.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Customer.cs",
@@ -1574,7 +1656,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 94,
+              "DocumentIndex": 100,
               "Title": "ChatSession.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ChatSession.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\ChatSession.cs",
@@ -1586,7 +1668,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 92,
+              "DocumentIndex": 98,
               "Title": "CustomerVoucher.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\CustomerVoucher.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\CustomerVoucher.cs",
@@ -1598,7 +1680,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 90,
+              "DocumentIndex": 96,
               "Title": "CartItem.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\CartItem.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\CartItem.cs",
@@ -1610,7 +1692,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 89,
+              "DocumentIndex": 95,
               "Title": "Cart.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Cart.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Cart.cs",
@@ -1622,7 +1704,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 95,
+              "DocumentIndex": 101,
               "Title": "ModeOfPayment.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ModeOfPayment.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\ModeOfPayment.cs",
@@ -1634,7 +1716,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 96,
+              "DocumentIndex": 102,
               "Title": "ModeOfPaymentOrder.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ModeOfPaymentOrder.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\ModeOfPaymentOrder.cs",
@@ -1646,7 +1728,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 97,
+              "DocumentIndex": 103,
               "Title": "OrderDetail.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\OrderDetail.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\OrderDetail.cs",
@@ -1658,7 +1740,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 93,
+              "DocumentIndex": 99,
               "Title": "ChatMessage.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ChatMessage.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\ChatMessage.cs",
@@ -1670,7 +1752,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 99,
+              "DocumentIndex": 105,
               "Title": "OrderInfo.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\OrderInfo.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\OrderInfo.cs",
@@ -1682,7 +1764,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 100,
+              "DocumentIndex": 106,
               "Title": "PaymentMethod.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\PaymentMethod.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\PaymentMethod.cs",
@@ -1694,7 +1776,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 105,
+              "DocumentIndex": 111,
               "Title": "Role.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Role.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Role.cs",
@@ -1706,7 +1788,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 102,
+              "DocumentIndex": 108,
               "Title": "PromotionProduct.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\PromotionProduct.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\PromotionProduct.cs",
@@ -1718,7 +1800,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 104,
+              "DocumentIndex": 110,
               "Title": "ReturnRequest.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\ReturnRequest.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\ReturnRequest.cs",
@@ -1730,7 +1812,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 103,
+              "DocumentIndex": 109,
               "Title": "Rating.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Rating.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Rating.cs",
@@ -1742,7 +1824,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 98,
+              "DocumentIndex": 104,
               "Title": "OrderHistory.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\OrderHistory.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\OrderHistory.cs",
@@ -1754,7 +1836,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 101,
+              "DocumentIndex": 107,
               "Title": "Promotion.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Models\\Promotion.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Models\\Promotion.cs",
@@ -1766,7 +1848,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 106,
+              "DocumentIndex": 112,
               "Title": "20250703053938_fix-db-9.cs",
               "DocumentMoniker": "D:\\Code\\DATN2\\DATN\\DATN\\Empty\\DAL_Empty\\Migrations\\20250703053938_fix-db-9.cs",
               "RelativeDocumentMoniker": "DAL_Empty\\Migrations\\20250703053938_fix-db-9.cs",

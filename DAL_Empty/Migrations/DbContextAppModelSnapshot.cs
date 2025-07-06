@@ -414,9 +414,26 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<Guid?>("ProductDetailId")
+                    b.Property<string>("AltText")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
                         .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsMainImage")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -1222,8 +1239,6 @@ namespace DAL_Empty.Migrations
                     b.HasOne("DAL_Empty.Models.ProductDetail", "ProductDetail")
                         .WithMany("Images")
                         .HasForeignKey("ProductDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__Image__ProductDe__6FE99F9F");
 
                     b.Navigation("ProductDetail");

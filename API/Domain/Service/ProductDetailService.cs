@@ -95,9 +95,9 @@ namespace API.Domain.Service
             return detail?.ToDto();
         }
 
-        public async Task<List<ProductDetailDto>> GetAllAsync()
+        public async Task<List<ProductDetailDto>> GetAllAsync(Guid? productId = null)
         {
-            var list = await _context.ProductDetails
+            var query = _context.ProductDetails
                 .Include(p => p.Brand)
                 .Include(p => p.Color)
                 .Include(p => p.Size)
@@ -105,10 +105,17 @@ namespace API.Domain.Service
                 .Include(p => p.Category)
                 .Include(p => p.Origin)
                 .Include(p => p.Supplier)
-                .ToListAsync();
+                .AsQueryable();
 
+            if (productId.HasValue)
+            {
+                query = query.Where(p => p.ProductId == productId.Value);
+            }
+
+            var list = await query.ToListAsync();
             return list.Select(p => p.ToDto()).ToList();
         }
+
 
         public async Task<bool> DeleteAsync(Guid id)
         {

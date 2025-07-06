@@ -5,6 +5,7 @@ using API.Domain.Service.IService;
 using API.Services;
 using DAL_Empty.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StyleZone_API.Domain.Service;
 using StyleZone_API.Domain.Service.IService;
 using System.Text.Json.Serialization;
@@ -17,11 +18,16 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "StyleZone API", Version = "v1" });
+});
+
 builder.Services.AddDbContext<DbContextApp>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //builder.Services.AddScoped<ISupplierService, SupplierService>();
@@ -33,6 +39,8 @@ builder.Services.AddScoped<ISizeService, SizeService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
+builder.Services.AddScoped<IOriginService, OriginService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

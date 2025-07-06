@@ -15,13 +15,14 @@ namespace API.Controllers
             _service = service;
         }
 
-        // GET: api/product-details
+        // GET: api/product-details?productId=...
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDetailDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProductDetailDto>>> GetAll([FromQuery] Guid? productId)
         {
-            var result = await _service.GetAllAsync();
+            var result = await _service.GetAllAsync(productId);
             return Ok(result);
         }
+
 
         // GET: api/product-details/{id}
         [HttpGet("{id}")]

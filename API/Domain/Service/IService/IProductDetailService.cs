@@ -7,7 +7,7 @@ namespace API.Domain.Service.IService
         Task<ProductDetailDto> CreateAsync(CreateProductDetailRequest request);
         Task<ProductDetailDto> UpdateAsync(UpdateProductDetailRequest request);
         Task<ProductDetailDto?> GetByIdAsync(Guid id);
-        Task<List<ProductDetailDto>> GetAllAsync();
+        Task<List<ProductDetailDto>> GetAllAsync(Guid? productId = null);
         Task<bool> DeleteAsync(Guid id);
     }
 }
