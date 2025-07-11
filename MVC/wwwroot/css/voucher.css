@@ -1,0 +1,286 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header + Action Buttons */
+.table-components h4 {
+    font-weight: 600;
+    color: #212529;
+}
+
+.table-components a.text-primary.fw-medium {
+    text-decoration: none;
+}
+
+    .table-components a.text-primary.fw-medium:hover {
+        text-decoration: underline;
+    }
+
+/* Promo Code Link */
+.promo-code {
+    font-weight: 600;
+    text-decoration: none;
+    color: inherit;
+}
+
+    .promo-code:hover {
+        text-decoration: underline;
+    }
+
+/* Promo Icon */
+.promo-icon {
+    font-size: 1.5rem;
+    color: #0d6efd;
+    margin-bottom: 8px;
+}
+
+/* Promo Card */
+.promo-card {
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #fff;
+    transition: box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .promo-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+.promo-title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.promo-example {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Bulk Action Bar */
+.bulk-action-bar {
+    background-color: #e9f3ff;
+    padding: 10px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+    .bulk-action-bar a {
+        text-decoration: none;
+        color: #0d6efd;
+    }
+
+        .bulk-action-bar a:hover {
+            text-decoration: underline;
+        }
+
+/* Table Style */
+.table th,
+.table td {
+    vertical-align: middle;
+    text-align: left;
+}
+
+.table thead th {
+    background-color: #f1f3f5;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table td img {
+    border-radius: 6px;
+}
+
+/* Status Dropdown Badge */
+.badge.dropdown-toggle {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+
+.dropdown-menu a {
+    font-size: 0.875rem;
+}
+
+/* Custom Scroll Table (optional) */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Responsive input form */
+form .form-control,
+form .form-select {
+    min-height: 38px;
+    font-size: 0.95rem;
+}
+
+/* Hover row effect */
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Checkbox alignment */
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Button alignments */
+.btn-outline-secondary i,
+.btn-outline-primary i {
+    margin-right: 4px;
+}
+
+/* Copy Icon Box (if used later) */
+.copy-icon-box {
+    display: none;
+    position: relative;
+    cursor: pointer;
+}
+
+    .copy-icon-box i {
+        font-size: 1.2rem;
+    }
+
+.copy-text {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 120%;
+    transform: translateY(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 15px;
+    white-space: nowrap;
+    font-size: 0.75rem;
+}
+
+.promo-code-wrapper:hover .copy-icon-box {
+    display: inline-block;
+}
+
+.copy-icon-box:hover .copy-text {
+    display: inline-block;
+}
+/* Hiệu ứng hiện BulkActionBar */
+.bulk-action-bar {
+    display: none; /* Ẩn hoàn toàn lúc đầu */
+    background-color: #e9f3ff;
+    padding: 10px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    font-weight: 500;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out;
+}
+
+    .bulk-action-bar.show {
+        display: flex; /* Bật hiện */
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+
+    .bulk-action-bar a {
+        text-decoration: none;
+        color: #0d6efd;
+    }
+
+        .bulk-action-bar a:hover {
+            text-decoration: underline;
+        }
+
+/* Dropdown hiệu ứng mượt */
+.dropdown-menu {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s ease-in-out;
+}
+
+.dropdown.show .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Dropdown trong bảng */
+.dropdown-menu a.dropdown-item {
+    padding: 6px 15px;
+    border-radius: 5px;
+    margin: 3px 6px;
+    font-size: 0.875rem;
+    background-color: #f1f3f5;
+    transition: background 0.2s;
+    color: #0d6efd;
+    font-weight: 500;
+}
+
+    .dropdown-menu a.dropdown-item:hover {
+        background-color: #e2ecff;
+    }
+
+/* Nút lọc, tạo voucher - hiệu ứng ripple */
+.btn, a.btn, .form-select, .form-control {
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn::after, a.btn::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(13, 110, 253, 0.3);
+        transform: scale(1);
+        transition: width 0.4s ease, height 0.4s ease, top 0.4s, left 0.4s;
+        pointer-events: none;
+    }
+
+    .btn:hover::after, a.btn:hover::after {
+        width: 200px;
+        height: 200px;
+        top: 50%;
+        left: 50%;
+    }
+
+
+/* Filter dropdown smooth toggle */
+select.form-select {
+    transition: all 0.3s ease;
+}
+
+    select.form-select:focus {
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        border-color: #86b7fe;
+    }
+
+/* Trạng thái hiện tại & item trong dropdown đồng nhất style */
+.badge.dropdown-toggle {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-menu .dropdown-item {
+    border-left: 4px solid transparent;
+}
+
+    .dropdown-menu .dropdown-item:hover {
+        border-left: 4px solid #0d6efd;
+    }

@@ -40,12 +40,6 @@ namespace DAL_Empty.Models
         [ForeignKey("Material")]
         public Guid? MaterialId { get; set; }
 
-        [ForeignKey("Category")]
-        public Guid? CategoryId { get; set; }
-
-        [ForeignKey("Brand")]
-        public Guid? BrandId { get; set; }
-
         [ForeignKey("Origin")]
         public Guid? OriginId { get; set; }
 
@@ -55,9 +49,7 @@ namespace DAL_Empty.Models
         public ProductDetailStatus Status { get; set; } = ProductDetailStatus.Active;
 
         // Navigation properties
-        public virtual Brand? Brand { get; set; } = null!;
         public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
-        public virtual Category? Category { get; set; } = null!;
         public virtual Color? Color { get; set; } = null!;
         public virtual ICollection<Image> Images { get; set; } = new List<Image>();
         public virtual Material? Material { get; set; } = null!;

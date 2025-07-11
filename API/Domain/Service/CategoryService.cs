@@ -36,9 +36,11 @@ namespace API.Domain.Service
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
+                Quantity = 0,
                 CreatedAt = category.CreatedAt
             };
         }
+
 
         public async Task<CategoryDto> UpdateAsync(UpdateCategoryRequest request)
         {
@@ -73,23 +75,31 @@ namespace API.Domain.Service
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
+                    //Quantity = _context.ProductDetails.Count(p => p.CategoryId == c.Id), // ✅ Đếm tại đây
                     CreatedAt = c.CreatedAt,
                     UpdatedAt = c.UpdatedAt
                 })
                 .ToListAsync();
         }
 
+
         public async Task<CategoryDto?> GetByIdAsync(Guid id)
         {
             var c = await _context.Categories.FindAsync(id);
-            return c == null ? null : new CategoryDto
+            if (c == null) return null;
+
+            //var quantity = await _context.ProductDetails.CountAsync(p => p.CategoryId == c.Id);
+
+            return new CategoryDto
             {
                 Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
+                //Quantity = quantity, // ✅ Số lượng tự động
                 CreatedAt = c.CreatedAt,
                 UpdatedAt = c.UpdatedAt
             };
         }
+
     }
 }

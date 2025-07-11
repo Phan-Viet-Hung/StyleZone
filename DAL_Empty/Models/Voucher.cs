@@ -23,7 +23,9 @@ namespace DAL_Empty.Models
         [Required(ErrorMessage = "Mã voucher là bắt buộc")]
         [StringLength(50, ErrorMessage = "Mã voucher không được vượt quá 50 ký tự")]
         public string Code { get; set; }
-
+        [Required(ErrorMessage = "URL hình ảnh không được để trống.")]
+        [MaxLength(500, ErrorMessage = "URL hình ảnh không được vượt quá 500 ký tự.")]
+        public string ImageUrl { get; set; }
         [StringLength(500, ErrorMessage = "Mô tả không được vượt quá 500 ký tự")]
         public string? Description { get; set; }
 
@@ -37,7 +39,7 @@ namespace DAL_Empty.Models
 
         [Range(0, double.MaxValue, ErrorMessage = "Số tiền đơn hàng tối thiểu không được âm")]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? MinOrderAmount { get; set; }
+        public decimal? MinOrderAmount { get; set; } = 1000;
 
         [Required(ErrorMessage = "Ngày bắt đầu là bắt buộc")]
         [Column(TypeName = "datetime2")]
@@ -48,10 +50,10 @@ namespace DAL_Empty.Models
         public DateTime EndDate { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Số lần sử dụng tối đa mỗi khách hàng phải lớn hơn 0")]
-        public int? MaxUsagePerCustomer { get; set; }
+        public int MaxUsagePerCustomer { get; set; } = 0;
 
         [Range(1, int.MaxValue, ErrorMessage = "Tổng số lần sử dụng phải lớn hơn 0")]
-        public int? TotalUsageLimit { get; set; }
+        public int TotalUsageLimit { get; set; } = 1;
 
         [Required(ErrorMessage = "Trạng thái là bắt buộc")]
         public VoucherStatus Status { get; set; } = VoucherStatus.Active;

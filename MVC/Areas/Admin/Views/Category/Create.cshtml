@@ -1,0 +1,71 @@
+﻿@model API.Domain.Request.CategoryRequest.CreateCategoryRequest
+
+@{
+    ViewData["Title"] = "Thêm danh mục";
+}
+@section Styles {
+    <style>
+        .text-gradient {
+            background: linear-gradient(45deg, #1e90ff, #007bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        input.form-control:focus, textarea.form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+        }
+    </style>
+
+}
+
+<section class="py-4">
+    <div class="container-fluid">
+        <!-- Tiêu đề và điều hướng -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-gradient fw-bold">
+                <i class="lni lni-folder me-2"></i> Thêm danh mục
+            </h2>
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm">
+                <i class="lni lni-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+
+        <!-- Form card -->
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-5 bg-light">
+                <form asp-action="Create" method="post" novalidate>
+                    <div class="row g-4">
+                        <!-- Tên danh mục -->
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label fw-semibold text-dark">
+                                <i class="lni lni-text-format me-1"></i> Tên danh mục
+                            </label>
+                            <input asp-for="Name" class="form-control rounded-3 shadow-sm" placeholder="VD: Áo nam, Quần thể thao..." />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <!-- Mô tả -->
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label fw-semibold text-dark">
+                                <i class="lni lni-comments-alt me-1"></i> Mô tả danh mục
+                            </label>
+                            <textarea asp-for="Description" rows="4" class="form-control rounded-3 shadow-sm" placeholder="Thêm mô tả chi tiết..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Nút submit -->
+                    <div class="mt-5 text-end">
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 shadow-sm">
+                            <i class="lni lni-save me-1"></i> Lưu danh mục
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

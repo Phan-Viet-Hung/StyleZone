@@ -3,7 +3,6 @@ using API.Domain.Request.ProductDetaiRequest;
 using API.Domain.Service.IService;
 using DAL_Empty.Models;
 using Microsoft.EntityFrameworkCore;
-using StyleZone_API.Domain.Extensions;
 
 namespace API.Domain.Service
 {
@@ -28,8 +27,6 @@ namespace API.Domain.Service
                 (x.ColorId == request.ColorId || (x.ColorId == null && request.ColorId == null)) &&
                 (x.SizeId == request.SizeId || (x.SizeId == null && request.SizeId == null)) &&
                 (x.MaterialId == request.MaterialId || (x.MaterialId == null && request.MaterialId == null)) &&
-                (x.CategoryId == request.CategoryId || (x.CategoryId == null && request.CategoryId == null)) &&
-                (x.BrandId == request.BrandId || (x.BrandId == null && request.BrandId == null)) &&
                 (x.OriginId == request.OriginId || (x.OriginId == null && request.OriginId == null)) &&
                 (x.SupplierId == request.SupplierId || (x.SupplierId == null && request.SupplierId == null)));
 
@@ -46,8 +43,6 @@ namespace API.Domain.Service
                 ColorId = request.ColorId,
                 SizeId = request.SizeId,
                 MaterialId = request.MaterialId,
-                CategoryId = request.CategoryId,
-                BrandId = request.BrandId,
                 OriginId = request.OriginId,
                 SupplierId = request.SupplierId,
                 Status = ProductDetailStatus.Active
@@ -71,8 +66,6 @@ namespace API.Domain.Service
             detail.ColorId = request.ColorId;
             detail.SizeId = request.SizeId;
             detail.MaterialId = request.MaterialId;
-            detail.CategoryId = request.CategoryId;
-            detail.BrandId = request.BrandId;
             detail.OriginId = request.OriginId;
             detail.SupplierId = request.SupplierId;
 
@@ -83,11 +76,9 @@ namespace API.Domain.Service
         public async Task<ProductDetailDto?> GetByIdAsync(Guid id)
         {
             var detail = await _context.ProductDetails
-                .Include(p => p.Brand)
                 .Include(p => p.Color)
                 .Include(p => p.Size)
                 .Include(p => p.Material)
-                .Include(p => p.Category)
                 .Include(p => p.Origin)
                 .Include(p => p.Supplier)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -98,11 +89,9 @@ namespace API.Domain.Service
         public async Task<List<ProductDetailDto>> GetAllAsync(Guid? productId = null)
         {
             var query = _context.ProductDetails
-                .Include(p => p.Brand)
                 .Include(p => p.Color)
                 .Include(p => p.Size)
                 .Include(p => p.Material)
-                .Include(p => p.Category)
                 .Include(p => p.Origin)
                 .Include(p => p.Supplier)
                 .AsQueryable();

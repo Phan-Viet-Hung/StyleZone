@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL_Empty.Migrations
 {
     [DbContext(typeof(DbContextApp))]
-    [Migration("20250702140315_fix-db5")]
-    partial class fixdb5
+    [Migration("20250711131725_fix-navigation")]
+    partial class fixnavigation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,11 +39,6 @@ namespace DAL_Empty.Migrations
 
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -140,10 +135,16 @@ namespace DAL_Empty.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Brand__3214EC276639C5AD");
@@ -218,15 +219,20 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Category__3214EC27664D474C");
@@ -306,10 +312,16 @@ namespace DAL_Empty.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Color__3214EC273972E99E");
@@ -327,11 +339,6 @@ namespace DAL_Empty.Migrations
 
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime");
@@ -410,9 +417,28 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<Guid?>("ProductDetailId")
+                    b.Property<string>("AltText")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
                         .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsMainImage")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid?>("ProductDetailId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -436,15 +462,20 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Material__3214EC27025D3F05");
@@ -459,11 +490,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime");
@@ -528,11 +554,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
                     b.Property<Guid?>("OrderId")
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
@@ -594,11 +615,6 @@ namespace DAL_Empty.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("CreateAt")
                         .IsRequired()
@@ -690,16 +706,20 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Origin__3214EC27501CB207");
@@ -714,12 +734,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -744,11 +758,11 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
@@ -768,9 +782,6 @@ namespace DAL_Empty.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 2)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime");
 
@@ -779,6 +790,10 @@ namespace DAL_Empty.Migrations
 
                     b.HasKey("Id")
                         .HasName("PK__Product__3214EC27D54E6411");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product", (string)null);
                 });
@@ -790,16 +805,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
-
-                    b.Property<Guid?>("BrandId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ColorId")
                         .HasColumnType("uniqueidentifier");
@@ -836,10 +841,6 @@ namespace DAL_Empty.Migrations
                     b.HasKey("Id")
                         .HasName("PK__ProductD__3214EC2711BA148D");
 
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("ColorId");
 
                     b.HasIndex("MaterialId");
@@ -862,12 +863,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -940,12 +935,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
                     b.Property<string>("Comment")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -989,12 +978,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
                     b.Property<Guid?>("OrderDetailId")
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
@@ -1028,11 +1011,6 @@ namespace DAL_Empty.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -1054,14 +1032,20 @@ namespace DAL_Empty.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(20)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK__Size__3214EC27F999BE80");
@@ -1081,12 +1065,6 @@ namespace DAL_Empty.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Contact")
                         .IsRequired()
@@ -1138,7 +1116,13 @@ namespace DAL_Empty.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime");
 
-                    b.Property<int?>("MaxUsagePerCustomer")
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("URL");
+
+                    b.Property<int>("MaxUsagePerCustomer")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("MinOrderAmount")
@@ -1151,7 +1135,7 @@ namespace DAL_Empty.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
-                    b.Property<int?>("TotalUsageLimit")
+                    b.Property<int>("TotalUsageLimit")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1266,8 +1250,6 @@ namespace DAL_Empty.Migrations
                     b.HasOne("DAL_Empty.Models.ProductDetail", "ProductDetail")
                         .WithMany("Images")
                         .HasForeignKey("ProductDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__Image__ProductDe__6FE99F9F");
 
                     b.Navigation("ProductDetail");
@@ -1365,18 +1347,27 @@ namespace DAL_Empty.Migrations
                     b.Navigation("PaymentMethod");
                 });
 
-            modelBuilder.Entity("DAL_Empty.Models.ProductDetail", b =>
+            modelBuilder.Entity("DAL_Empty.Models.Product", b =>
                 {
                     b.HasOne("DAL_Empty.Models.Brand", "Brand")
-                        .WithMany("ProductDetails")
+                        .WithMany("Products")
                         .HasForeignKey("BrandId")
-                        .HasConstraintName("FK__ProductDe__Brand__66603565");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DAL_Empty.Models.Category", "Category")
-                        .WithMany("ProductDetails")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .HasConstraintName("FK__ProductDe__Categ__656C112C");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
+                    b.Navigation("Brand");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("DAL_Empty.Models.ProductDetail", b =>
+                {
                     b.HasOne("DAL_Empty.Models.Color", "Color")
                         .WithMany("ProductDetails")
                         .HasForeignKey("ColorId")
@@ -1408,10 +1399,6 @@ namespace DAL_Empty.Migrations
                         .WithMany("ProductDetails")
                         .HasForeignKey("SupplierId")
                         .HasConstraintName("FK__ProductDe__Suppl__68487DD7");
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Category");
 
                     b.Navigation("Color");
 
@@ -1478,7 +1465,7 @@ namespace DAL_Empty.Migrations
 
             modelBuilder.Entity("DAL_Empty.Models.Brand", b =>
                 {
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("DAL_Empty.Models.Cart", b =>
@@ -1488,7 +1475,7 @@ namespace DAL_Empty.Migrations
 
             modelBuilder.Entity("DAL_Empty.Models.Category", b =>
                 {
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("DAL_Empty.Models.ChatSession", b =>

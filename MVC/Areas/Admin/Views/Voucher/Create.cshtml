@@ -1,0 +1,82 @@
+﻿@using DAL_Empty.Models
+@model StyleZone_API.Domain.Request.VoucherRequest.CreateVoucherRequest
+
+@{
+    ViewData["Title"] = "Tạo mới voucher";
+}
+<form asp-action="Create" method="post" class="needs-validation" novalidate>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Code" class="form-label"></label>
+            <input asp-for="Code" class="form-control" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Description" class="form-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="DiscountType" class="form-label"></label>
+            <select asp-for="DiscountType" class="form-select" asp-items="Html.GetEnumSelectList<DiscountType>()">
+                <option value="">-- Chọn loại giảm giá --</option>
+            </select>
+            <span asp-validation-for="DiscountType" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="DiscountValue" class="form-label"></label>
+            <input asp-for="DiscountValue" class="form-control" type="number" step="0.01" />
+            <span asp-validation-for="DiscountValue" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="MinOrderAmount" class="form-label"></label>
+            <input asp-for="MinOrderAmount" class="form-control" type="number" step="0.01" />
+            <span asp-validation-for="MinOrderAmount" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="MaxUsagePerCustomer" class="form-label"></label>
+            <input asp-for="MaxUsagePerCustomer" class="form-control" type="number" />
+            <span asp-validation-for="MaxUsagePerCustomer" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="TotalUsageLimit" class="form-label"></label>
+            <input asp-for="TotalUsageLimit" class="form-control" type="number" />
+            <span asp-validation-for="TotalUsageLimit" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="StartDate" class="form-label"></label>
+            <input asp-for="StartDate" class="form-control" type="date" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="EndDate" class="form-label"></label>
+            <input asp-for="EndDate" class="form-control" type="date" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Status" class="form-label"></label>
+            <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<VoucherStatus>()">
+                <option value="">-- Chọn trạng thái --</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Tạo mới</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

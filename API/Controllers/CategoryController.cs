@@ -16,7 +16,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
+        public async Task<IActionResult> Create([FromForm] CreateCategoryRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest request)
+        public async Task<IActionResult> Update([FromForm] UpdateCategoryRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

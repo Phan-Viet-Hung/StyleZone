@@ -12,7 +12,7 @@ namespace DAL_Empty.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=LAP4HUNG;Database=DATN_8;Trusted_Connection=True;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Server=LAP4HUNG;Database=DATN_9;Trusted_Connection=True;TrustServerCertificate=true;");
         }
         public virtual DbSet<Account> Accounts { get; set; }
 
@@ -471,11 +471,18 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(newid())")
                     .HasColumnName("ID");
+
                 entity.Property(e => e.CreatedAt).HasColumnType("datetime");
                 entity.Property(e => e.Name).HasMaxLength(100);
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                // ✅ Thêm cấu hình BrandId và CategoryId
+                entity.Property(e => e.CategoryId).HasColumnType("uniqueidentifier");
+                entity.Property(e => e.BrandId).HasColumnType("uniqueidentifier");
+
             });
+
 
             modelBuilder.Entity<ProductDetail>(entity =>
             {
@@ -488,14 +495,6 @@ namespace DAL_Empty.Models
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-
-                entity.HasOne(d => d.Brand).WithMany(p => p.ProductDetails)
-                    .HasForeignKey(d => d.BrandId)
-                    .HasConstraintName("FK__ProductDe__Brand__66603565");
-
-                entity.HasOne(d => d.Category).WithMany(p => p.ProductDetails)
-                    .HasForeignKey(d => d.CategoryId)
-                    .HasConstraintName("FK__ProductDe__Categ__656C112C");
 
                 entity.HasOne(d => d.Color).WithMany(p => p.ProductDetails)
                     .HasForeignKey(d => d.ColorId)
@@ -645,6 +644,9 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(newid())")
                     .HasColumnName("ID");
+                entity.Property(e => e.ImageUrl)
+                    .HasMaxLength(255)
+                    .HasColumnName("URL");
                 entity.Property(e => e.Code).HasMaxLength(50);
                 entity.Property(e => e.DiscountValue).HasColumnType("decimal(18, 2)");
                 entity.Property(e => e.EndDate).HasColumnType("datetime");

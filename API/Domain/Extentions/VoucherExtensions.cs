@@ -1,24 +1,38 @@
-﻿using DAL_Empty.Models;
-using StyleZone_API.Domain.DTOs;
+﻿using API.Domain.DTOs;
+using DAL_Empty.Models;
 
-namespace StyleZone_API.Domain.Extensions
+public static class VoucherExtensions
 {
-    public static class VoucherExtensions
+    public static VoucherDto ToDto(this Voucher v) => new()
     {
-        public static VoucherDto ToDto(this Voucher v) => new()
+        Id = v.Id,
+        Code = v.Code,
+        Description = v.Description,
+        ImageUrl = v.ImageUrl,
+        DiscountType = v.DiscountType.ToString(),
+        DiscountTypeText = v.DiscountType switch
         {
-            Id = v.Id,
-            Description = v.Description,
-            DiscountType = v.DiscountType.ToString(),
-            DiscountValue = v.DiscountValue,
-            MinOrderAmount = v.MinOrderAmount,
-            MaxUsagePerCustomer = v.MaxUsagePerCustomer,
-            TotalUsageLimit = v.TotalUsageLimit,
-            Status = v.Status.ToString(),
-            StartDate = v.StartDate,
-            EndDate = v.EndDate,
-            CreatedAt = v.CreatedAt,
-            UpdatedAt = v.UpdatedAt
-        };
-    }
+            DiscountType.Percentage => "Phần trăm",
+            DiscountType.FixedAmount => "Số tiền cố định",
+            _ => "Không xác định"
+        },
+        DiscountValue = v.DiscountValue,
+        MinOrderAmount = v.MinOrderAmount = 1000,
+        MaxUsagePerCustomer = v.MaxUsagePerCustomer = 1,
+        TotalUsageLimit = v.TotalUsageLimit,
+        Status = v.Status.ToString(),
+        StatusText = v.Status switch
+        {
+            VoucherStatus.Active => "Đang áp dụng",
+            VoucherStatus.Inactive => "Chưa áp dụng",
+            VoucherStatus.Expired => "Hết hạn",
+            VoucherStatus.Draft => "Bản nháp",
+            _ => "Không xác định"
+        },
+        StartDate = v.StartDate,
+        EndDate = v.EndDate,
+        CreatedAt = v.CreatedAt,
+        UpdatedAt = v.UpdatedAt
+    };
+
 }

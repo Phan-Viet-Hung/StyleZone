@@ -33,7 +33,16 @@ namespace DAL_Empty.Models
         public Guid? UpdatedBy { get; set; }
         [Column(TypeName = "int")]
 
+        [Required]
+        [ForeignKey("Category")]
+        public Guid CategoryId { get; set; }
 
+        [Required]
+        [ForeignKey("Brand")]
+        public Guid BrandId { get; set; }
+
+        public virtual Category Category { get; set; } = null!;
+        public virtual Brand Brand { get; set; } = null!;
         public virtual ICollection<ProductDetail> ProductDetails { get; set; } = new List<ProductDetail>();
     }
 }

@@ -1,7 +1,5 @@
 ﻿
 using DAL_Empty.Models;
-using StyleZone_API.Domain.DTOs;
-using StyleZone_API.Domain.Extensions;
 
 namespace API.Domain.Extentions
 {

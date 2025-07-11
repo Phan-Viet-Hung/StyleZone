@@ -5,6 +5,11 @@ namespace StyleZone_API.Domain.Request.VoucherRequest
 {
     public class CreateVoucherRequest
     {
+        // Ưu tiên chọn 1 trong 2
+        public IFormFile? ImageFile { get; set; }
+
+        [MaxLength(500)]
+        public string? ImageUrl { get; set; }
         [Required(ErrorMessage = "Mã voucher là bắt buộc")]
         [MaxLength(50, ErrorMessage = "Mã voucher không được vượt quá 50 ký tự")]
         public string Code { get; set; }
@@ -31,7 +36,7 @@ namespace StyleZone_API.Domain.Request.VoucherRequest
         public DateTime EndDate { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Số lần sử dụng tối đa mỗi khách hàng phải lớn hơn 0")]
-        public int? MaxUsagePerCustomer { get; set; }
+        public int? MaxUsagePerCustomer { get; set; } = 1;
 
         [Range(1, int.MaxValue, ErrorMessage = "Tổng số lần sử dụng phải lớn hơn 0")]
         public int? TotalUsageLimit { get; set; }

@@ -1,0 +1,104 @@
+﻿@model StyleZone_API.Domain.Request.VoucherRequest.UpdateVoucherRequest
+
+@{
+    ViewData["Title"] = "Chỉnh sửa khuyến mãi";
+}
+
+<section class="container mt-4">
+    <h4 class="mb-4">Chỉnh sửa khuyến mãi</h4>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Code" class="form-label"></label>
+            <input asp-for="Code" class="form-control" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="DiscountType" class="form-label"></label>
+                <select asp-for="DiscountType" class="form-select">
+                    <option value="FixedAmount">Giá cố định</option>
+                    <option value="Percentage">Phần trăm</option>
+                </select>
+                <span asp-validation-for="DiscountType" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="DiscountValue" class="form-label"></label>
+                <input asp-for="DiscountValue" class="form-control" />
+                <span asp-validation-for="DiscountValue" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="MinOrderAmount" class="form-label"></label>
+                <input asp-for="MinOrderAmount" class="form-control" />
+                <span asp-validation-for="MinOrderAmount" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="TotalUsageLimit" class="form-label"></label>
+                <input asp-for="TotalUsageLimit" class="form-control" />
+                <span asp-validation-for="TotalUsageLimit" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="MaxUsagePerCustomer" class="form-label"></label>
+                <input asp-for="MaxUsagePerCustomer" class="form-control" />
+                <span asp-validation-for="MaxUsagePerCustomer" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" class="form-select">
+                    <option value="Active">Đang áp dụng</option>
+                    <option value="Inactive">Chưa áp dụng</option>
+                    <option value="Expired">Ngừng áp dụng</option>
+                    <option value="Draft">Bản nháp</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="StartDate" class="form-label"></label>
+                <input asp-for="StartDate" type="datetime-local" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="EndDate" class="form-label"></label>
+                <input asp-for="EndDate" type="datetime-local" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ImageUrl" class="form-label">Ảnh từ URL (nếu có)</label>
+            <input asp-for="ImageUrl" class="form-control" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ImageFile" class="form-label">Hoặc chọn file ảnh</label>
+            <input asp-for="ImageFile" type="file" class="form-control" />
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

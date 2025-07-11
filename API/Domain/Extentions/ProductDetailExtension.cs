@@ -23,11 +23,7 @@ public static class ProductDetailExtensions
             MaterialId = p.MaterialId,
             MaterialName = p.Material?.Name ?? string.Empty,
 
-            CategoryId = p.CategoryId,
-            CategoryName = p.Category?.Name ?? string.Empty,
 
-            BrandId = p.BrandId,
-            BrandName = p.Brand?.Name ?? string.Empty,
 
             OriginId = p.OriginId,
             OriginName = p.Origin?.Name ?? string.Empty,

@@ -38,7 +38,7 @@ namespace API.Domain.Controllers
 
         // POST: api/Brands
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateBrandRequest request)
+        public async Task<IActionResult> Create([FromForm] CreateBrandRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -56,7 +56,7 @@ namespace API.Domain.Controllers
 
         // PUT: api/Brands/{id}
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBrandRequest request)
+        public async Task<IActionResult> Update(Guid id, [FromForm] UpdateBrandRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
