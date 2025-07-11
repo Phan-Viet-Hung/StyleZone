@@ -26,7 +26,6 @@ public static class VoucherExtensions
             VoucherStatus.Active => "Đang áp dụng",
             VoucherStatus.Inactive => "Chưa áp dụng",
             VoucherStatus.Expired => "Hết hạn",
-            VoucherStatus.Draft => "Bản nháp",
             _ => "Không xác định"
         },
         StartDate = v.StartDate,

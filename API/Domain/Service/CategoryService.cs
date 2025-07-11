@@ -75,7 +75,7 @@ namespace API.Domain.Service
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
-                    //Quantity = _context.ProductDetails.Count(p => p.CategoryId == c.Id), // ✅ Đếm tại đây
+                    Quantity = _context.Products.Count(p => p.CategoryId == c.Id), // ✅ Đếm tại đây
                     CreatedAt = c.CreatedAt,
                     UpdatedAt = c.UpdatedAt
                 })
@@ -95,7 +95,6 @@ namespace API.Domain.Service
                 Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
-                //Quantity = quantity, // ✅ Số lượng tự động
                 CreatedAt = c.CreatedAt,
                 UpdatedAt = c.UpdatedAt
             };

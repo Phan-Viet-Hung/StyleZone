@@ -309,3 +309,17 @@ D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
 D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
 D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
 D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\API\obj\Debug\net8.0\staticwebassets.build.json
+D:\Code\DATN2\DATN\DATN\Empty\DAL_Empty\obj\Debug\net8.0\staticwebassets.build.json

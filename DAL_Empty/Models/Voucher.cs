@@ -13,7 +13,6 @@ namespace DAL_Empty.Models
         Active = 1,
         Inactive = 2,
         Expired = 3,
-        Draft = 4
     }
     public class Voucher
     {

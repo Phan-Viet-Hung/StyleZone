@@ -24,7 +24,6 @@ namespace API.Domain.Service
                 Id = Guid.NewGuid(),
                 Name = request.Name,
                 Description = request.Description,
-                Price = request.Price,
                 CreatedAt = DateTime.Now,
                 CreatedBy = createdBy,
             };
@@ -42,7 +41,6 @@ namespace API.Domain.Service
 
             product.Name = request.Name;
             product.Description = request.Description;
-            product.Price = request.Price;
             product.UpdatedAt = DateTime.Now;
             product.UpdatedBy = updatedBy;
 

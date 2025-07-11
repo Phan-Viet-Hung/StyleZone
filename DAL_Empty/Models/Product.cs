@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL_Empty.Models
 {
+
     public class Product
     {
         [Key]
@@ -15,10 +16,9 @@ namespace DAL_Empty.Models
         [StringLength(1000, ErrorMessage = "Mô tả sản phẩm không được vượt quá 1000 ký tự")]
         public string? Description { get; set; }
 
-        [Required(ErrorMessage = "Giá sản phẩm là bắt buộc")]
-        [Range(0, double.MaxValue, ErrorMessage = "Giá sản phẩm phải lớn hơn hoặc bằng 0")]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; }
+        [Required(ErrorMessage = "Giới tính là bắt buộc")]
+        [Range(0, 2, ErrorMessage = "Giới tính không hợp lệ")]
+        public GenderEnum Gender { get; set; }
 
         [Required(ErrorMessage = "Ngày tạo là bắt buộc")]
         [Column(TypeName = "datetime2")]

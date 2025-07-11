@@ -474,7 +474,6 @@ namespace DAL_Empty.Models
 
                 entity.Property(e => e.CreatedAt).HasColumnType("datetime");
                 entity.Property(e => e.Name).HasMaxLength(100);
-                entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
                 // ✅ Thêm cấu hình BrandId và CategoryId
