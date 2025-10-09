@@ -2,17 +2,21 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy toàn bộ source code
-COPY . .
+# Copy các file solution và các project cần thiết
+COPY ./Empty.sln ./
+COPY ./MVC ./MVC
+COPY ./API ./API
+COPY ./DAL_Empty ./DAL_Empty
 
 # Restore dependencies cho solution
 RUN dotnet restore "./Empty.sln"
 
-# Build project MVC (có thể đổi tên nếu khác)
+# Build project MVC
 RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/publish
 
 # Stage 2: Run
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
+
 ENTRYPOINT ["dotnet", "MVC.dll"]
