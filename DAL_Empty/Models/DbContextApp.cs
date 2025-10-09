@@ -13,7 +13,7 @@ namespace DAL_Empty.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            
-            optionsBuilder.UseNpgsql("Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;");
+            optionsBuilder.UseNpgsql("Host=dpg-d3jomeffte5s73fva5u0-a.oregon-postgres.render.com;Port=5432;Database=stylezone_db;Username=stylezone_db_user;Password=WM1oRd6UnZ1bNyKeq2NH4XoZFPkrhoOr;SSL Mode=Require;Trust Server Certificate=true");
 
         }
         public virtual DbSet<Account> Accounts { get; set; }
