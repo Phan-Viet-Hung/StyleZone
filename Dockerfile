@@ -6,7 +6,7 @@ WORKDIR /src
 COPY . .
 
 # Restore dependencies cho solution
-RUN dotnet restore "./StyleZone.sln"
+RUN dotnet restore "./Empty.sln"
 
 # Build project MVC (có thể đổi tên nếu khác)
 RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/publish
