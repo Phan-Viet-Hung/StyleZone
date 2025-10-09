@@ -2,22 +2,23 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy solution file
+# Copy solution và project files trước
 COPY ./Empty.sln ./
-
-# Copy từng project cần thiết
 COPY ./DAL_Empty/DAL_Empty.csproj ./DAL_Empty/
 COPY ./API/API.csproj ./API/
 COPY ./MVC/MVC.csproj ./MVC/
 
-# Restore dependencies
-RUN dotnet restore "Empty.sln"
+# Restore chỉ project MVC (không restore toàn bộ solution)
+RUN dotnet restore "./MVC/MVC.csproj"
 
-# Copy toàn bộ source code (sau khi restore xong)
+# Copy toàn bộ source code
 COPY . .
 
-# Build và publish chỉ MVC
-RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/publish /p:GenerateRuntimeConfigurationFiles=true /p:CopyOutputSymbolsToPublishDirectory=false
+# Publish chỉ MVC, loại bỏ các file appsettings.* trùng lặp
+RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/publish --no-restore \
+    /p:ExcludeAppSettingsFiles=true \
+    /p:CopyOutputSymbolsToPublishDirectory=false \
+    /p:ErrorOnDuplicatePublishOutputFiles=false
 
 # Stage 2: Run
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
