@@ -13,7 +13,7 @@ namespace DAL_Empty.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            
-            optionsBuilder.UseSqlServer("Server=LAP4HUNG;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;");
 
         }
         public virtual DbSet<Account> Accounts { get; set; }
