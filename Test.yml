@@ -1,0 +1,34 @@
+name: .NET CI - Build & Test
+
+on:
+  push:
+    branches: [ main, develop ]     # chạy khi push lên các nhánh này
+  pull_request:
+    branches: [ main, develop ]     # chạy khi tạo PR
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # B1: Lấy code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # B2: Cài .NET SDK (8.0 nếu bạn đang dùng)
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    # B3: Restore tất cả project trong solution
+    - name: Restore dependencies
+      run: dotnet restore Empty.sln
+
+    # B4: Build solution
+    - name: Build solution
+      run: dotnet build Empty.sln --configuration Release --no-restore
+
+    # B5: Chạy test (chỉ test project)
+    - name: Run unit tests
+      run: dotnet test API.Tests/API.Domain.csproj --configuration Release --no-build --verbosity normal
