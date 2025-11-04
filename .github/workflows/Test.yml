@@ -31,4 +31,4 @@ jobs:
 
     # B5: Chạy test (chỉ test project)
     - name: Run unit tests
-      run: dotnet test API.Tests/API.Domain.csproj --configuration Release --no-build --verbosity normal
+      run: dotnet test API.Tests/API.Tests.csproj --configuration Release --no-build --verbosity normal
