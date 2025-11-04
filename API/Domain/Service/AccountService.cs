@@ -27,6 +27,7 @@ namespace API.Service
             _smtpSettings = smtpOptions.Value;
         }
 
+
         public async Task<List<AccountWithPasswordDto>> CreateAccountsAsync(List<CreateAccountRequest> requests)
         {
             return await CreateValidatedAccountsAsync(requests);

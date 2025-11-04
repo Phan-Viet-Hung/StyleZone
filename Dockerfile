@@ -10,16 +10,17 @@ COPY ./DAL_Empty/DAL_Empty.csproj ./DAL_Empty/
 COPY ./API/API.csproj ./API/
 COPY ./MVC/MVC.csproj ./MVC/
 
-# Phục hồi các package (dependencies). Bước này sẽ được Docker cache lại
-# nếu các file .csproj không thay đổi, giúp build nhanh hơn.
+# Phục hồi các package (dependencies)
 RUN dotnet restore "./MVC/MVC.csproj"
 
 # Bây giờ mới copy toàn bộ mã nguồn còn lại
 COPY . .
 
-# Build và publish dự án MVC. Cờ --no-restore được dùng đúng ở đây
-# vì việc restore đã được thực hiện ở một layer trước đó.
+# Build và publish dự án MVC
 RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/publish --no-restore
+
+# Xóa các file appsettings.json và appsettings.Development.json để tránh xung đột
+RUN rm -f /app/publish/appsettings.json /app/publish/appsettings.Development.json
 
 # ===========================================
 # STAGE 2: Runtime

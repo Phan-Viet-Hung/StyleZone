@@ -164,7 +164,8 @@ builder.Services.AddCors(options =>
 // 8. DbContext
 // =====================================
 builder.Services.AddDbContext<DbContextApp>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    //options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // =====================================
 // 9. Dependency Injection Services

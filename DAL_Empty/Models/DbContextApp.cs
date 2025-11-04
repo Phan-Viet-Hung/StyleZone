@@ -6,14 +6,23 @@ namespace DAL_Empty.Models
     {
         public DbContextApp() { }
 
-        public DbContextApp(DbContextOptions options) : base(options)
+        public DbContextApp(DbContextOptions<DbContextApp> options) : base(options)
         {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
-            optionsBuilder.UseNpgsql("Host=dpg-d3jomeffte5s73fva5u0-a.oregon-postgres.render.com;Port=5432;Database=stylezone_db;Username=stylezone_db_user;Password=WM1oRd6UnZ1bNyKeq2NH4XoZFPkrhoOr;SSL Mode=Require;Trust Server Certificate=true");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(
+                    "Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;"
+                );
+
+                // Hoặc nếu bạn muốn dễ chuyển sang PostgreSQL thì có thể cấu hình tại đây
+                //optionsBuilder.UseNpgsql("Host=dpg-d3jomeffte5s73fva5u0-a.oregon-postgres.render.com;Port=5432;Database=stylezone_db;Username=stylezone_db_user;Password=WM1oRd6UnZ1bNyKeq2NH4XoZFPkrhoOr;SSL Mode=Require;Trust Server Certificate=true");
+            }
+
+            //optionsBuilder.UseSqlServer("Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;");
 
         }
         public virtual DbSet<Account> Accounts { get; set; }

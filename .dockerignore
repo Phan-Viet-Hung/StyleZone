@@ -1,8 +1,29 @@
-bin/
-obj/
+# ===================================================
+# .dockerignore for .NET Projects
+# ===================================================
+
+# Bỏ qua tất cả các thư mục build và publish
+**/bin
+**/obj
+**/publish
+
+# Bỏ qua các file và thư mục của IDE/Editor
+**/.vs
+.vscode
+**/*.user
+**/*.suo
+
+# Bỏ qua các file cấu hình gỡ lỗi (debug)
+**/Properties/launchSettings.json
+
+# Bỏ qua các file hệ thống và quản lý phiên bản
+.git
+.gitignore
+.gitattributes
+
+# Bỏ qua các file không liên quan trực tiếp đến image
 Dockerfile
 .dockerignore
+README.md
 *.md
 *.log
-*.user
-*.vs/

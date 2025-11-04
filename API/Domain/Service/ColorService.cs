@@ -37,34 +37,67 @@ namespace API.Domain.Service
 
         //    return color.ToDto();
         //}
+        //public async Task<ColorDto> CreateAsync(CreateColorRequest request)
+        //{
+        //    string name = request.Name?.Trim().ToLowerInvariant() ?? "";
+        //    string? code = request.Code?.Trim().ToUpperInvariant(); // Chuẩn hóa về in hoa
+
+        //    // Kiểm tra trùng tên (bỏ qua chữ hoa thường)
+        //    if (await _context.Colors.AnyAsync(c => c.Name.ToLower() == name))
+        //        throw new Exception("Tên màu đã tồn tại.");
+
+        //    // Kiểm tra trùng mã (bỏ qua chữ hoa thường)
+        //    if (!string.IsNullOrWhiteSpace(code))
+        //    {
+        //        if (await _context.Colors.AnyAsync(c => c.Code.ToUpper() == code))
+        //            throw new Exception("Mã màu đã tồn tại.");
+        //    }
+
+        //    var color = new Color
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        Name = request.Name?.Trim(),
+        //        Code = code,
+        //        CreatedAt = DateTime.Now
+        //    };
+
+        //    _context.Colors.Add(color);
+        //    await _context.SaveChangesAsync();
+
+        //    return color.ToDto();
+        //}
         public async Task<ColorDto> CreateAsync(CreateColorRequest request)
         {
-            string name = request.Name?.Trim().ToLowerInvariant() ?? "";
-            string? code = request.Code?.Trim().ToUpperInvariant(); // Chuẩn hóa về in hoa
+            if (string.IsNullOrWhiteSpace(request.Name))
+                throw new Exception("Tên màu không được để trống");
 
-            // Kiểm tra trùng tên (bỏ qua chữ hoa thường)
-            if (await _context.Colors.AnyAsync(c => c.Name.ToLower() == name))
-                throw new Exception("Tên màu đã tồn tại.");
+            if (string.IsNullOrWhiteSpace(request.Code))
+                throw new Exception("Mã màu không được để trống");
 
-            // Kiểm tra trùng mã (bỏ qua chữ hoa thường)
-            if (!string.IsNullOrWhiteSpace(code))
-            {
-                if (await _context.Colors.AnyAsync(c => c.Code.ToUpper() == code))
-                    throw new Exception("Mã màu đã tồn tại.");
-            }
+            var existsName = await _context.Colors.AnyAsync(c => c.Name == request.Name);
+            if (existsName)
+                throw new Exception("Tên màu đã tồn tại");
+
+            var existsCode = await _context.Colors.AnyAsync(c => c.Code == request.Code);
+            if (existsCode)
+                throw new Exception("Mã màu đã tồn tại");
 
             var color = new Color
             {
                 Id = Guid.NewGuid(),
-                Name = request.Name?.Trim(),
-                Code = code,
-                CreatedAt = DateTime.Now
+                Name = request.Name.Trim(),
+                Code = request.Code.Trim()
             };
 
             _context.Colors.Add(color);
             await _context.SaveChangesAsync();
 
-            return color.ToDto();
+            return new ColorDto
+            {
+                Id = color.Id,
+                Name = color.Name,
+                Code = color.Code
+            };
         }
 
         public async Task<ColorDto> UpdateAsync(UpdateColorRequest request)
@@ -84,6 +117,7 @@ namespace API.Domain.Service
 
             if (isDuplicateName)
                 throw new Exception("Đã tồn tại màu khác với tên trùng.");
+            
 
             // Kiểm tra trùng mã màu (nếu có nhập mã, không phân biệt hoa thường)
             if (!string.IsNullOrWhiteSpace(codeToCompare))
@@ -93,6 +127,8 @@ namespace API.Domain.Service
 
                 if (isDuplicateCode)
                     throw new Exception("Đã tồn tại màu khác với mã trùng.");
+                if (string.IsNullOrWhiteSpace(newName))
+                    throw new Exception("Tên không được để trống.");
             }
 
             // Gán giá trị mới

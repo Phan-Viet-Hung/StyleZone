@@ -22,7 +22,7 @@ namespace API.Controllers
 
         // Tạo tài khoản
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] List<CreateAccountRequest> requests)
         {
             if (!ModelState.IsValid)
