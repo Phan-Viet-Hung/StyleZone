@@ -16,11 +16,13 @@ RUN dotnet restore "./MVC/MVC.csproj"
 # Bây giờ mới copy toàn bộ mã nguồn còn lại
 COPY . .
 
+# Xóa các tệp appsettings.json gây xung đột trước khi publish
+RUN rm -f ./DAL_Empty/appsettings.json ./DAL_Empty/appsettings.Development.json
+RUN rm -f ./API/appsettings.json ./API/appsettings.Development.json
+RUN rm -f ./MVC/appsettings.json ./MVC/appsettings.Development.json
+
 # Build và publish dự án MVC
 RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/publish --no-restore
-
-# Xóa các file appsettings.json và appsettings.Development.json để tránh xung đột
-RUN rm -f /app/publish/appsettings.json /app/publish/appsettings.Development.json
 
 # ===========================================
 # STAGE 2: Runtime
