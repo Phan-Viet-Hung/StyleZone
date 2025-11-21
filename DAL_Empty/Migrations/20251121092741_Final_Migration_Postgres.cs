@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL_Empty.Migrations
 {
     /// <inheritdoc />
-    public partial class Rebuild_Database_V1 : Migration
+    public partial class Final_Migration_Postgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,13 +62,13 @@ namespace DAL_Empty.Migrations
                 {
                     ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Fullname = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Birthday = table.Column<DateTime>(type: "timestamp", nullable: true),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
                     UserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Gender = table.Column<int>(type: "integer", maxLength: 10, nullable: true),
-                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: true),
-                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    CreateAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UpdateAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     Password = table.Column<string>(type: "character varying(255)", unicode: false, maxLength: 255, nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false)
                 },
@@ -101,8 +101,8 @@ namespace DAL_Empty.Migrations
                     Creator = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Fixer = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Status = table.Column<int>(type: "integer", maxLength: 20, nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    EditDate = table.Column<DateTime>(type: "datetime", nullable: true)
+                    CreationDate = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    EditDate = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,8 +144,8 @@ namespace DAL_Empty.Migrations
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     DiscountType = table.Column<int>(type: "integer", maxLength: 100, nullable: false),
                     DiscountValue = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     Status = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
                     URL = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true)
@@ -204,12 +204,12 @@ namespace DAL_Empty.Migrations
                     ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     ImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 500, nullable: true),
+                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     DiscountType = table.Column<int>(type: "integer", nullable: false),
                     DiscountValue = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     MinOrderAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp", nullable: false),
                     MaxUsagePerCustomer = table.Column<int>(type: "integer", nullable: false),
                     TotalUsageLimit = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", maxLength: 20, nullable: false),
@@ -229,8 +229,8 @@ namespace DAL_Empty.Migrations
                     Name = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     Gender = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uuid", nullable: true),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -283,7 +283,7 @@ namespace DAL_Empty.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -302,7 +302,7 @@ namespace DAL_Empty.Migrations
                 {
                     ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     UserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -327,7 +327,7 @@ namespace DAL_Empty.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
-                    UsedDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    UsedDate = table.Column<DateTime>(type: "timestamp", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
                     VoucherId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -406,8 +406,8 @@ namespace DAL_Empty.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
-                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    CreateAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     UpdateBy = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateBy = table.Column<Guid>(type: "uuid", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: true),
@@ -419,7 +419,7 @@ namespace DAL_Empty.Migrations
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     Status = table.Column<int>(type: "integer", maxLength: 20, nullable: false),
                     QRCode = table.Column<string>(type: "text", unicode: false, nullable: true),
-                    EstimatedDeliveryDate = table.Column<DateTime>(type: "datetime", nullable: true)
+                    EstimatedDeliveryDate = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {

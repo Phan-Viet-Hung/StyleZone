@@ -99,7 +99,7 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.Birthday).HasColumnType("datetime");
+                entity.Property(e => e.Birthday).HasColumnType("timestamp");
                 entity.Property(e => e.Email).HasMaxLength(100);
                 entity.Property(e => e.Gender).HasMaxLength(10);
                 entity.Property(e => e.Name).HasMaxLength(20);
@@ -170,7 +170,7 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreateAt).HasColumnType("datetime");
+                entity.Property(e => e.CreateAt).HasColumnType("timestamp");
                
 
                 entity.HasOne(d => d.Customer).WithOne(p => p.Cart)
@@ -219,7 +219,7 @@ namespace DAL_Empty.Models
             //    entity.Property(e => e.Id)
             //        .HasDefaultValueSql("(gen_random_uuid())")
             //        .HasColumnName("ID");
-            //    entity.Property(e => e.SendAt).HasColumnType("datetime");
+            //    entity.Property(e => e.SendAt).HasColumnType("timestamp");
             //    entity.Property(e => e.Sender).HasMaxLength(50);
 
             //    entity.HasOne(d => d.ChatSession).WithMany(p => p.ChatMessages)
@@ -236,7 +236,7 @@ namespace DAL_Empty.Models
             //    entity.Property(e => e.Id)
             //        .HasDefaultValueSql("(gen_random_uuid())")
             //        .HasColumnName("ID");
-            //    entity.Property(e => e.CreateAt).HasColumnType("datetime");
+            //    entity.Property(e => e.CreateAt).HasColumnType("timestamp");
             //    entity.Property(e => e.Status).HasMaxLength(20);
 
             //    entity.HasOne(d => d.Customer).WithMany(p => p.ChatSessions)
@@ -268,14 +268,14 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.Birthday).HasColumnType("datetime");
-                entity.Property(e => e.CreateAt).HasColumnType("datetime");
+                entity.Property(e => e.Birthday).HasColumnType("timestamp");
+                entity.Property(e => e.CreateAt).HasColumnType("timestamp");
                 entity.Property(e => e.Email).HasMaxLength(100);
                 entity.Property(e => e.Fullname).HasMaxLength(100);
                 entity.Property(e => e.Gender).HasMaxLength(10);
                 entity.Property(e => e.Password).IsUnicode(false) ;
                 entity.Property(e => e.PhoneNumber).HasMaxLength(15);
-                entity.Property(e => e.UpdateAt).HasColumnType("datetime");
+                entity.Property(e => e.UpdateAt).HasColumnType("timestamp");
                 entity.Property(e => e.UserName).HasMaxLength(100);
                 //entity.Property(e => e.Status).HasMaxLength(20);
             });
@@ -289,7 +289,7 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.UsedDate).HasColumnType("datetime");
+                entity.Property(e => e.UsedDate).HasColumnType("timestamp");
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.CustomerVouchers)
                     .HasForeignKey(d => d.CustomerId)
@@ -339,9 +339,9 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreationDate).HasColumnType("datetime");
+                entity.Property(e => e.CreationDate).HasColumnType("timestamp");
                 entity.Property(e => e.Creator).HasMaxLength(100);
-                entity.Property(e => e.EditDate).HasColumnType("datetime");
+                entity.Property(e => e.EditDate).HasColumnType("timestamp");
                 entity.Property(e => e.Fixer).HasMaxLength(100);
                 entity.Property(e => e.Name).HasMaxLength(100);
                 entity.Property(e => e.Status).HasMaxLength(20);
@@ -395,9 +395,9 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreateAt).HasColumnType("datetime");
+                entity.Property(e => e.CreateAt).HasColumnType("timestamp");
                 entity.Property(e => e.CustomerName).HasMaxLength(100);
-                entity.Property(e => e.EstimatedDeliveryDate).HasColumnType("datetime");
+                entity.Property(e => e.EstimatedDeliveryDate).HasColumnType("timestamp");
                 entity.Property(e => e.PhoneNumber).HasMaxLength(15);
                 entity.Property(e => e.Qrcode)
                     .IsUnicode(false)
@@ -405,7 +405,7 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.ShippingFee).HasColumnType("decimal(18, 2)");
                 entity.Property(e => e.Status).HasMaxLength(20);
                 entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.UpdateAt).HasColumnType("datetime");
+                entity.Property(e => e.UpdateAt).HasColumnType("timestamp");
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.OrderInfos)
                     .HasForeignKey(d => d.CustomerId)
@@ -472,9 +472,9 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+                entity.Property(e => e.CreatedAt).HasColumnType("timestamp");
                 entity.Property(e => e.Name).HasMaxLength(500);
-                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+                entity.Property(e => e.UpdatedAt).HasColumnType("timestamp");
                 entity.HasOne(d => d.Brand).WithMany(p => p.Product)
                    .HasForeignKey(d => d.BrandId)
                    .HasConstraintName("FK__ProductDe__Brand__66603565");
@@ -534,9 +534,9 @@ namespace DAL_Empty.Models
                     .HasColumnName("ID");
                 entity.Property(e => e.DiscountType).HasMaxLength(100);
                 entity.Property(e => e.DiscountValue).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
+                entity.Property(e => e.EndDate).HasColumnType("timestamp");
                 entity.Property(e => e.Name).HasMaxLength(100);
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
+                entity.Property(e => e.StartDate).HasColumnType("timestamp");
                 entity.Property(e => e.Status).HasMaxLength(50);
             });
 
@@ -570,9 +570,9 @@ namespace DAL_Empty.Models
             //    entity.Property(e => e.Id)
             //        .HasDefaultValueSql("(gen_random_uuid())")
             //        .HasColumnName("ID");
-            //    entity.Property(e => e.CreateAt).HasColumnType("datetime");
+            //    entity.Property(e => e.CreateAt).HasColumnType("timestamp");
             //    entity.Property(e => e.Status).HasMaxLength(100);
-            //    entity.Property(e => e.UpdateAt).HasColumnType("datetime");
+            //    entity.Property(e => e.UpdateAt).HasColumnType("timestamp");
 
             //    entity.HasOne(d => d.ProductDetail).WithMany(p => p.Ratings)
             //        .HasForeignKey(d => d.ProductDetailId)
@@ -588,7 +588,7 @@ namespace DAL_Empty.Models
             //    entity.Property(e => e.Id)
             //        .HasDefaultValueSql("(gen_random_uuid())")
             //        .HasColumnName("ID");
-            //    entity.Property(e => e.RequestDate).HasColumnType("datetime");
+            //    entity.Property(e => e.RequestDate).HasColumnType("timestamp");
             //    entity.Property(e => e.Status).HasMaxLength(20);
 
             //    entity.HasOne(d => d.OrderDetail).WithMany(p => p.ReturnRequests)
@@ -648,10 +648,10 @@ namespace DAL_Empty.Models
                     .HasColumnName("ID");
                 entity.Property(e => e.Code).HasMaxLength(50);
                 entity.Property(e => e.DiscountValue).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
+                entity.Property(e => e.EndDate).HasColumnType("timestamp");
+                entity.Property(e => e.StartDate).HasColumnType("timestamp");
                 entity.Property(e => e.Status).HasMaxLength(20);
-                entity.Property(e => e.Description).HasColumnType("nvarchar(255)").IsUnicode(true).IsRequired(false);
+                entity.Property(e => e.Description).HasMaxLength(255).IsRequired(false);
             });
             base.OnModelCreating(modelBuilder);
         }

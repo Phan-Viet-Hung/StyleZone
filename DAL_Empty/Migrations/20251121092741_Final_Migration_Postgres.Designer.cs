@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL_Empty.Migrations
 {
     [DbContext(typeof(DbContextApp))]
-    [Migration("20251121084323_Rebuild_Database_V1")]
-    partial class Rebuild_Database_V1
+    [Migration("20251121092741_Final_Migration_Postgres")]
+    partial class Final_Migration_Postgres
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -175,7 +175,7 @@ namespace DAL_Empty.Migrations
                         .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime?>("CreateAt")
-                        .HasColumnType("datetime")
+                        .HasColumnType("timestamp")
                         .HasColumnName("CreatedAt");
 
                     b.Property<Guid?>("CustomerId")
@@ -289,10 +289,10 @@ namespace DAL_Empty.Migrations
                         .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<DateTime?>("CreateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -323,7 +323,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(100)
@@ -348,7 +348,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("UsedDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<Guid?>("VoucherId")
                         .IsRequired()
@@ -445,14 +445,14 @@ namespace DAL_Empty.Migrations
                         .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Creator")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("EditDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Fixer")
                         .HasMaxLength(100)
@@ -579,7 +579,7 @@ namespace DAL_Empty.Migrations
 
                     b.Property<DateTime?>("CreateAt")
                         .IsRequired()
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<Guid?>("CreateBy")
                         .HasColumnType("uuid");
@@ -596,7 +596,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.Property<DateTime?>("EstimatedDeliveryDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(15)
@@ -618,7 +618,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<Guid?>("UpdateBy")
                         .HasColumnType("uuid");
@@ -728,7 +728,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -746,7 +746,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -847,7 +847,7 @@ namespace DAL_Empty.Migrations
 
                     b.Property<DateTime?>("EndDate")
                         .IsRequired()
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(255)
@@ -861,7 +861,7 @@ namespace DAL_Empty.Migrations
 
                     b.Property<DateTime?>("StartDate")
                         .IsRequired()
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("Status")
                         .HasMaxLength(50)
@@ -1007,9 +1007,8 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<int>("DiscountType")
                         .HasColumnType("integer");
@@ -1018,7 +1017,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -1032,7 +1031,7 @@ namespace DAL_Empty.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("Status")
                         .HasMaxLength(20)
