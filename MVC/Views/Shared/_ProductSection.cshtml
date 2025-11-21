@@ -1,5 +1,13 @@
 ﻿@model KeyValuePair<string, List<API.DomainCusTomer.DTOs.TrangChu.HomeProductCustomerDto>>
-
+@{
+    // ===== THÊM KHỐI NÀY VÀO ĐẦU FILE =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+}
 <div class="container">
     <div class="bg-white pb-3 mt-5">
         @* Tên danh mục sẽ được lấy tự động *@
@@ -21,13 +29,12 @@
 
                             @* Container ảnh *@
                             <div class="product-img-wrapper mb-3">
-                             
-                                <img src="@($"https://localhost:7257/{(product.ImageUrl ?? "default1.jpg")}")" alt="@product.Name" class="product-img" />
+
+                                <img src="@(imageBaseUrl + (product.ImageUrl ?? "default1.jpg").TrimStart('/'))" alt="@product.Name" class="product-img" />
 
                                 @if (!string.IsNullOrEmpty(product.ImageUrlHover))
                                 {
-                                    <img src="@($"https://localhost:7257/{(product.ImageUrlHover ?? "default1.jpg")}")" alt="@product.Name Hover" class="product-img-hover" />
-                                   
+                                    <img src="@(imageBaseUrl + (product.ImageUrlHover ?? "default1.jpg").TrimStart('/'))" alt="@product.Name Hover" class="product-img-hover" />
                                 }
                             </div>
 
@@ -57,11 +64,11 @@
 
                             @* Container ảnh *@
                             <div class="product-img-wrapper mb-3">
-                                <img src="@($"https://localhost:7257/{(product.ImageUrl ?? "default1.jpg")}")" alt="@product.Name" class="product-img" />
+                                <img src="@(imageBaseUrl + (product.ImageUrl ?? "default1.jpg").TrimStart('/'))" alt="@product.Name" class="product-img" />
 
                                 @if (!string.IsNullOrEmpty(product.ImageUrlHover))
                                 {
-                                    <img src="@($"https://localhost:7257/{(product.ImageUrlHover ?? "default1.jpg")}")" alt="@product.Name Hover" class="product-img-hover" />
+                                    <img src="@(imageBaseUrl + (product.ImageUrlHover ?? "default1.jpg").TrimStart('/'))" alt="@product.Name Hover" class="product-img-hover" />
                                 }
                             </div>
 

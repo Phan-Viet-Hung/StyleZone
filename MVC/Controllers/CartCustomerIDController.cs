@@ -1,10 +1,11 @@
-﻿using API.DomainCusTomer.Request.Cast;
+﻿using API.DomainCusTomer.DTOs.CastCustomerId;
+using API.DomainCusTomer.DTOs.ThongTinCaNhaCustomer;
+using API.DomainCusTomer.Request.Cast;
 using DAL_Empty.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 using Newtonsoft.Json;
-using API.DomainCusTomer.DTOs.CastCustomerId;
-using API.DomainCusTomer.DTOs.ThongTinCaNhaCustomer;
+using System.Net.Http;
+using System.Text;
 
 namespace MVC.Controllers
 {
@@ -12,12 +13,9 @@ namespace MVC.Controllers
     {
         private readonly HttpClient _httpClient;
 
-        public CartCustomerIDController()
+        public CartCustomerIDController( IHttpClientFactory httpClientFactory)
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://localhost:7257/api/")
-            };
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
         [HttpGet]
         public async Task<IActionResult> ListCartId(string username)
@@ -122,7 +120,7 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyNowID(string username, CartCustomerRequest request)
         {
-           
+
             var json = JsonConvert.SerializeObject(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -131,12 +129,12 @@ namespace MVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 TempData["SuccessMessage"] = "Đã mua ngay thành công!";
-                return RedirectToAction("ListCartId", "CartCustomerID"); 
+                return RedirectToAction("ListCartId", "CartCustomerID");
             }
 
             var error = await response.Content.ReadAsStringAsync();
             TempData["ErrorMessage"] = "Không thể mua ngay: " + error;
-            return RedirectToAction("DetailCustomer", "DetailCustomer"); 
+            return RedirectToAction("DetailCustomer", "DetailCustomer");
         }
 
 
@@ -235,13 +233,13 @@ namespace MVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 TempData["Success"] = "Cập nhật địa chỉ thành công!";
-               
+
             }
             else
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
                 TempData["Error"] = $"Lỗi khi cập nhật địa chỉ: {errorMessage}";
-              
+
             }
             return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId");
         }

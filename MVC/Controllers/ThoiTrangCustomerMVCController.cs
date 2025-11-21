@@ -5,6 +5,8 @@ using API.DomainCusTomer.Request.ThoiTrang;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http; // Đảm bảo có using này
+using System.Linq;    // Đảm bảo có using này
 using System.Web;
 
 namespace MVC.Controllers
@@ -13,11 +15,15 @@ namespace MVC.Controllers
     {
         private readonly HttpClient _httpClient;
 
-        //private readonly string 
-        public ThoiTrangCustomerMVCController(HttpClient httpClient)
+        // ===== SỬA CONSTRUCTOR =====
+        // Tiêm (inject) IHttpClientFactory
+        public ThoiTrangCustomerMVCController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            // Yêu cầu Factory tạo ra client tên "ApiClient"
+            // (Client này đã được cấu hình BaseAddress trong Program.cs của MVC)
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
+        // ===========================
 
         // GET: TheThaoCustomer
         [HttpGet]
@@ -31,19 +37,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -51,21 +57,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/ThoiTrang/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            // Sử dụng URL tương đối. BaseAddress (http://stylezone-all:8081/api/) sẽ tự động được thêm vào.
+            var url = $"ThoiTrangCustomer/ThoiTrang/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageThoiTrang>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageThoiTrang>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                // Thêm try-catch để xử lý lỗi (ví dụ: Connection refused nếu API chưa chạy)
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
 
         [HttpGet]
@@ -79,19 +93,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -99,22 +113,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/WADE/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/WADE/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageWaDe>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageWaDe>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> BADFIVECusTomer([FromQuery] BADFIVEFilterRequst filterRequest)
         {
@@ -126,19 +147,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -146,22 +167,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/BADFIVE/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/BADFIVE/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageBADFIVE>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageBADFIVE>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> LIFESTYLECusTomer([FromQuery] LIFESTYLEFilterRequst filterRequest)
         {
@@ -173,19 +201,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -193,22 +221,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/LIFESTYLE/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/LIFESTYLE/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageLIFESTYLE>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageLIFESTYLE>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> ISAACCusTomer([FromQuery] ISAACFilterRequst filterRequest)
         {
@@ -220,19 +255,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -240,22 +275,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/ISAAC/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/ISAAC/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageISAAC>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageISAAC>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> YOUNGCusTomer([FromQuery] YOUNGFilterRequst filterRequest)
         {
@@ -267,19 +309,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -287,22 +329,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/YOUNG/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/YOUNG/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageYOUNG>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageYOUNG>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> BeTraiCusTomer([FromQuery] BeTraiFilterRequst filterRequest)
         {
@@ -314,19 +363,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -334,22 +383,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/Betrai/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/Betrai/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageBeTrai>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageBeTrai>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> BeGaiCusTomer([FromQuery] BeGaiFilterRequst filterRequest)
         {
@@ -361,19 +417,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -381,22 +437,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/BeGai/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/BeGai/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageBeGai>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageBeGai>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> OUTLETCusTomer([FromQuery] OUTLETFilterRequst filterRequest)
         {
@@ -408,19 +471,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -428,22 +491,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/OUTLET/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/OUTLET/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageOUTLET>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageOUTLET>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> OUTLETPICKLEBALLCusTomer([FromQuery] OUTLETPICKLEBALLFilterRequst filterRequest)
         {
@@ -455,19 +525,19 @@ namespace MVC.Controllers
             var query = HttpUtility.ParseQueryString(string.Empty);
 
             if (filterRequest.Product != null)
-                foreach (var item in filterRequest.Product)
+                foreach (var item in filterRequest.Product.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Product", item);
 
             if (filterRequest.Colors != null)
-                foreach (var color in filterRequest.Colors)
+                foreach (var color in filterRequest.Colors.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Colors", color);
 
             if (filterRequest.Sizes != null)
-                foreach (var size in filterRequest.Sizes)
+                foreach (var size in filterRequest.Sizes.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Sizes", size);
 
             if (filterRequest.Genders != null)
-                foreach (var gender in filterRequest.Genders)
+                foreach (var gender in filterRequest.Genders.Where(x => !string.IsNullOrWhiteSpace(x)))
                     query.Add("Genders", gender);
 
             query.Add("SortBy", filterRequest.SortBy);
@@ -475,22 +545,29 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/ThoiTrangCustomer/OUTLETPICKLEBALL/?{query}";
-            var response = await _httpClient.GetAsync(url);
+            // ===== SỬA URL =====
+            var url = $"ThoiTrangCustomer/OUTLETPICKLEBALL/?{query.ToString()}";
 
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Lỗi khi gọi API: {error}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var pagedResult = JsonConvert.DeserializeObject<PageOUTLETPICKLEBALL>(json);
+                return View(pagedResult);
             }
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var pagedResult = JsonConvert.DeserializeObject<PageOUTLETPICKLEBALL>(json);
-
-
-            return View(pagedResult);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
+
         // GET: ThoiTrangCustomerMVCController/Details/5
         public ActionResult Details(int id)
         {

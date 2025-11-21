@@ -15,7 +15,8 @@ namespace DAL_Empty.Models
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;"
+                    //"Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;"
+                    "Server=localhost,1433;Database=StyleZoneDb;User Id=sa;Password=YourStrong@Passw0rd1!;TrustServerCertificate=True;"
                 );
 
                 // Hoặc nếu bạn muốn dễ chuyển sang PostgreSQL thì có thể cấu hình tại đây

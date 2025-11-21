@@ -5,19 +5,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Threading.Tasks; // Đảm bảo có using này
 using System.Web;
 
 namespace MVC.Controllers
 {
     public class NuCustomerController : Controller
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient; // HttpClient này sẽ được lấy từ Factory
 
-        //private readonly string 
-        public NuCustomerController(HttpClient httpClient)
+        // ===== SỬA CONSTRUCTOR =====
+        // Tiêm (inject) IHttpClientFactory thay vì HttpClient
+        public NuCustomerController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            // Yêu cầu Factory tạo ra client tên "ApiClient"
+            // (Client này đã được cấu hình BaseAddress trong Program.cs)
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
+        // ===========================
+
         // GET: NuCustomerController
         [HttpGet]
         public async Task<IActionResult> DoNuCustomer([FromQuery] DoNuCustomerFilterRequest filterRequest)
@@ -64,8 +70,9 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/DoNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            // Tạo URL gọi API (đã xóa localhost)
+            var url = $"NuCustomer/DoNu?{query.ToString()}";
 
             try
             {
@@ -134,8 +141,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/AoNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/AoNu?{query.ToString()}";
 
             try
             {
@@ -204,8 +211,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/AoTShirtNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/AoTShirtNu?{query.ToString()}";
 
             try
             {
@@ -274,8 +281,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/AoPoLoNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/AoPoLoNu?{query.ToString()}";
 
             try
             {
@@ -344,8 +351,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/AoGioNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/AoGioNu?{query.ToString()}";
 
             try
             {
@@ -414,8 +421,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/AoNiNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/AoNiNu?{query.ToString()}";
 
             try
             {
@@ -484,8 +491,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/AoDaiTayNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/AoDaiTayNu?{query.ToString()}";
 
             try
             {
@@ -554,8 +561,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/AoLongVuNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/AoLongVuNu?{query.ToString()}";
 
             try
             {
@@ -624,8 +631,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/QuanNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/QuanNu?{query.ToString()}";
 
             try
             {
@@ -694,8 +701,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/QuanShortNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/QuanShortNu?{query.ToString()}";
 
             try
             {
@@ -764,8 +771,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/QuanGioNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/QuanGioNu?{query.ToString()}";
 
             try
             {
@@ -834,8 +841,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/QuanNiNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/QuanNiNu?{query.ToString()}";
 
             try
             {
@@ -904,8 +911,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/GiayNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/GiayNu?{query.ToString()}";
 
             try
             {
@@ -974,8 +981,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/GiayThoiTrangNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/GiayThoiTrangNu?{query.ToString()}";
 
             try
             {
@@ -1044,8 +1051,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/GiayChayBoNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/GiayChayBoNu?{query.ToString()}";
 
             try
             {
@@ -1114,8 +1121,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/GiayCauLongNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/GiayCauLongNu?{query.ToString()}";
 
             try
             {
@@ -1184,8 +1191,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/GiayBongRoNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/GiayBongRoNu?{query.ToString()}";
 
             try
             {
@@ -1254,8 +1261,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/GiayBongDaNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/GiayBongDaNu?{query.ToString()}";
 
             try
             {
@@ -1324,8 +1331,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/BoQuanAoNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/BoQuanAoNu?{query.ToString()}";
 
             try
             {
@@ -1394,8 +1401,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/BoQuanAoBongRoNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/BoQuanAoBongRoNu?{query.ToString()}";
 
             try
             {
@@ -1464,8 +1471,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/NuCustomer/BoQuanAoCauLongNu?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"NuCustomer/BoQuanAoCauLongNu?{query.ToString()}";
 
             try
             {

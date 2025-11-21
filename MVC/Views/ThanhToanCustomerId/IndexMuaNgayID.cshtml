@@ -7,6 +7,15 @@
     decimal tongTienHang = Model.Price * Model.Quantity;
     decimal phiVanChuyen = 0;
     decimal tongThanhToan = tongTienHang + phiVanChuyen;
+
+    // ===== CẤU HÌNH URL =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257";
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    var fullApiUrl = publicApiUrl.TrimEnd('/') + "/api/";
 }
 
 <link href="~/css/CSS/ThanhToanCustomerId.css" rel="stylesheet" />
@@ -353,7 +362,7 @@
                     <tr>
                         <td>
                             <div class="d-flex align-items-center">
-                                <img src="@($"https://localhost:7257/{(Model.ImageUrl ?? "default1.jpg")}")" alt="@Model.Name"
+                                <img src="@(imageBaseUrl + (Model.ImageUrl ?? "default1.jpg").TrimStart('/'))" alt="@Model.Name"
                                      class="rounded img-fluid me-3 d-block d-sm-inline"
                                      style="width: 70px; height: 70px; object-fit: cover;">
                                 <span class="product-name">@Model.Name <hr />Color: @Model.ColorName | Size: @Model.SizeName </span>
@@ -522,7 +531,7 @@
 
     </script>
     <script>
-            const apiLocalGHN = "https://localhost:7257/api/GHN/";
+            const apiLocalGHN = "@(fullApiUrl)GHN/";
 
             async function ghnGet(endpoint) {
                 const res = await fetch(apiLocalGHN + endpoint);

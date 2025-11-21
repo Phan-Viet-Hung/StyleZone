@@ -12,6 +12,9 @@ using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using API.DomainCusTomer.Request.ThongTinCaNhan;
 using API.DomainCusTomer.DTOs.QuanLyDonHangCustomerDto;
+using System.Net.Http;      // Thêm using
+using System.Linq;          // Thêm using
+using Microsoft.AspNetCore.Http; // Thêm using
 
 namespace MVC.Controllers
 {
@@ -19,13 +22,19 @@ namespace MVC.Controllers
     {
         private readonly HttpClient _httpClient;
 
+        // ===== SỬA CONSTRUCTOR =====
         public DonMuaCustomerController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            // 1. Sử dụng client "ApiClient" đã được cấu hình trong Program.cs
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+
+            // 2. Xóa bỏ các dòng gán "localhost" và header (đã được cấu hình trong factory)
+            // _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
+            // _httpClient.DefaultRequestHeaders.Accept.Add(
+            //     new MediaTypeWithQualityHeaderValue("application/json"));
         }
+        // ===========================
+
         [HttpPost]
         public async Task<IActionResult> CancelOrder(Guid orderId, string username, string Decription)
         {
@@ -38,6 +47,7 @@ namespace MVC.Controllers
 
             try
             {
+                // URL tương đối
                 var response = await _httpClient.PostAsync(
                     $"DonMuaCustomer/cancel/{orderId}?username={username}&Decription={Decription}",
                     null);
@@ -86,13 +96,24 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/all/{username}");
-            response.EnsureSuccessStatusCode();
+            var data = new List<QuanLyDonHangCustomerDto>();
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/all/{username}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = "Lỗi khi tải danh sách đơn hàng.";
+                    return View(data);
+                }
 
-            var json = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
-
+                var json = await response.Content.ReadAsStringAsync();
+                data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+            }
             return View(data);
         }
 
@@ -103,13 +124,24 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/pending/{username}");
-            response.EnsureSuccessStatusCode();
+            var data = new List<QuanLyDonHangCustomerDto>();
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/pending/{username}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = "Lỗi khi tải danh sách đơn hàng.";
+                    return View(data);
+                }
 
-            var json = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
-
+                var json = await response.Content.ReadAsStringAsync();
+                data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+            }
             return View(data);
         }
 
@@ -120,13 +152,23 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/confirmed/{username}");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
-
+            var data = new List<QuanLyDonHangCustomerDto>();
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/confirmed/{username}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = "Lỗi khi tải danh sách đơn hàng.";
+                    return View(data);
+                }
+                var json = await response.Content.ReadAsStringAsync();
+                data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+            }
             return View(data);
         }
 
@@ -137,13 +179,23 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/processing/{username}");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
-
+            var data = new List<QuanLyDonHangCustomerDto>();
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/processing/{username}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = "Lỗi khi tải danh sách đơn hàng.";
+                    return View(data);
+                }
+                var json = await response.Content.ReadAsStringAsync();
+                data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+            }
             return View(data);
         }
 
@@ -154,13 +206,23 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/shipping/{username}");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
-
+            var data = new List<QuanLyDonHangCustomerDto>();
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/shipping/{username}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = "Lỗi khi tải danh sách đơn hàng.";
+                    return View(data);
+                }
+                var json = await response.Content.ReadAsStringAsync();
+                data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+            }
             return View(data);
         }
 
@@ -171,13 +233,23 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/delivered/{username}");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
-
+            var data = new List<QuanLyDonHangCustomerDto>();
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/delivered/{username}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = "Lỗi khi tải danh sách đơn hàng.";
+                    return View(data);
+                }
+                var json = await response.Content.ReadAsStringAsync();
+                data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+            }
             return View(data);
         }
 
@@ -188,15 +260,26 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/cancelled/{username}");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
-
+            var data = new List<QuanLyDonHangCustomerDto>();
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/cancelled/{username}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = "Lỗi khi tải danh sách đơn hàng.";
+                    return View(data);
+                }
+                var json = await response.Content.ReadAsStringAsync();
+                data = JsonConvert.DeserializeObject<List<QuanLyDonHangCustomerDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+            }
             return View(data);
         }
+
         // Hàm lấy username dựa trên cookie LoginMethod
         private string GetUsernameFromCookie()
         {
@@ -217,7 +300,6 @@ namespace MVC.Controllers
 
 
         // GET: /TaiKhoanCuaToi
-
         public async Task<IActionResult> TaiKhoanCuaToi(string username)
         {
             username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
@@ -225,6 +307,7 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
+            // URL tương đối
             string apiUrl = $"DonMuaCustomer/{username}";
 
             try
@@ -233,7 +316,7 @@ namespace MVC.Controllers
                 if (!response.IsSuccessStatusCode)
                 {
                     ViewBag.Error = "Không thể tải thông tin khách hàng.";
-                    return View(new UpdateThongTinCaNhanDto()); // Đảm bảo kiểu đúng
+                    return View(new UpdateThongTinCaNhanDto());
                 }
 
                 var json = await response.Content.ReadAsStringAsync();
@@ -241,20 +324,10 @@ namespace MVC.Controllers
 
                 return View(customer);
             }
-            catch (JsonException jsonEx)
-            {
-                ViewBag.Error = "Dữ liệu trả về không hợp lệ: " + jsonEx.Message;
-                return View(new UpdateThongTinCaNhanDto()); // Đảm bảo kiểu đúng
-            }
-            catch (InvalidOperationException invEx)
-            {
-                ViewBag.Error = "Đã xảy ra lỗi khi truyền dữ liệu vào View: " + invEx.Message;
-                return View(new UpdateThongTinCaNhanDto()); // Đảm bảo kiểu đúng
-            }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                return View(new UpdateThongTinCaNhanDto()); // Đảm bảo kiểu đúng
+                ViewBag.Error = $"Lỗi ngoại lệ: {ex.Message}";
+                return View(new UpdateThongTinCaNhanDto());
             }
         }
 
@@ -266,30 +339,39 @@ namespace MVC.Controllers
             if (string.IsNullOrEmpty(username))
                 return BadRequest("Không tìm thấy thông tin người dùng.");
 
-            // Kiểm tra tính hợp lệ của mô hình
             if (!ModelState.IsValid)
             {
-                // Nếu không hợp lệ, trả về lại View với thông tin lỗi
                 TempData["Errortaikhoancuatoi"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
+                // Phải trả về DTO chứ không phải Request
                 return View(new UpdateThongTinCaNhanDto());
             }
 
-            var response = await _httpClient.PostAsync($"DonMuaCustomer/{username}/update",
-                new StringContent(JsonConvert.SerializeObject(updatedCustomer), Encoding.UTF8, "application/json"));
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.PostAsync($"DonMuaCustomer/{username}/update",
+                    new StringContent(JsonConvert.SerializeObject(updatedCustomer), Encoding.UTF8, "application/json"));
 
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["Success"] = "Cập nhật thông tin thành công.";
-                return RedirectToAction("Index", "Home");
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Cập nhật thông tin thành công.";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    TempData["Error"] = $"Có lỗi xảy ra: {error}";
+                    // Phải trả về DTO chứ không phải Request
+                    return View(new UpdateThongTinCaNhanDto());
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                // Lưu thông báo lỗi vào TempData
-                TempData["Error"] = $"Có lỗi xảy ra: {error}";
+                TempData["Error"] = $"Lỗi ngoại lệ: {ex.Message}";
                 return View(new UpdateThongTinCaNhanDto());
             }
         }
+
         // Form đổi mật khẩu (GET)
         public IActionResult DoiMatKhau(string username)
         {
@@ -304,28 +386,35 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> DoiMatKhau(RePassDtoCustomer model)
         {
-            // Lấy tên người dùng từ cookie
             string username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (string.IsNullOrEmpty(username))
                 return BadRequest("Không tìm thấy thông tin người dùng.");
 
-            // Gửi yêu cầu đổi mật khẩu
-            var response = await _httpClient.PostAsync($"DonMuaCustomer/{username}/change-password", new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"));
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                TempData["Success"] = "Đổi mật khẩu thành công!";
-                return RedirectToAction("Index", "Home");
+                // URL tương đối
+                var response = await _httpClient.PostAsync($"DonMuaCustomer/{username}/change-password", new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Đổi mật khẩu thành công!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    TempData["errodoimatkhau"] = $"Lỗi: {error}"; // Hiển thị lỗi rõ hơn
+                    return View(model);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var error = await response.Content.ReadAsStringAsync();
-
-                TempData["errodoimatkhau"] = "Dữ liệu không hợp lệ vui lòng thử lại";
+                TempData["errodoimatkhau"] = $"Lỗi ngoại lệ: {ex.Message}";
                 return View(model);
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> DiaChi(string username)
         {
@@ -335,6 +424,7 @@ namespace MVC.Controllers
                 return RedirectToAction("Index", "Home");
             try
             {
+                // URL tương đối
                 var response = await _httpClient.GetAsync($"DonMuaCustomer/{username}/addresses");
                 if (!response.IsSuccessStatusCode)
                 {
@@ -351,10 +441,10 @@ namespace MVC.Controllers
                 return View(new List<Address>());
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> UpdateStatusDiaChi(Guid id, string username)
         {
-            // Lấy username từ cookie
             username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (string.IsNullOrEmpty(username))
@@ -362,7 +452,7 @@ namespace MVC.Controllers
 
             try
             {
-                // Gửi request PUT sang API
+                // URL tương đối
                 var apiUrl = $"DonMuaCustomer/UpdateStatusDiaChi/{username}/{id}";
                 var response = await _httpClient.PostAsync(apiUrl, null);
 
@@ -398,23 +488,32 @@ namespace MVC.Controllers
                 return RedirectToAction("DiaChi");
             }
 
-            var response = await _httpClient.PostAsync(
-                $"DonMuaCustomer/{username}/address",
-                new StringContent(JsonConvert.SerializeObject(newAddress), Encoding.UTF8, "application/json")
-            );
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.PostAsync(
+                    $"DonMuaCustomer/{username}/address",
+                    new StringContent(JsonConvert.SerializeObject(newAddress), Encoding.UTF8, "application/json")
+                );
 
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["Success"] = "Thêm địa chỉ thành công!";
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Thêm địa chỉ thành công!";
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    TempData["Error"] = $"Thêm địa chỉ thất bại: {error}";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                TempData["Error"] = $"Thêm địa chỉ thất bại: {error}";
+                TempData["Error"] = $"Lỗi hệ thống: {ex.Message}";
             }
 
             return RedirectToAction("DiaChi");
         }
+
         [HttpPost]
         public async Task<IActionResult> UpdateDiaChi(DiachiCustomerDto model, Guid id)
         {
@@ -424,19 +523,27 @@ namespace MVC.Controllers
                 return RedirectToAction("DiaChi");
             }
 
-            var response = await _httpClient.PutAsJsonAsync($"DonMuaCustomer/address/{id}", model);
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.PutAsJsonAsync($"DonMuaCustomer/address/{id}", model);
 
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["Success"] = "Cập nhật địa chỉ thành công!";
-                return RedirectToAction("DiaChi");
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Cập nhật địa chỉ thành công!";
+                }
+                else
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    TempData["Error"] = $"Lỗi khi cập nhật địa chỉ: {errorMessage}";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                TempData["Error"] = $"Lỗi khi cập nhật địa chỉ: {errorMessage}";
-                return RedirectToAction("DiaChi");
+                TempData["Error"] = $"Lỗi hệ thống: {ex.Message}";
             }
+
+            return RedirectToAction("DiaChi");
         }
 
         [HttpGet]
@@ -446,21 +553,28 @@ namespace MVC.Controllers
 
             if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
-            var response = await _httpClient.GetAsync($"DonMuaCustomer/remove/{ID}");
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                TempData["Success"] = "Xóa địa chỉ thành công!";
-                return RedirectToAction("DiaChi");
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"DonMuaCustomer/remove/{ID}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Xóa địa chỉ thành công!";
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    TempData["Error"] = "Lỗi khi xóa địa chỉ: " + error;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                TempData["Error"] = "Lỗi khi xóa địa chỉ: " + error;
-                return RedirectToAction("DiaChi");
+                TempData["Error"] = $"Lỗi hệ thống: {ex.Message}";
             }
+
+            return RedirectToAction("DiaChi");
         }
-
-
     }
 }

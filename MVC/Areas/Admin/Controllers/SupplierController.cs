@@ -12,17 +12,25 @@ namespace MVC.Areas.Admin.Controllers
     public class SupplierController : Controller
     {
         private readonly HttpClient _httpClient;
+
+        // ===== SỬA CONSTRUCTOR =====
         public SupplierController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/"); // địa chỉ API
+            // 1. Sử dụng client "ApiClient" đã được cấu hình
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+
+            // 2. Xóa bỏ gán BaseAddress cứng
+            // _httpClient.BaseAddress = new Uri("https://localhost:7257/"); 
         }
+
         public async Task<IActionResult> Index()
         {
             var a = HttpContext.Session.GetString("JWToken");
             if (string.IsNullOrEmpty(a))
                 return RedirectToAction("Login", "MVCAuth");
-            var res = await _httpClient.GetAsync("api/SupplierApi");
+
+            // 3. Sửa URL (bỏ "api/")
+            var res = await _httpClient.GetAsync("SupplierApi");
             var json = await res.Content.ReadAsStringAsync();
             var data = JsonConvert.DeserializeObject<List<Supplier>>(json);
             return View(data);
@@ -36,7 +44,7 @@ namespace MVC.Areas.Admin.Controllers
         }
 
         [HttpPost]
-      
+
         public async Task<IActionResult> Create([Bind("Id,Code,Name,Contact,Email,Address")] Supplier supplier)
         {
             var a = HttpContext.Session.GetString("JWToken");
@@ -46,30 +54,17 @@ namespace MVC.Areas.Admin.Controllers
             {
                 return View(supplier); // hiển thị lỗi nhập liệu
             }
-           
+
             supplier.Id = Guid.NewGuid();
-            //var json = JsonConvert.SerializeObject(supplier);
             var json = System.Text.Json.JsonSerializer.Serialize(supplier);
-           
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var res = await _httpClient.PostAsync("https://localhost:7257/api/SupplierApi", content);
+            // 4. Sửa URL (dùng URL tương đối, bỏ "api/")
+            var res = await _httpClient.PostAsync("SupplierApi", content);
             if (res.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
             return View(supplier);
-            //using (var httpClient = new HttpClient())
-            //{
-            //    StringContent content = new StringContent(JsonConvert.SerializeObject(supplier), Encoding.UTF8, "application/json");
-            //    using 
-            //        (var response = await httpClient.PostAsync("https://localhost:7257/api/SupplierApi", content))
-            //    {
-            //        string api = await response.Content.ReadAsStringAsync();
-            //        supplier = JsonConvert.DeserializeObject<Supplier>(api);
-            //    }
-            //    return RedirectToAction("Index");
-            //}
-
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -77,7 +72,9 @@ namespace MVC.Areas.Admin.Controllers
             var a = HttpContext.Session.GetString("JWToken");
             if (string.IsNullOrEmpty(a))
                 return RedirectToAction("Login", "MVCAuth");
-            var res = await _httpClient.GetAsync($"api/SupplierApi/{id}");
+
+            // 5. Sửa URL (bỏ "api/")
+            var res = await _httpClient.GetAsync($"SupplierApi/{id}");
             var json = await res.Content.ReadAsStringAsync();
             var supplier = JsonConvert.DeserializeObject<Supplier>(json);
             return View(supplier);
@@ -95,7 +92,8 @@ namespace MVC.Areas.Admin.Controllers
             var json = JsonConvert.SerializeObject(supplier);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var res = await _httpClient.PutAsync($"api/SupplierApi/{id}", content);
+            // 6. Sửa URL (bỏ "api/")
+            var res = await _httpClient.PutAsync($"SupplierApi/{id}", content);
             if (res.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
@@ -107,7 +105,7 @@ namespace MVC.Areas.Admin.Controllers
             if (string.IsNullOrEmpty(a))
                 return RedirectToAction("Login", "MVCAuth");
 
-            // Gọi API export
+            // URL này ("Import/export") đã đúng (vì nó không chứa "api/")
             var response = await _httpClient.GetAsync("Import/export?entityName=Supplier");
 
             if (!response.IsSuccessStatusCode)

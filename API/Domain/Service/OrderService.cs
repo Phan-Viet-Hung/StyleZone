@@ -30,14 +30,23 @@ namespace DomainAPI.Service
 
         public async Task<OrderDto> CreatePosOrderAsync(CreateOrderRequest request, Guid userId)
         {
-            // Lấy ID của PaymentMethod "Thanh toán khi nhận hàng (COD)"
+            // Cách 1: Tìm chính xác tên trong DB (An toàn nhất nếu bạn không muốn đổi logic)
             var codPaymentMethodId = await _context.PaymentMethods
-                .Where(pm => pm.Name == "Thanh toán khi nhận hàng (COD)")
+                .Where(pm => pm.Name == "Thanh toán khi nhận hàng (COD)") // <--- Phải khớp 100% với DB
                 .Select(pm => pm.Id)
                 .FirstOrDefaultAsync();
 
+            // Fallback: Nếu không tìm thấy, thử tìm theo tên khác (để tránh lỗi "Tiền mặt")
             if (codPaymentMethodId == Guid.Empty)
-                throw new Exception("Không tìm thấy phương thức thanh toán COD.");
+            {
+                codPaymentMethodId = await _context.PaymentMethods
+                    .Where(pm => pm.Name == "Tiền mặt" || pm.Name == "cod" || pm.Name == "COD") // Thêm fallback
+                    .Select(pm => pm.Id)
+                    .FirstOrDefaultAsync();
+            }
+
+            if (codPaymentMethodId == Guid.Empty)
+                throw new Exception("Không tìm thấy phương thức thanh toán COD (hoặc Tiền mặt).");
 
             // Gán tổng thanh toán bằng tổng đơn hàng
             var totalPaid = request.TotalAmount;
@@ -431,14 +440,5 @@ namespace DomainAPI.Service
 
             return (updatedCount, errors);
         }
-
-
-
-
-
-
-
-
-
     }
 }

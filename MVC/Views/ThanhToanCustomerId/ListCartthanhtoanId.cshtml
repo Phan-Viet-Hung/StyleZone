@@ -3,10 +3,18 @@
 @{
     ViewData["Title"] = "ListCartthanhtoanId";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
-    var defaultAddress = Model?.Addresses?.FirstOrDefault(a => a.Stastus =="Mặc định");
+    var defaultAddress = Model?.Addresses?.FirstOrDefault(a => a.Stastus == "Mặc định");
     decimal tongTienHang = Model.CartItems.Sum(x => (x.Price ?? 0) * (x.Quantity ?? 0));
     decimal phiVanChuyen = 0;
     decimal tongThanhToan = tongTienHang + phiVanChuyen;
+    // ===== CẤU HÌNH URL =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257";
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    var fullApiUrl = publicApiUrl.TrimEnd('/') + "/api/";
 }
 
 <link href="~/css/CSS/ThanhToanCustomerId.css" rel="stylesheet" />
@@ -234,7 +242,7 @@
 </div>
 
 <form asp-action="CreateOrderCustomerId" asp-controller="MoMoThanhtoanCustomerId" class="row g-3 flex-column flex-lg-row-reverse" method="post">
-<div class="container py-4" style="max-width: 850px;">
+    <div class="container py-4" style="max-width: 850px;">
         @if (TempData["MessageDiaChi"] != null)
         {
             <div class="alert alert-danger" id="errorMessage">
@@ -261,195 +269,195 @@
                 });
             </script>
         }
-    <!-- Địa chỉ -->
-    <div class="card-custom mb-3">
-        <div class="d-flex align-items-center text-red-custom fw-semibold mb-2">
-            <i class="fas fa-map-marker-alt me-2"></i>
-            <span>Địa Chỉ Nhận Hàng</span>
-        </div>
+        <!-- Địa chỉ -->
         <div class="card-custom mb-3">
             <div class="d-flex align-items-center text-red-custom fw-semibold mb-2">
                 <i class="fas fa-map-marker-alt me-2"></i>
                 <span>Địa Chỉ Nhận Hàng</span>
             </div>
-            <div id="selectedAddressDisplay" class="d-flex flex-wrap align-items-center gap-2 text-secondary">
-                <span class="fw-semibold">@defaultAddress?.FullName @defaultAddress?.PhoneNumber</span>
-                <span>@defaultAddress?.DetailAddress, @defaultAddress?.Ward, @defaultAddress?.District, @defaultAddress?.Province</span>
-                <input type="hidden" id="detailAddress" value="@defaultAddress?.DetailAddress" />
-                <input type="hidden" id="provinceName" value="@defaultAddress?.Province" />
-                <input type="hidden" id="districtName" value="@defaultAddress?.District" />
-                <input type="hidden" id="wardName" value="@defaultAddress?.Ward" />
+            <div class="card-custom mb-3">
+                <div class="d-flex align-items-center text-red-custom fw-semibold mb-2">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    <span>Địa Chỉ Nhận Hàng</span>
+                </div>
+                <div id="selectedAddressDisplay" class="d-flex flex-wrap align-items-center gap-2 text-secondary">
+                    <span class="fw-semibold">@defaultAddress?.FullName @defaultAddress?.PhoneNumber</span>
+                    <span>@defaultAddress?.DetailAddress, @defaultAddress?.Ward, @defaultAddress?.District, @defaultAddress?.Province</span>
+                    <input type="hidden" id="detailAddress" value="@defaultAddress?.DetailAddress" />
+                    <input type="hidden" id="provinceName" value="@defaultAddress?.Province" />
+                    <input type="hidden" id="districtName" value="@defaultAddress?.District" />
+                    <input type="hidden" id="wardName" value="@defaultAddress?.Ward" />
 
 
-                <input type="hidden" name="Province" value="@defaultAddress?.Province" id="Province" />
-                <input type="hidden" name="District" value="@defaultAddress?.District" id="District" />
-                <input type="hidden" name="Ward" value="@defaultAddress?.District" id="Ward" />
+                    <input type="hidden" name="Province" value="@defaultAddress?.Province" id="Province" />
+                    <input type="hidden" name="District" value="@defaultAddress?.District" id="District" />
+                    <input type="hidden" name="Ward" value="@defaultAddress?.District" id="Ward" />
 
-                <input type="hidden" id="address" name="Address" value="@defaultAddress?.DetailAddress" />
-                <input type="hidden" id="fullName" name="FullName" value="@defaultAddress?.FullName" />
-                <input type="hidden" id="phoneNumber" name="PhoneNumber" value="@defaultAddress?.PhoneNumber" />
+                    <input type="hidden" id="address" name="Address" value="@defaultAddress?.DetailAddress" />
+                    <input type="hidden" id="fullName" name="FullName" value="@defaultAddress?.FullName" />
+                    <input type="hidden" id="phoneNumber" name="PhoneNumber" value="@defaultAddress?.PhoneNumber" />
 
-                <button type="button" class="underline-link" data-bs-toggle="modal" data-bs-target="#addressModal">
-                    Thay đổi
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sản phẩm -->
-    <div class="card-custom mb-3">
-        <div class="shop-header d-flex align-items-center justify-content-between text-secondary fw-semibold">
-            <div class="d-flex align-items-center gap-2">
-                <i class="fas fa-check-circle text-success"></i>
-                <span class="text-success">• Chất lượng</span>
+                    <button type="button" class="underline-link" data-bs-toggle="modal" data-bs-target="#addressModal">
+                        Thay đổi
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Bảng cho desktop -->
-        <table class="table product-table">
-            <thead class="table-light">
-                <tr>
-                    <th>Sản phẩm</th>
-                    <th class="text-end">Đơn giá</th>
-                    <th class="text-end">Số lượng</th>
-                    <th class="text-end">Thành tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                 @for (int i = 0; i < Model.CartItems.Count; i++)
-                {
-                    var item = Model.CartItems[i];
+        <!-- Sản phẩm -->
+        <div class="card-custom mb-3">
+            <div class="shop-header d-flex align-items-center justify-content-between text-secondary fw-semibold">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fas fa-check-circle text-success"></i>
+                    <span class="text-success">• Chất lượng</span>
+                </div>
+            </div>
+
+            <!-- Bảng cho desktop -->
+            <table class="table product-table">
+                <thead class="table-light">
                     <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
+                        <th>Sản phẩm</th>
+                        <th class="text-end">Đơn giá</th>
+                        <th class="text-end">Số lượng</th>
+                        <th class="text-end">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.CartItems.Count; i++)
+                    {
+                        var item = Model.CartItems[i];
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
                                     <img src="@($"https://localhost:7257/{(item.ImageUrl ?? "default1.jpg")}")" alt="@item.ProductName"
                                          class="rounded img-fluid me-3 d-block d-sm-inline"
                                          style="width: 70px; height: 70px; object-fit: cover;">
                                     <span class="product-name">@item.ProductName <hr />Color: @item.ColorName | Size: @item.SizeName</span>
-                            </div>
-                        </td>
-                        <td class="text-end">
-                            @((item.Price ?? 0).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
-                        </td>
-                        <td class="text-end">
-                            @(item.Quantity ?? 0)
-                        </td>
-                        <td class="text-end fw-semibold text-danger">
-                            @(((item.Price ?? 0) * (item.Quantity ?? 0))
-                                .ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                @((item.Price ?? 0).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
+                            </td>
+                            <td class="text-end">
+                                @(item.Quantity ?? 0)
+                            </td>
+                            <td class="text-end fw-semibold text-danger">
+                                @(((item.Price ?? 0) * (item.Quantity ?? 0))
+                                                            .ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
                         </td>
                     </tr>
                     <input type="hidden" name="OrderItems[@(i)].ProductDetailId" value="@item.ProductDetailId" />
                     <input type="hidden" name="OrderItems[@(i)].Quantity" value="@item.Quantity" />
                     <input type="hidden" name="OrderItems[@(i)].Price" value="@item.Price" />
                     <input type="hidden" name="IsFromCart" value="true" />
-                }
-            </tbody>
-        </table>
+                                        }
+                </tbody>
+            </table>
 
-        <!-- Dạng thẻ cho mobile -->
-        @for (int i = 0; i < Model.CartItems.Count; i++)
-        {
-            var item = Model.CartItems[i];
-            <div class="product-card">
+            <!-- Dạng thẻ cho mobile -->
+            @for (int i = 0; i < Model.CartItems.Count; i++)
+            {
+                var item = Model.CartItems[i];
+                <div class="product-card">
                     <img src="@($"https://localhost:7257/{(item.ImageUrl ?? "default1.jpg")}")" alt="Sản phẩm">
-                <div class="product-info">
+                    <div class="product-info">
                         <div class="name">@item.ProductName <hr />Color: @item.ColorName | Size: @item.SizeName</div>
-                    <div class="product-meta">
-                        @((item.Price ?? 0).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
-                        x @(item.Quantity ?? 0)
+                        <div class="product-meta">
+                            @((item.Price ?? 0).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
+                            x @(item.Quantity ?? 0)
+                        </div>
+                    </div>
+                    <div class="product-total">
+                        @(((item.Price ?? 0) * (item.Quantity ?? 0)).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
                     </div>
                 </div>
-                <div class="product-total">
-                    @(((item.Price ?? 0) * (item.Quantity ?? 0)).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))
-                </div>
-            </div>
-            <input type="hidden" name="OrderItems[@(i)].ProductDetailId" value="@item.ProductDetailId" />
-            <input type="hidden" name="OrderItems[@(i)].Quantity" value="@item.Quantity" />
-            <input type="hidden" name="OrderItems[@(i)].Price" value="@item.Price" />
-            <input type="hidden" name="IsFromCart" value="true" />
-        }
-    </div>
-
-    <!-- Ghi chú -->
-    <div class="card-custom mb-3 text-secondary">
-        <label for="orderNote"  class="form-label fw-semibold">
-            <i class="fas fa-pencil-alt me-2"></i>Ghi chú cho đơn hàng
-        </label>
-        <input type="text" id="orderNote" name="GhiChu"
-               class="form-control" placeholder="Nhập ghi chú (ví dụ: Giao giờ hành chính)" />
-    </div>
-
-    <!-- Voucher -->
-    <div class="card-custom mb-3 d-flex justify-content-between align-items-center text-secondary">
-        <span><i class="fas fa-ticket-alt text-warning me-2"></i>StyleZone Voucher</span>
-        <button type="button" class="underline-link btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#voucherModal">
-            Chọn Voucher
-        </button>
-            <input type="hidden" id="SelectedVoucherId" name="VorcherId" value="" />
-    </div>
-
-    <!-- Thanh toán -->
-    <div class="card-custom mb-3">
-        <h2 class="h6 fw-semibold mb-3">Phương thức thanh toán</h2>
-        <div class="vstack gap-2 mb-3">
-            <label class="form-check d-flex align-items-center rounded p-2">
-                <input type="radio" name="PaymentMethodCode" class="form-check-input me-2" value="cod" checked />
-                <span class="flex-grow-1">Thanh toán khi nhận hàng (COD)</span>
-                <i class="fas fa-truck text-muted"></i>
-            </label>
-            <label class="form-check d-flex align-items-center rounded p-2">
-                <input type="radio" name="PaymentMethodCode" class="form-check-input me-2" value="momo" />
-                <span class="flex-grow-1">Ví điện tử Momo</span>
-                <img src="@Url.Content("~/css/Image/momo.png")" alt="Momo" style="height: 45px;" />
-            </label>
+                <input type="hidden" name="OrderItems[@(i)].ProductDetailId" value="@item.ProductDetailId" />
+                <input type="hidden" name="OrderItems[@(i)].Quantity" value="@item.Quantity" />
+                <input type="hidden" name="OrderItems[@(i)].Price" value="@item.Price" />
+                <input type="hidden" name="IsFromCart" value="true" />
+            }
         </div>
-    </div>
 
-    <!-- Tổng cộng -->
-    <div class="d-flex justify-content-between">
-        <span>Tổng tiền hàng</span>
-        <span id="tongTienHang" data-value="@tongTienHang">
-            @tongTienHang.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
-        </span>
-    </div>
-    <div class="d-flex justify-content-between">
-        @if (defaultAddress != null &&
-        !string.IsNullOrEmpty(defaultAddress.DetailAddress) &&
-        !string.IsNullOrEmpty(defaultAddress.Ward) &&
-        !string.IsNullOrEmpty(defaultAddress.District) &&
-        !string.IsNullOrEmpty(defaultAddress.Province))
-        {
-            <span>Phí vận chuyển</span>
-        <span id="phiVanChuyen" data-value="@phiVanChuyen">
-            @phiVanChuyen.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
-        </span>
-        <input type="hidden" name="ShippingFee" id="ShippingFee" value="@phiVanChuyen" />
-        }
-        else
-        {
-            <span>Phí vận chuyển</span>
-            <span id="" data-value="">
-                0đ
-            </span>
-        }
-    </div>
-    <div class="d-flex justify-content-between">
-        <span>Giảm giá: </span>
-        <span id="discountAmount" data-value="0">0₫</span>
+        <!-- Ghi chú -->
+        <div class="card-custom mb-3 text-secondary">
+            <label for="orderNote" class="form-label fw-semibold">
+                <i class="fas fa-pencil-alt me-2"></i>Ghi chú cho đơn hàng
+            </label>
+            <input type="text" id="orderNote" name="GhiChu"
+                   class="form-control" placeholder="Nhập ghi chú (ví dụ: Giao giờ hành chính)" />
+        </div>
+
+        <!-- Voucher -->
+        <div class="card-custom mb-3 d-flex justify-content-between align-items-center text-secondary">
+            <span><i class="fas fa-ticket-alt text-warning me-2"></i>StyleZone Voucher</span>
+            <button type="button" class="underline-link btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#voucherModal">
+                Chọn Voucher
+            </button>
             <input type="hidden" id="SelectedVoucherId" name="VorcherId" value="" />
+        </div>
+
+        <!-- Thanh toán -->
+        <div class="card-custom mb-3">
+            <h2 class="h6 fw-semibold mb-3">Phương thức thanh toán</h2>
+            <div class="vstack gap-2 mb-3">
+                <label class="form-check d-flex align-items-center rounded p-2">
+                    <input type="radio" name="PaymentMethodCode" class="form-check-input me-2" value="cod" checked />
+                    <span class="flex-grow-1">Thanh toán khi nhận hàng (COD)</span>
+                    <i class="fas fa-truck text-muted"></i>
+                </label>
+                <label class="form-check d-flex align-items-center rounded p-2">
+                    <input type="radio" name="PaymentMethodCode" class="form-check-input me-2" value="momo" />
+                    <span class="flex-grow-1">Ví điện tử Momo</span>
+                    <img src="@Url.Content("~/css/Image/momo.png")" alt="Momo" style="height: 45px;" />
+                </label>
+            </div>
+        </div>
+
+        <!-- Tổng cộng -->
+        <div class="d-flex justify-content-between">
+            <span>Tổng tiền hàng</span>
+            <span id="tongTienHang" data-value="@tongTienHang">
+                @tongTienHang.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
+            </span>
+        </div>
+        <div class="d-flex justify-content-between">
+            @if (defaultAddress != null &&
+                        !string.IsNullOrEmpty(defaultAddress.DetailAddress) &&
+                        !string.IsNullOrEmpty(defaultAddress.Ward) &&
+                        !string.IsNullOrEmpty(defaultAddress.District) &&
+                        !string.IsNullOrEmpty(defaultAddress.Province))
+            {
+                <span>Phí vận chuyển</span>
+                <span id="phiVanChuyen" data-value="@phiVanChuyen">
+                    @phiVanChuyen.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
+                </span>
+                <input type="hidden" name="ShippingFee" id="ShippingFee" value="@phiVanChuyen" />
+            }
+            else
+            {
+                <span>Phí vận chuyển</span>
+                <span id="" data-value="">
+                    0đ
+                </span>
+            }
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>Giảm giá: </span>
+            <span id="discountAmount" data-value="0">0₫</span>
+            <input type="hidden" id="SelectedVoucherId" name="VorcherId" value="" />
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between price-total">
+            <span>Tổng thanh toán</span>
+            <span id="tongThanhToan">
+                @tongThanhToan.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
+            </span>
+            <input type="hidden" name="TotalAmount" id="TotalAmount" value="@tongThanhToan.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))" />
+        </div>
+        <hr>
+        <button type="submit" id="btnCompleteOrder" class="btn btn-red w-100 py-3 fw-semibold">Đặt hàng</button>
     </div>
-    <hr>
-    <div class="d-flex justify-content-between price-total">
-        <span>Tổng thanh toán</span>
-        <span id="tongThanhToan">
-            @tongThanhToan.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
-        </span>
-        <input type="hidden" name="TotalAmount" id="TotalAmount" value="@tongThanhToan.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))" />
-    </div>
-    <hr>
-  <button type="submit" id="btnCompleteOrder" class="btn btn-red w-100 py-3 fw-semibold">Đặt hàng</button>
-</div>
 </form>
 
 @section Scripts {
@@ -532,228 +540,228 @@
     </script>
 
     <script>
-        const apiLocalGHN = "https://localhost:7257/api/GHN/";
+           const apiLocalGHN = "@(fullApiUrl)GHN/";
 
-        async function ghnGet(endpoint) {
-            const res = await fetch(apiLocalGHN + endpoint);
-            return res.ok ? res.json() : [];
-        }
+           async function ghnGet(endpoint) {
+               const res = await fetch(apiLocalGHN + endpoint);
+               return res.ok ? res.json() : [];
+           }
 
-        async function ghnPost(endpoint, body) {
-            const res = await fetch(apiLocalGHN + endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body)
-            });
-            return res.ok ? res.json() : [];
-        }
+           async function ghnPost(endpoint, body) {
+               const res = await fetch(apiLocalGHN + endpoint, {
+                   method: "POST",
+                   headers: { "Content-Type": "application/json" },
+                   body: JSON.stringify(body)
+               });
+               return res.ok ? res.json() : [];
+           }
 
-        async function setupLocationDropdowns(prefix) {
-            const provinceEl = document.getElementById(`${prefix}ProvinceSelect`);
-            const districtEl = document.getElementById(`${prefix}DistrictSelect`);
-            const wardEl = document.getElementById(`${prefix}WardSelect`);
-            const provinceHidden = document.getElementById(`${prefix}Province`);
-            const districtHidden = document.getElementById(`${prefix}District`);
-            const wardHidden = document.getElementById(`${prefix}Ward`);
+           async function setupLocationDropdowns(prefix) {
+               const provinceEl = document.getElementById(`${prefix}ProvinceSelect`);
+               const districtEl = document.getElementById(`${prefix}DistrictSelect`);
+               const wardEl = document.getElementById(`${prefix}WardSelect`);
+               const provinceHidden = document.getElementById(`${prefix}Province`);
+               const districtHidden = document.getElementById(`${prefix}District`);
+               const wardHidden = document.getElementById(`${prefix}Ward`);
 
-            const provinces = await ghnGet("provinces");
-            provinceEl.innerHTML = '<option value="">Tỉnh / thành</option>';
-            provinces.forEach(p => {
-                provinceEl.innerHTML += `<option value="${p.ProvinceID}">${p.ProvinceName}</option>`;
-            });
+               const provinces = await ghnGet("provinces");
+               provinceEl.innerHTML = '<option value="">Tỉnh / thành</option>';
+               provinces.forEach(p => {
+                   provinceEl.innerHTML += `<option value="${p.ProvinceID}">${p.ProvinceName}</option>`;
+               });
 
-            provinceEl.addEventListener("change", async () => {
-                const provinceID = provinceEl.value;
-                if (!provinceID) return;
+               provinceEl.addEventListener("change", async () => {
+                   const provinceID = provinceEl.value;
+                   if (!provinceID) return;
 
-                const districts = await ghnPost("districts", { province_id: parseInt(provinceID) });
-                districtEl.innerHTML = '<option value="">Quận / huyện</option>';
-                districts.forEach(d => {
-                    districtEl.innerHTML += `<option value="${d.DistrictID}">${d.DistrictName}</option>`;
-                });
+                   const districts = await ghnPost("districts", { province_id: parseInt(provinceID) });
+                   districtEl.innerHTML = '<option value="">Quận / huyện</option>';
+                   districts.forEach(d => {
+                       districtEl.innerHTML += `<option value="${d.DistrictID}">${d.DistrictName}</option>`;
+                   });
 
-                districtEl.disabled = false;
-                provinceHidden.value = provinceEl.options[provinceEl.selectedIndex].text;
-            });
+                   districtEl.disabled = false;
+                   provinceHidden.value = provinceEl.options[provinceEl.selectedIndex].text;
+               });
 
-            districtEl.addEventListener("change", async () => {
-                const districtID = districtEl.value;
-                if (!districtID) return;
+               districtEl.addEventListener("change", async () => {
+                   const districtID = districtEl.value;
+                   if (!districtID) return;
 
-                const wards = await ghnPost("wards", { district_id: parseInt(districtID) });
-                wardEl.innerHTML = '<option value="">Phường / xã</option>';
-                wards.forEach(w => {
-                    wardEl.innerHTML += `<option value="${w.WardCode}">${w.WardName}</option>`;
-                });
+                   const wards = await ghnPost("wards", { district_id: parseInt(districtID) });
+                   wardEl.innerHTML = '<option value="">Phường / xã</option>';
+                   wards.forEach(w => {
+                       wardEl.innerHTML += `<option value="${w.WardCode}">${w.WardName}</option>`;
+                   });
 
-                wardEl.disabled = false;
-                districtHidden.value = districtEl.options[districtEl.selectedIndex].text;
-            });
+                   wardEl.disabled = false;
+                   districtHidden.value = districtEl.options[districtEl.selectedIndex].text;
+               });
 
-            wardEl.addEventListener("change", () => {
-                wardHidden.value = wardEl.options[wardEl.selectedIndex].text;
-            });
-        }
+               wardEl.addEventListener("change", () => {
+                   wardHidden.value = wardEl.options[wardEl.selectedIndex].text;
+               });
+           }
 
-        // Khi mở modal thêm địa chỉ mới
-        document.getElementById('addAddressModal').addEventListener('show.bs.modal', async () => {
-            await setupLocationDropdowns("");
-        });
+           // Khi mở modal thêm địa chỉ mới
+           document.getElementById('addAddressModal').addEventListener('show.bs.modal', async () => {
+               await setupLocationDropdowns("");
+           });
 
-        // Khi mở modal cập nhật
-        document.getElementById('updateAddressModal').addEventListener('show.bs.modal', async function (event) {
-            const btn = event.relatedTarget;
-            const id = btn.getAttribute("data-id");
-            const fullname = btn.getAttribute("data-fullname");
-            const phone = btn.getAttribute("data-phonenumber");
-            const address = btn.getAttribute("data-detailaddress");
-            const provinceName = btn.getAttribute("data-province");
-            const districtName = btn.getAttribute("data-district");
-            const wardName = btn.getAttribute("data-ward");
+           // Khi mở modal cập nhật
+           document.getElementById('updateAddressModal').addEventListener('show.bs.modal', async function (event) {
+               const btn = event.relatedTarget;
+               const id = btn.getAttribute("data-id");
+               const fullname = btn.getAttribute("data-fullname");
+               const phone = btn.getAttribute("data-phonenumber");
+               const address = btn.getAttribute("data-detailaddress");
+               const provinceName = btn.getAttribute("data-province");
+               const districtName = btn.getAttribute("data-district");
+               const wardName = btn.getAttribute("data-ward");
 
-            document.getElementById("updateId").value = id;
-            document.getElementById("updateFullName").value = fullname;
-            document.getElementById("updatePhoneNumber").value = phone;
-            document.getElementById("updateAddress").value = address;
+               document.getElementById("updateId").value = id;
+               document.getElementById("updateFullName").value = fullname;
+               document.getElementById("updatePhoneNumber").value = phone;
+               document.getElementById("updateAddress").value = address;
 
-            await setupLocationDropdowns("update");
+               await setupLocationDropdowns("update");
 
-            const provinceEl = document.getElementById("updateProvinceSelect");
-            const districtEl = document.getElementById("updateDistrictSelect");
-            const wardEl = document.getElementById("updateWardSelect");
+               const provinceEl = document.getElementById("updateProvinceSelect");
+               const districtEl = document.getElementById("updateDistrictSelect");
+               const wardEl = document.getElementById("updateWardSelect");
 
-            const provinceOption = [...provinceEl.options].find(opt => opt.text === provinceName);
-            if (provinceOption) {
-                provinceEl.value = provinceOption.value;
-                document.getElementById("updateProvince").value = provinceOption.text;
+               const provinceOption = [...provinceEl.options].find(opt => opt.text === provinceName);
+               if (provinceOption) {
+                   provinceEl.value = provinceOption.value;
+                   document.getElementById("updateProvince").value = provinceOption.text;
 
-                const districts = await ghnPost("districts", { province_id: parseInt(provinceOption.value) });
-                districtEl.innerHTML = '<option value="">Quận / huyện</option>';
-                districts.forEach(d => {
-                    districtEl.innerHTML += `<option value="${d.DistrictID}">${d.DistrictName}</option>`;
-                });
-                districtEl.disabled = false;
+                   const districts = await ghnPost("districts", { province_id: parseInt(provinceOption.value) });
+                   districtEl.innerHTML = '<option value="">Quận / huyện</option>';
+                   districts.forEach(d => {
+                       districtEl.innerHTML += `<option value="${d.DistrictID}">${d.DistrictName}</option>`;
+                   });
+                   districtEl.disabled = false;
 
-                const districtOption = [...districtEl.options].find(opt => opt.text === districtName);
-                if (districtOption) {
-                    districtEl.value = districtOption.value;
-                    document.getElementById("updateDistrict").value = districtOption.text;
+                   const districtOption = [...districtEl.options].find(opt => opt.text === districtName);
+                   if (districtOption) {
+                       districtEl.value = districtOption.value;
+                       document.getElementById("updateDistrict").value = districtOption.text;
 
-                    const wards = await ghnPost("wards", { district_id: parseInt(districtOption.value) });
-                    wardEl.innerHTML = '<option value="">Phường / xã</option>';
-                    wards.forEach(w => {
-                        wardEl.innerHTML += `<option value="${w.WardCode}">${w.WardName}</option>`;
-                    });
-                    wardEl.disabled = false;
+                       const wards = await ghnPost("wards", { district_id: parseInt(districtOption.value) });
+                       wardEl.innerHTML = '<option value="">Phường / xã</option>';
+                       wards.forEach(w => {
+                           wardEl.innerHTML += `<option value="${w.WardCode}">${w.WardName}</option>`;
+                       });
+                       wardEl.disabled = false;
 
-                    const wardOption = [...wardEl.options].find(opt => opt.text === wardName);
-                    if (wardOption) {
-                        wardEl.value = wardOption.value;
-                        document.getElementById("updateWard").value = wardOption.text;
-                    }
-                }
-            }
-        });
+                       const wardOption = [...wardEl.options].find(opt => opt.text === wardName);
+                       if (wardOption) {
+                           wardEl.value = wardOption.value;
+                           document.getElementById("updateWard").value = wardOption.text;
+                       }
+                   }
+               }
+           });
 
 
-   
-     const tongTienHangEl = document.getElementById("tongTienHang");
-        const phiVanChuyenEl = document.getElementById("phiVanChuyen");
-        const tongThanhToanEl = document.getElementById("tongThanhToan");
 
-        const provinceName = document.getElementById("provinceName").value || "";
-        const districtName = document.getElementById("districtName").value || "";
-        const wardName = document.getElementById("wardName").value || "";
+        const tongTienHangEl = document.getElementById("tongTienHang");
+           const phiVanChuyenEl = document.getElementById("phiVanChuyen");
+           const tongThanhToanEl = document.getElementById("tongThanhToan");
 
-        // Lấy giá trị gốc từ data-value (đã là số nguyên)
-        const subTotal = parseInt(tongTienHangEl.dataset.value, 10);
-        let serviceId = 53320;
+           const provinceName = document.getElementById("provinceName").value || "";
+           const districtName = document.getElementById("districtName").value || "";
+           const wardName = document.getElementById("wardName").value || "";
 
-        // Bỏ dấu + thường hóa
-        function normalize(str) {
-            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-        }
+           // Lấy giá trị gốc từ data-value (đã là số nguyên)
+           const subTotal = parseInt(tongTienHangEl.dataset.value, 10);
+           let serviceId = 53320;
 
-        // API GET
-        async function ghnGet(endpoint) {
-            const res = await fetch(apiLocalGHN + endpoint);
-            if (!res.ok) throw new Error(`API GET ${endpoint} lỗi`);
-            return await res.json();
-        }
+           // Bỏ dấu + thường hóa
+           function normalize(str) {
+               return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+           }
 
-        // API POST
-        async function ghnPost(endpoint, body) {
-            const res = await fetch(apiLocalGHN + endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body)
-            });
-            if (!res.ok) throw new Error(`API POST ${endpoint} lỗi`);
-            return await res.json();
-        }
+           // API GET
+           async function ghnGet(endpoint) {
+               const res = await fetch(apiLocalGHN + endpoint);
+               if (!res.ok) throw new Error(`API GET ${endpoint} lỗi`);
+               return await res.json();
+           }
 
-        // Lấy ID tỉnh/huyện/xã từ tên
-        async function getIdsFromNames() {
-            const provinces = await ghnGet("provinces");
-            const province = provinces.find(p => normalize(p.ProvinceName).includes(normalize(provinceName)));
-            if (!province) throw new Error("Không tìm thấy tỉnh");
+           // API POST
+           async function ghnPost(endpoint, body) {
+               const res = await fetch(apiLocalGHN + endpoint, {
+                   method: "POST",
+                   headers: { "Content-Type": "application/json" },
+                   body: JSON.stringify(body)
+               });
+               if (!res.ok) throw new Error(`API POST ${endpoint} lỗi`);
+               return await res.json();
+           }
 
-            const districts = await ghnPost("districts", { province_id: province.ProvinceID });
-            const district = districts.find(d => normalize(d.DistrictName).includes(normalize(districtName)));
-            if (!district) throw new Error("Không tìm thấy huyện");
+           // Lấy ID tỉnh/huyện/xã từ tên
+           async function getIdsFromNames() {
+               const provinces = await ghnGet("provinces");
+               const province = provinces.find(p => normalize(p.ProvinceName).includes(normalize(provinceName)));
+               if (!province) throw new Error("Không tìm thấy tỉnh");
 
-            const wards = await ghnPost("wards", { district_id: district.DistrictID });
-            const ward = wards.find(w => normalize(w.WardName).includes(normalize(wardName)));
-            if (!ward) throw new Error("Không tìm thấy xã");
+               const districts = await ghnPost("districts", { province_id: province.ProvinceID });
+               const district = districts.find(d => normalize(d.DistrictName).includes(normalize(districtName)));
+               if (!district) throw new Error("Không tìm thấy huyện");
 
-            return { districtId: district.DistrictID, wardCode: ward.WardCode };
-        }
+               const wards = await ghnPost("wards", { district_id: district.DistrictID });
+               const ward = wards.find(w => normalize(w.WardName).includes(normalize(wardName)));
+               if (!ward) throw new Error("Không tìm thấy xã");
 
-        // Tính phí ship
-        async function calculateShipping() {
-            try {
-                const { districtId, wardCode } = await getIdsFromNames();
+               return { districtId: district.DistrictID, wardCode: ward.WardCode };
+           }
 
-                const body = {
-                    service_id: serviceId,
-                    insurance_value: subTotal,
-                    from_district_id: 1482, // mã huyện kho gửi
-                    to_district_id: districtId,
-                    to_ward_code: wardCode,
-                    height: 5,
-                    length: 30,
-                    weight: 300,
-                    width: 25
-                };
+           // Tính phí ship
+           async function calculateShipping() {
+               try {
+                   const { districtId, wardCode } = await getIdsFromNames();
 
-                const result = await ghnPost("calculate-fee", body);
+                   const body = {
+                       service_id: serviceId,
+                       insurance_value: subTotal,
+                       from_district_id: 1482, // mã huyện kho gửi
+                       to_district_id: districtId,
+                       to_ward_code: wardCode,
+                       height: 5,
+                       length: 30,
+                       weight: 300,
+                       width: 25
+                   };
 
-                if (result.total_fee !== undefined) {
-                    const shippingFee = result.total_fee;
-                    const totalAmount = subTotal + shippingFee;
+                   const result = await ghnPost("calculate-fee", body);
 
-                    // Cập nhật UI
-                    phiVanChuyenEl.dataset.value = shippingFee;
-                    phiVanChuyenEl.textContent = shippingFee.toLocaleString('vi-VN') + "₫";
+                   if (result.total_fee !== undefined) {
+                       const shippingFee = result.total_fee;
+                       const totalAmount = subTotal + shippingFee;
 
-                    tongThanhToanEl.dataset.value = totalAmount;
-                    tongThanhToanEl.textContent = totalAmount.toLocaleString('vi-VN') + "₫";
+                       // Cập nhật UI
+                       phiVanChuyenEl.dataset.value = shippingFee;
+                       phiVanChuyenEl.textContent = shippingFee.toLocaleString('vi-VN') + "₫";
 
-                     // Gán vào input hidden
-                        document.getElementById("ShippingFee").value = shippingFee;
-                         document.getElementById('TotalAmount').value = totalAmount;
-                     
+                       tongThanhToanEl.dataset.value = totalAmount;
+                       tongThanhToanEl.textContent = totalAmount.toLocaleString('vi-VN') + "₫";
 
-                    console.log("Phí ship:", shippingFee, "Tổng thanh toán:", totalAmount);
-                } else {
-                    console.error("Không tính được phí ship:", result);
-                }
-            } catch (err) {
-                console.error("Lỗi tính phí ship:", err);
-            }
-        }
+                        // Gán vào input hidden
+                           document.getElementById("ShippingFee").value = shippingFee;
+                            document.getElementById('TotalAmount').value = totalAmount;
 
-        document.addEventListener("DOMContentLoaded", calculateShipping);
+
+                       console.log("Phí ship:", shippingFee, "Tổng thanh toán:", totalAmount);
+                   } else {
+                       console.error("Không tính được phí ship:", result);
+                   }
+               } catch (err) {
+                   console.error("Lỗi tính phí ship:", err);
+               }
+           }
+
+           document.addEventListener("DOMContentLoaded", calculateShipping);
     </script>
 
     <script>
@@ -815,4 +823,4 @@
         });
     </script>
 
-    }
+}

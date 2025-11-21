@@ -2,7 +2,12 @@
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
     string defaultImage = "/images/no-image.png";
-
+    var publicApiUrl = Configuration["PublicApiUrl"]; 
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
 }
 @section Styles {
     <style>
@@ -140,7 +145,7 @@
                                 <tr>
                                     <td><input type="checkbox" class="rowCheckbox" value="@detail.Id" onclick="updateSelected()" /></td>
                                     <td>
-                                        <img src="@(string.IsNullOrEmpty(detail.MainImageUrl) ? defaultImage : "https://localhost:7257" + detail.MainImageUrl)" width="50" height="50" style="object-fit: cover;" />
+                                        <img src="@(string.IsNullOrEmpty(detail.MainImageUrl) ? defaultImage : imageBaseUrl + detail.MainImageUrl.TrimStart('/'))" width="50" height="50" style="object-fit: cover;" />
                                     </td>
                                     <td>@detail.Name</td>
                                     <td>@(string.IsNullOrWhiteSpace(detail.ColorName) ? "—" : detail.ColorName)</td>

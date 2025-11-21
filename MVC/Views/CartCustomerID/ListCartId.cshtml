@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
     Context.Session.SetString("CartIDCount", Model?.Count.ToString() ?? "0");
     var username = Context.Request.Cookies["UserName"] ?? Context.Request.Cookies["LoginMethod"];
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
 }
 
 @if (TempData["ErrorMessage"] != null)
@@ -60,8 +66,8 @@
                             </button>
                         </form>
                     </div>
-                    <img src="@($"https://localhost:7257/{(string.IsNullOrEmpty(item.ImageUrl) ? "images/default.jpg" : item.ImageUrl)}")"
-                         alt="@item.ProductName" width="80" height="80" class="me-3" loading="lazy" />
+                        <img src="@(imageBaseUrl + (string.IsNullOrEmpty(item.ImageUrl) ? "images/default.jpg" : item.ImageUrl).TrimStart('/'))"
+                             alt="@item.ProductName" width="80" height="80" class="me-3" loading="lazy" />
                     <div>
                         <div class="fw-normal fs-5 mb-1">@item.ProductName</div>
                         <p class="product-desc text-black-900 mb-0">

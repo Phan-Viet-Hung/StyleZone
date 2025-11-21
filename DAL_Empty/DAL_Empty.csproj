@@ -25,4 +25,16 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
+
+  <!-- Ngăn appsettings bị copy khi publish -->
+   <ItemGroup>
+  <Content Update="appsettings.json">
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+  </Content>
+  <Content Update="appsettings.Development.json">
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+  </Content>
+</ItemGroup>
+
+
 </Project>

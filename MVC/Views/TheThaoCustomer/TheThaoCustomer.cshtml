@@ -12,6 +12,17 @@
     var sizes = Model.Sizes ?? new List<string>();
     var colors = Model.Colors ?? new List<string>();
     var genders = Model.Genders;
+    // 1. Lấy URL CÔNG KHAI (Cái mà trình duyệt nhìn thấy)
+    var publicUrl = Configuration["PublicApiUrl"];
+
+    // 2. Nếu không có (chạy local), dùng cổng local của bạn (KHÔNG có /api ở cuối)
+    if (string.IsNullOrEmpty(publicUrl))
+    {
+        publicUrl = "https://localhost:7257";
+    }
+
+    // 3. Xóa dấu gạch chéo ở cuối để tránh lỗi "//" khi nối chuỗi
+    var imageBaseUrl = publicUrl.TrimEnd('/');
 }
 
 <link href="~/wwwroot/css/CSS/ChungImager.css" rel="stylesheet" />
@@ -193,8 +204,8 @@
                                 <a asp-action="DetailCustomerID" asp-controller="DetailCustomer" asp-route-id="@product.Id" class="text-decoration-none">
                                     <div class="product-img-wrapper">
                                       
-                                       <img src="@($"https://localhost:7257/{(product.ImageUrls?.ElementAtOrDefault(0) ?? "default1.jpg")}")" class="product-img" />
-                                       <img src="@($"https://localhost:7257/{(product.ImageUrls?.ElementAtOrDefault(1) ?? "default2.jpg")}")" class="product-img-hover" />
+                                       <img src="@(imageBaseUrl + (product.ImageUrls?.ElementAtOrDefault(0) ?? "default1.jpg"))" class="product-img" />
+                                       <img src="@(imageBaseUrl + (product.ImageUrls?.ElementAtOrDefault(1) ?? "default2.jpg"))" class="product-img-hover" />
 
                                     </div>
                                     <p class="product-name">@product.Name </p>
@@ -222,8 +233,8 @@
                             {
                                 <a asp-action="DetailCustomer" asp-controller="DetailCustomer" asp-route-id="@product.Id" class="text-decoration-none">
                                     <div class="product-img-wrapper">
-                                        <img src="@($"https://localhost:7257/{(product.ImageUrls?.ElementAtOrDefault(0) ?? "default1.jpg")}")" class="product-img" />
-                                        <img src="@($"https://localhost:7257/{(product.ImageUrls?.ElementAtOrDefault(1) ?? "default2.jpg")}")" class="product-img-hover" />
+                                        <img src="@(imageBaseUrl + (product.ImageUrls?.ElementAtOrDefault(0) ?? "default1.jpg"))" class="product-img" />
+                                        <img src="@(imageBaseUrl + (product.ImageUrls?.ElementAtOrDefault(1) ?? "default2.jpg"))" class="product-img-hover" />
                                     </div>
                                     <p class="product-name">@product.Name</p>
                                     @if (noPromotion || allInactive || priceBefore == null || priceAfter == null)

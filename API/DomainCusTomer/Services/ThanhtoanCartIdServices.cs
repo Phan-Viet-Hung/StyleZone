@@ -42,8 +42,8 @@ namespace API.DomainCusTomer.Services
             };
             _context.OrderInfos.Add(order);
 
-            // Thêm OrderDetail
-            foreach (var item in request.OrderItems)
+            // Thêm OrderDetail
+            foreach (var item in request.OrderItems)
             {
                 var productDetail = await _context.ProductDetails.FindAsync(item.ProductDetailId);
                 if (productDetail == null)
@@ -52,8 +52,8 @@ namespace API.DomainCusTomer.Services
                 if (productDetail.Quantity < item.Quantity)
                     throw new InvalidOperationException($"Sản phẩm {productDetail.Name} không đủ hàng.");
 
-                // Nếu thanh toán MoMo thì mới trừ số lượng trong kho
-                if (request.PaymentMethodCode == "momo")
+                // Nếu thanh toán MoMo thì mới trừ số lượng trong kho
+                if (request.PaymentMethodCode == "momo")
                 {
                     productDetail.Quantity -= item.Quantity;
                 }
@@ -66,14 +66,14 @@ namespace API.DomainCusTomer.Services
                     Price = item.Price
                 });
             }
-            // Thêm PaymentMethod
-            string pmName = request.PaymentMethodCode == "momo"
-                ? "Thanh toán qua MoMo"
-                : "Thanh toán khi nhận hàng (COD)";
+            // Thêm PaymentMethod
+            string pmName = request.PaymentMethodCode == "momo"
+        ? "Thanh toán qua MoMo"
+        : "Thanh toán khi nhận hàng (COD)";
             var paymentMethodId = await _context.PaymentMethods
-                .Where(p => p.Name == pmName)
-                .Select(p => (Guid?)p.Id)
-                .FirstOrDefaultAsync();
+              .Where(p => p.Name == pmName)
+              .Select(p => (Guid?)p.Id)
+              .FirstOrDefaultAsync();
 
             if (paymentMethodId == null)
                 throw new InvalidOperationException($"Không tìm thấy phương thức thanh toán: {pmName}");
@@ -85,12 +85,12 @@ namespace API.DomainCusTomer.Services
                 PaymentAmount = request.TotalAmount
             });
 
-            // Thêm ModeOfPayment
-            string modeName = request.PaymentMethodCode == "momo" ? "Chuyển khoản" : "Tiền mặt";
+            // Thêm ModeOfPayment
+            string modeName = request.PaymentMethodCode == "momo" ? "Chuyển khoản" : "Tiền mặt";
             var modeOfPaymentId = await _context.ModeOfPayments
-                .Where(m => m.Name == modeName)
-                .Select(m => (Guid?)m.Id)
-                .FirstOrDefaultAsync();
+              .Where(m => m.Name == modeName)
+              .Select(m => (Guid?)m.Id)
+              .FirstOrDefaultAsync();
 
             if (modeOfPaymentId == null)
                 throw new InvalidOperationException($"Không tìm thấy hình thức thanh toán: {modeName}");
@@ -100,27 +100,27 @@ namespace API.DomainCusTomer.Services
                 OrderId = order.Id,
                 ModeOfPaymentId = modeOfPaymentId.Value
             });
-            // Voucher (nếu có chọn)
-            if (request.VorcherId != null && request.VorcherId != Guid.Empty)
+            // Voucher (nếu có chọn)
+            if (request.VorcherId != null && request.VorcherId != Guid.Empty)
             {
-                // Lấy voucher từ DB
-                var voucher = await _context.Vouchers.FindAsync(request.VorcherId.Value);
+                // Lấy voucher từ DB
+                var voucher = await _context.Vouchers.FindAsync(request.VorcherId.Value);
                 if (voucher == null)
                     throw new InvalidOperationException("Voucher không tồn tại.");
 
-                // Kiểm tra trạng thái Active
-                if (voucher.Status != VoucherStatus.Active)
+                // Kiểm tra trạng thái Active
+                if (voucher.Status != VoucherStatus.Active)
                     throw new InvalidOperationException("Voucher không còn hiệu lực.");
 
-                // Kiểm tra số lượng còn lại
-                if (voucher.TotalUsageLimit <= 0)
+                // Kiểm tra số lượng còn lại
+                if (voucher.TotalUsageLimit <= 0)
                     throw new InvalidOperationException("Voucher đã hết số lượng sử dụng.");
 
-                // Trừ số lượng voucher
-                voucher.TotalUsageLimit -= 1;
+                // Trừ số lượng voucher
+                voucher.TotalUsageLimit -= 1;
 
-                // Thêm bản ghi CustomerVoucher
-                _context.CustomerVouchers.Add(new CustomerVoucher
+                // Thêm bản ghi CustomerVoucher
+                _context.CustomerVouchers.Add(new CustomerVoucher
                 {
                     Id = Guid.NewGuid(),
                     CustomerId = customer.Id,
@@ -129,8 +129,8 @@ namespace API.DomainCusTomer.Services
                 });
             }
 
-            // Lưu tất cả
-            await _context.SaveChangesAsync();
+            // Lưu tất cả
+            await _context.SaveChangesAsync();
             await transaction.CommitAsync();
 
             return new OrderID { Id = order.Id };
@@ -141,11 +141,11 @@ namespace API.DomainCusTomer.Services
             if (string.IsNullOrWhiteSpace(username))
                 throw new ArgumentException("Username không được để trống");
 
-            // Lấy CustomerId
-            var customerId = await _context.Customers
-                .Where(c => c.UserName == username)
-                .Select(c => c.Id)
-                .FirstOrDefaultAsync();
+            // Lấy CustomerId
+            var customerId = await _context.Customers
+        .Where(c => c.UserName == username)
+        .Select(c => c.Id)
+        .FirstOrDefaultAsync();
 
             if (customerId == Guid.Empty)
             {
@@ -157,75 +157,75 @@ namespace API.DomainCusTomer.Services
                 };
             }
 
-            // Lấy danh sách sản phẩm trong giỏ (không gọi lại hàm GetCurrenIDtAsync)
-            var cartId = await _context.Carts
-                .Where(c => c.CustomerId == customerId)
-                .Select(c => c.Id)
-                .FirstOrDefaultAsync();
+            // Lấy danh sách sản phẩm trong giỏ (không gọi lại hàm GetCurrenIDtAsync)
+            var cartId = await _context.Carts
+        .Where(c => c.CustomerId == customerId)
+        .Select(c => c.Id)
+        .FirstOrDefaultAsync();
 
             var cartItems = new List<CastCustomerIDDto>();
             if (cartId != Guid.Empty)
             {
                 cartItems = await _context.CartItems
-                    .Where(ci => ci.CartId == cartId)
-                    .Include(ci => ci.ProductDetail)
-                        .ThenInclude(pd => pd.Product)
-                    .Include(ci => ci.ProductDetail.Color)
-                    .Include(ci => ci.ProductDetail.Size)
-                    .Include(ci => ci.ProductDetail.Images)
-                    .Select(ci => new CastCustomerIDDto
-                    {
-                        Id = ci.Id,
-                        ProductDetailId = ci.ProductDetailId,
-                        productdetailcode = ci.ProductDetail.Code,
-                        Quantity = ci.Quantity,
-                        Price = ci.Price,
-                        ProductName = ci.ProductDetail.Product.Name,
-                        ColorName = ci.ProductDetail.Color.Name,
-                        SizeName = ci.ProductDetail.Size.Name,
-                        ImageUrl = ci.ProductDetail.Images.FirstOrDefault().Url ?? "/images/default.jpg"
-                    })
-                    .ToListAsync();
+                  .Where(ci => ci.CartId == cartId)
+                  .Include(ci => ci.ProductDetail)
+                    .ThenInclude(pd => pd.Product)
+                  .Include(ci => ci.ProductDetail.Color)
+                  .Include(ci => ci.ProductDetail.Size)
+                  .Include(ci => ci.ProductDetail.Images)
+                  .Select(ci => new CastCustomerIDDto
+                  {
+                      Id = ci.Id,
+                      ProductDetailId = ci.ProductDetailId,
+                      productdetailcode = ci.ProductDetail.Code,
+                      Quantity = ci.Quantity,
+                      Price = ci.Price,
+                      ProductName = ci.ProductDetail.Product.Name,
+                      ColorName = ci.ProductDetail.Color.Name,
+                      SizeName = ci.ProductDetail.Size.Name,
+                      ImageUrl = ci.ProductDetail.Images.FirstOrDefault().Url ?? "/images/default.jpg"
+                  })
+                  .ToListAsync();
             }
 
-            // Lấy danh sách địa chỉ
-            var addresses = await _context.Addresses
-                .Where(a => a.CustomerId == customerId)
-                .Select(a => new AddressDto
-                {
-                    Id = a.Id,
-                    FullName = a.FullName,
-                    PhoneNumber = a.PhoneNumber,
-                    DetailAddress = a.DetailAddress,
-                    Ward = a.Ward,
-                    District = a.District,
-                    Province = a.Province,
-                    Stastus = a.Status
-                })
-                .ToListAsync();
+            // Lấy danh sách địa chỉ
+            var addresses = await _context.Addresses
+        .Where(a => a.CustomerId == customerId)
+        .Select(a => new AddressDto
+        {
+            Id = a.Id,
+            FullName = a.FullName,
+            PhoneNumber = a.PhoneNumber,
+            DetailAddress = a.DetailAddress,
+            Ward = a.Ward,
+            District = a.District,
+            Province = a.Province,
+            Stastus = a.Status
+        })
+        .ToListAsync();
 
-            // Lấy danh sách voucher khả dụng nhưng chưa tồn tại trong bảng trung gian
-            var vouchers = await _context.Vouchers
-            .Where(v => v.Status == VoucherStatus.Active
+            // Lấy danh sách voucher khả dụng nhưng chưa tồn tại trong bảng trung gian
+            var vouchers = await _context.Vouchers
+      .Where(v => v.Status == VoucherStatus.Active
 && v.EndDate >= DateTime.Now
-                        && _context.CustomerVouchers
-                            .Count(cv => cv.VoucherId == v.Id && cv.CustomerId == customerId) < v.MaxUsagePerCustomer && v.TotalUsageLimit > 0
-                  )
-                .Select(v => new VoucherDto
-                {
-                    Id = v.Id,
-                    Code = v.Code,
-                    Description = v.Description,
-                    TotalUsageLimit = v.TotalUsageLimit,
-                    DiscountValue = v.DiscountValue,
-                    MinOrderAmount = v.MinOrderAmount,
-                    StartDate = v.StartDate,
-                    EndDate = v.EndDate,
-                    DiscountType = v.DiscountType,
-                    MaxUsagePerCustomer = v.MaxUsagePerCustomer
+            && _context.CustomerVouchers
+              .Count(cv => cv.VoucherId == v.Id && cv.CustomerId == customerId) < v.MaxUsagePerCustomer && v.TotalUsageLimit > 0
+         )
+        .Select(v => new VoucherDto
+        {
+            Id = v.Id,
+            Code = v.Code,
+            Description = v.Description,
+            TotalUsageLimit = v.TotalUsageLimit,
+            DiscountValue = v.DiscountValue,
+            MinOrderAmount = v.MinOrderAmount,
+            StartDate = v.StartDate,
+            EndDate = v.EndDate,
+            DiscountType = v.DiscountType,
+            MaxUsagePerCustomer = v.MaxUsagePerCustomer
 
-                })
-                .ToListAsync();
+        })
+        .ToListAsync();
             return new ThanhToanCartIdDto
             {
                 CartItems = cartItems,
@@ -238,23 +238,23 @@ namespace API.DomainCusTomer.Services
             if (request == null || string.IsNullOrWhiteSpace(request.ProductDetailcodeMuaNgay))
                 throw new ArgumentException("Yêu cầu không hợp lệ");
 
-            // Lấy customerId từ username
-            var customerId = await _context.Customers
-                .Where(c => c.UserName == username)
-                .Select(c => c.Id)
-                .FirstOrDefaultAsync();
+            // Lấy customerId từ username
+            var customerId = await _context.Customers
+        .Where(c => c.UserName == username)
+        .Select(c => c.Id)
+        .FirstOrDefaultAsync();
 
             if (customerId == Guid.Empty)
                 throw new Exception("Không tìm thấy khách hàng.");
 
-            // Lấy thông tin sản phẩm
-            var product = await _context.ProductDetails
-                .Include(x => x.Color)
-                .Include(x => x.Size)
-                .Include(x => x.Images)
-                .Include(p => p.PromotionProducts)
-                    .ThenInclude(pp => pp.Promotion)
-                .FirstOrDefaultAsync(x => x.Code == request.ProductDetailcodeMuaNgay);
+            // Lấy thông tin sản phẩm
+            var product = await _context.ProductDetails
+        .Include(x => x.Color)
+        .Include(x => x.Size)
+        .Include(x => x.Images)
+        .Include(p => p.PromotionProducts)
+          .ThenInclude(pp => pp.Promotion)
+        .FirstOrDefaultAsync(x => x.Code == request.ProductDetailcodeMuaNgay);
 
             if (product == null)
                 throw new Exception($"Sản phẩm {request.ProductDetailcodeMuaNgay} không tồn tại");
@@ -262,19 +262,19 @@ namespace API.DomainCusTomer.Services
             if (product.Quantity < 1)
                 throw new Exception("Sản phẩm hiện đang hết hàng.");
 
-            // Xác định giá áp dụng
-            decimal priceToUse = product.Price;
+            // Xác định giá áp dụng
+            decimal priceToUse = product.Price;
             var currentPromotion = product.PromotionProducts
-                 .FirstOrDefault(p => p.Promotion.Status == VoucherStatus.Active);
+              .FirstOrDefault(p => p.Promotion.Status == VoucherStatus.Active);
             if (currentPromotion != null && currentPromotion.Priceafterduction >= 0)
                 priceToUse = currentPromotion.Priceafterduction;
 
-            // Số lượng mua
-            int quantityToBuy = request.QuantityMuaNgay > 0 ? request.QuantityMuaNgay : 1;
+            // Số lượng mua
+            int quantityToBuy = request.QuantityMuaNgay > 0 ? request.QuantityMuaNgay : 1;
             if (quantityToBuy > product.Quantity)
                 throw new Exception($"Số lượng yêu cầu ({quantityToBuy}) vượt quá tồn kho ({product.Quantity}).");
-            // Tạo DTO trả về
-            var buyNowItem = new MuangaycustomerIdDto
+            // Tạo DTO trả về
+            var buyNowItem = new MuangaycustomerIdDto
             {
                 Id = Guid.NewGuid(),
                 ProductDetailId = product.Id,
@@ -289,69 +289,69 @@ namespace API.DomainCusTomer.Services
                 SizeName = product.Size?.Name ?? "NO_SIZE",
             };
 
-            // Lưu vào Session
-            ctx.Session.SetString(SessionBuyNowKey, JsonConvert.SerializeObject(buyNowItem));
+            // Lưu vào Session
+            ctx.Session.SetString(SessionBuyNowKey, JsonConvert.SerializeObject(buyNowItem));
 
             return buyNowItem;
         }
         public async Task<MuangaycustomerIdDto> MuaNgayAsync(HttpContext ctx, string username)
         {
-            // Lấy dữ liệu từ session
-            var json = ctx.Session.GetString(SessionBuyNowKey);
+            // Lấy dữ liệu từ session
+            var json = ctx.Session.GetString(SessionBuyNowKey);
             if (string.IsNullOrEmpty(json))
                 return null; // Trả về null nếu không có dữ liệu trong session
 
-            // Lấy customerId từ username
-            var customerId = await _context.Customers
-                .Where(c => c.UserName == username)
-                .Select(c => c.Id)
-                .FirstOrDefaultAsync();
+            // Lấy customerId từ username
+            var customerId = await _context.Customers
+        .Where(c => c.UserName == username)
+        .Select(c => c.Id)
+        .FirstOrDefaultAsync();
 
             if (customerId == Guid.Empty)
                 throw new Exception("Không tìm thấy khách hàng.");
 
-            // Lấy địa chỉ
-            var addresses = await _context.Addresses
-                .Where(a => a.CustomerId == customerId)
-                .Select(a => new AddressDto
-                {
-                    Id = a.Id,
-                    FullName = a.FullName,
-                    PhoneNumber = a.PhoneNumber,
-                    DetailAddress = a.DetailAddress,
-                    Ward = a.Ward,
-                    District = a.District,
-                    Province = a.Province,
-                    Stastus = a.Status
-                })
-                .ToListAsync();
+            // Lấy địa chỉ
+            var addresses = await _context.Addresses
+        .Where(a => a.CustomerId == customerId)
+        .Select(a => new AddressDto
+        {
+            Id = a.Id,
+            FullName = a.FullName,
+            PhoneNumber = a.PhoneNumber,
+            DetailAddress = a.DetailAddress,
+            Ward = a.Ward,
+            District = a.District,
+            Province = a.Province,
+            Stastus = a.Status
+        })
+        .ToListAsync();
 
-            // Lấy voucher khả dụng
-            var vouchers = await _context.Vouchers
-                .Where(v => v.Status == VoucherStatus.Active
-                            && v.EndDate >= DateTime.Now
-                            && _context.CustomerVouchers.Count(cv => cv.VoucherId == v.Id && cv.CustomerId == customerId) < v.MaxUsagePerCustomer && v.TotalUsageLimit > 0
-                )
-                .Select(v => new VoucherDto
-                {
-                    Id = v.Id,
-                    Code = v.Code,
-                    Description = v.Description,
-                    TotalUsageLimit = v.TotalUsageLimit,
-                    DiscountValue = v.DiscountValue,
-                    MinOrderAmount = v.MinOrderAmount,
-                    StartDate = v.StartDate,
-                    EndDate = v.EndDate,
-                    DiscountType = v.DiscountType,
-                    MaxUsagePerCustomer = v.MaxUsagePerCustomer
-                })
-                .ToListAsync();
+            // Lấy voucher khả dụng
+            var vouchers = await _context.Vouchers
+        .Where(v => v.Status == VoucherStatus.Active
+              && v.EndDate >= DateTime.Now
+              && _context.CustomerVouchers.Count(cv => cv.VoucherId == v.Id && cv.CustomerId == customerId) < v.MaxUsagePerCustomer && v.TotalUsageLimit > 0
+        )
+        .Select(v => new VoucherDto
+        {
+            Id = v.Id,
+            Code = v.Code,
+            Description = v.Description,
+            TotalUsageLimit = v.TotalUsageLimit,
+            DiscountValue = v.DiscountValue,
+            MinOrderAmount = v.MinOrderAmount,
+            StartDate = v.StartDate,
+            EndDate = v.EndDate,
+            DiscountType = v.DiscountType,
+            MaxUsagePerCustomer = v.MaxUsagePerCustomer
+        })
+        .ToListAsync();
 
-            // Deserialize json thành MuangaycustomerIdDto
-            var buyNowItem = JsonConvert.DeserializeObject<MuangaycustomerIdDto>(json);
+            // Deserialize json thành MuangaycustomerIdDto
+            var buyNowItem = JsonConvert.DeserializeObject<MuangaycustomerIdDto>(json);
 
-            // Cập nhật địa chỉ và voucher
-            buyNowItem.AddressList = addresses;
+            // Cập nhật địa chỉ và voucher
+            buyNowItem.AddressList = addresses;
             buyNowItem.VoucherList = vouchers;
 
             return buyNowItem;
@@ -359,18 +359,18 @@ namespace API.DomainCusTomer.Services
         public async Task RemoveCartItem(string username)
         {
             var customer = await _context.Customers
-                .FirstOrDefaultAsync(c => c.UserName == username);
+              .FirstOrDefaultAsync(c => c.UserName == username);
 
             if (customer == null)
                 throw new Exception("Không tìm thấy khách hàng");
             var cart = await _context.Carts
-                .FirstOrDefaultAsync(c => c.CustomerId == customer.Id);
+              .FirstOrDefaultAsync(c => c.CustomerId == customer.Id);
 
             if (cart == null)
                 throw new Exception("Không tìm thấy giỏ hàng");
             var cartItems = await _context.CartItems
-                .Where(ci => ci.CartId == cart.Id)
-                .ToListAsync();
+              .Where(ci => ci.CartId == cart.Id)
+              .ToListAsync();
             if (cartItems.Any())
             {
                 _context.CartItems.RemoveRange(cartItems);

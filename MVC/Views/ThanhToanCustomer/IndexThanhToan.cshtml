@@ -5,6 +5,14 @@
     ViewData["Title"] = "IndexThanhToan";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
     var rawSubTotal = Model.Sum(x => x.Price * x.Quantity);
+    // ===== CẤU HÌNH URL =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257";
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    var fullApiUrl = publicApiUrl.TrimEnd('/') + "/api/";
 }
 
 <nav class="breadcrumb" aria-label="breadcrumb">
@@ -34,7 +42,7 @@
                         {
                             var a = Model[i];
                             <div class="d-flex mb-3 align-items-center">
-                                <img src="@($"https://localhost:7257/{(a.ImageUrl ?? "default1.jpg")}")"
+                                <img src="@(imageBaseUrl + (a.ImageUrl ?? "default1.jpg").TrimStart('/'))"
                                      alt="@a.Name"
                                      class="rounded img-fluid me-3"
                                      style="width: 70px; height: 70px; object-fit: cover;">
@@ -42,7 +50,7 @@
                                     <h6 class="mb-1 text-truncate">@a.Name</h6>
                                     <small class="text-muted d-block">Màu: @a.ColorName / Size: @a.SizeName</small>
                                     <p class="mb-0">SL: @a.Quantity</p>
-                                    <p>@a.Price.ToString("N0")₫</p>
+                                    <p>@a.Price.ToString("0")₫</p>
                                 </div>
                             </div>
 
@@ -55,7 +63,7 @@
                         <ul class="list-unstyled mb-3 small">
                             <li class="d-flex justify-content-between">
                                 <span>Tạm tính</span>
-                                <span>@rawSubTotal.ToString("N0")₫</span>
+                                <span>@rawSubTotal.ToString("0")₫</span>
                             </li>
                             <li class="d-flex justify-content-between text-muted">
                                 <span>Phí vận chuyển</span>
@@ -64,7 +72,7 @@
                             </li>
                             <li class="d-flex justify-content-between border-top pt-2">
                                 <strong>Tổng cộng</strong>
-                                <strong class="text-danger fs-5" id="totalAmount">@rawSubTotal.ToString("N0")₫</strong>
+                                <strong class="text-danger fs-5" id="totalAmount">@rawSubTotal.ToString("0")₫</strong>
                                 <input type="hidden" name="TotalAmount" id="TotalAmount" value="@rawSubTotal" />
                             </li>
                         </ul>
@@ -131,7 +139,7 @@
 
 @section Scripts {
     <script>
-        const apiLocalGHN = "https://localhost:7257/api/GHN/";
+        const apiLocalGHN = "@(fullApiUrl)GHN/";
         const provinceSelect = document.getElementById("province");
         const districtSelect = document.getElementById("district");
         const wardSelect = document.getElementById("ward");
@@ -140,7 +148,8 @@
         const shippingFeeInput = document.getElementById("ShippingFee");
         const totalAmountInput = document.getElementById("TotalAmount");
 
-        const subTotal = parseInt("@rawSubTotal".replace(/\./g, ''), 10);
+        // const subTotal1 = parseInt("@rawSubTotal".replace(/\./g, ''), 10);
+        const subTotal = @(rawSubTotal.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
         async function ghnGet(endpoint) {
             const res = await fetch(apiLocalGHN + endpoint);

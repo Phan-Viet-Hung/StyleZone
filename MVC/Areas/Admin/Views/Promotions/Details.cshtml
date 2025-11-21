@@ -3,7 +3,16 @@
     ViewData["Title"] = "Chi tiết chương trình khuyến mãi";
     var promo = Model.Promotion;
     string defaultImage = "/images/no-image.png";
-    string imageUrl = string.IsNullOrEmpty(promo?.ImageUrl) ? defaultImage : "https://localhost:7257" + promo.ImageUrl;
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    // ======================================
+
+    // ===== SỬA DÒNG NÀY =====
+    string imageUrl = string.IsNullOrEmpty(promo?.ImageUrl) ? defaultImage : (imageBaseUrl + promo.ImageUrl.TrimStart('/'));
 }
 
 <div class="container mt-4">
@@ -62,10 +71,11 @@
                             {
                                 dynamic? productInfo = ViewBag.ProductMap?[item.ProductDetailId.ToString()];
                                 string productName = productInfo?.Name ?? "Không rõ";
+
+                                // ===== SỬA DÒNG NÀY =====
                                 string productImage = string.IsNullOrEmpty(productInfo?.MainImageUrl)
                                 ? defaultImage
-                                : "https://localhost:7257" + productInfo.MainImageUrl;
-
+                                : (imageBaseUrl + productInfo.MainImageUrl.TrimStart('/'));
                                 <tr>
                                     <td>
                                         <img src="@productImage" width="50" height="50" style="object-fit: cover;" />

@@ -19,6 +19,12 @@
 
     var productIdStr = Model?.ProductId.ToString() ?? "";
     string selectedProductName = productList.FirstOrDefault(p => p.Value == productIdStr)?.Text ?? "Sản phẩm đã chọn";
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
 }
 
 @section Styles {
@@ -178,7 +184,9 @@
                                     {
                                         var img = Model.ExistingImages[i];
                                         <div class="image-preview">
-                                            <img src="https://localhost:7257@(img.Url)" alt="Ảnh sản phẩm" />
+
+                                            <img src="@(imageBaseUrl + img.Url.TrimStart('/'))" alt="Ảnh sản phẩm" />
+
                                             <input type="radio" name="MainImageIndex" value="@i" @(img.IsMainImage ? "checked" : "") />
                                             <input type="hidden" name="ExistingImages[@i].Id" value="@img.Id" />
                                         </div>

@@ -19,8 +19,8 @@ namespace MVC.Controllers
         public MoMoThanhtoancustomerController(IMomoService momoService, IHttpClientFactory httpClientFactory)
         {
             _momoService = momoService;
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            //_httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
         }
 
         [HttpGet]
@@ -118,7 +118,7 @@ namespace MVC.Controllers
                     TempData["ErroValidate"] = "Dữ liệu sai định dạng ";
                     return RedirectToAction("IndexMuaNgay", "ThanhToanCustomer");
                 }
-            
+
             }
 
             try
@@ -267,7 +267,7 @@ namespace MVC.Controllers
             string username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
             if (!string.IsNullOrEmpty(username))
             {
-                
+
                 return RedirectToAction("Index", "Home");
             }
 

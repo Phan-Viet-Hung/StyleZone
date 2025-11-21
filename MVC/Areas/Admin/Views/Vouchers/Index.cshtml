@@ -2,6 +2,17 @@
 @{
     ViewData["Title"] = "Danh sách mã giảm giá";
     string defaultImage = "/images/no-image.png";
+    // Đọc URL CÔNG KHAI (Public) mà trình duyệt có thể thấy
+    var publicApiUrl = Configuration["PublicApiUrl"]; 
+    
+    // URL dự phòng khi chạy local (không có Docker)
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // Cổng API local của bạn
+    }
+    
+    // Tạo URL base cho hình ảnh
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
 }
 @section Styles {
     @* <link rel="stylesheet" href="~/css/voucher.css" /> *@
@@ -89,7 +100,7 @@
                                         <tr>
                                             <td><input type="checkbox" class="rowCheckbox" value="@voucher.Id" onclick="updateSelected()" /></td>
                                             <td>
-                                                <img src="@(string.IsNullOrEmpty(voucher.ImageUrl) ? defaultImage : "https://localhost:7257" + voucher.ImageUrl)" width="50" height="50" style="object-fit: cover;" />
+                                                <img src="@(string.IsNullOrEmpty(voucher.ImageUrl) ? defaultImage : imageBaseUrl + voucher.ImageUrl.TrimStart('/'))" width="50" height="50" style="object-fit: cover;" />
                                             </td>
                                             <td>
                                                 <a asp-action="Details" asp-route-id="@voucher.Id" class="text-decoration-none text-dark">

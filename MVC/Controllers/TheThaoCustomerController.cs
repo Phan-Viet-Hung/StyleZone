@@ -4,19 +4,26 @@ using API.DomainCusTomer.Request.TheThao;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http; // Đảm bảo có using này
+using System.Threading.Tasks; // Đảm bảo có using này
 using System.Web;
 
 namespace MVC.Controllers
 {
     public class TheThaoCustomerController : Controller
     {
-        private readonly HttpClient _httpClient;
-       
-        //private readonly string 
-        public TheThaoCustomerController(HttpClient httpClient)
+        private readonly HttpClient _httpClient; // HttpClient này sẽ được lấy từ Factory
+
+        // ===== SỬA CONSTRUCTOR =====
+        // Tiêm (inject) IHttpClientFactory thay vì HttpClient
+        public TheThaoCustomerController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            // Yêu cầu Factory tạo ra client tên "ApiClient"
+            // (Client này đã được cấu hình BaseAddress trong Program.cs)
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
+        // ===========================
+
 
         // GET: TheThaoCustomer
         [HttpGet]
@@ -65,8 +72,9 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            // Tạo URL gọi API
-            var url = $"https://localhost:7257/api/TheThaoCustomer/TheThao?{query.ToString()}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            // Tạo URL gọi API (đã xóa localhost)
+            var url = $"TheThaoCustomer/TheThao?{query.ToString()}";
 
             try
             {
@@ -128,7 +136,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/TheThaoCustomer/Pickleball/?{query}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"TheThaoCustomer/Pickleball/?{query}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -180,7 +189,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/TheThaoCustomer/ChayBo/?{query}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"TheThaoCustomer/ChayBo/?{query}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -228,7 +238,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/TheThaoCustomer/TapLuyen/?{query}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"TheThaoCustomer/TapLuyen/?{query}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -276,7 +287,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/TheThaoCustomer/BongRo/?{query}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"TheThaoCustomer/BongRo/?{query}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -325,7 +337,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/TheThaoCustomer/CauLong/?{query}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"TheThaoCustomer/CauLong/?{query}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -374,7 +387,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/TheThaoCustomer/BongDa/?{query}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"TheThaoCustomer/BongDa/?{query}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -423,7 +437,8 @@ namespace MVC.Controllers
             query.Add("Page", filterRequest.Page.ToString());
             query.Add("PageSize", filterRequest.PageSize.ToString());
 
-            var url = $"https://localhost:7257/api/TheThaoCustomer/Golf/?{query}";
+            // ===== SỬA LỖI Ở ĐÂY =====
+            var url = $"TheThaoCustomer/Golf/?{query}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)

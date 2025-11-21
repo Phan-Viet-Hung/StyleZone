@@ -16,6 +16,18 @@
         new SelectListItem { Value = "Inactive", Text = "Chưa áp dụng" },
         new SelectListItem { Value = "Expired", Text = "Ngừng áp dụng" }
     };
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    var apiBaseUrl = Configuration["ApiBaseUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    if (string.IsNullOrEmpty(apiBaseUrl))
+    {
+        apiBaseUrl = "https://localhost:7257/api/"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    var fullApiUrl = apiBaseUrl.TrimEnd('/') + "/";
 }
 
 @section Styles {
@@ -120,12 +132,14 @@
                                     <input asp-for="ImageUrl" class="form-control" id="ImageUrl" />
                                     <span asp-validation-for="ImageUrl" class="text-danger small"></span>
                                 </div>
-                                <div class="mb-3 d-flex justify-content-center align-items-center">
-                                    <img id="imagePreview"
-                                         src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "" : $"https://localhost:7257{Model.ImageUrl}")"
-                                         alt="Preview"
-                                         style="max-height: 150px; border-radius:8px; @(string.IsNullOrEmpty(Model.ImageUrl) ? "display:none;" : "display:block;")" />
-                                </div>
+                            <div class="mb-3 d-flex justify-content-center align-items-center">
+
+                                <img id="imagePreview"
+                                     src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "" : (imageBaseUrl + Model.ImageUrl.TrimStart('/')))"
+                                     alt="Preview"
+                                     style="max-height: 150px; border-radius:8px; display: @(string.IsNullOrEmpty(Model.ImageUrl) ? "none" : "block");" />
+
+                            </div>
 
                             <div class="mb-3">
                                 <label asp-for="Description" class="form-label fw-semibold">Mô tả</label>
@@ -231,9 +245,10 @@
         $(document).ready(function () {
             productTable = $('#productTable').DataTable({
                 ajax: {
-                    url: `https://localhost:7257/api/product-details/available-for-promotion`,
+                    // ===== SỬA DÒNG NÀY (JavaScript) =====
+                    url: `@(fullApiUrl)product-details/available-for-promotion`,
                     data: {
-                        promotionId: '@Model.Id' // loại bỏ sản phẩm đã gán chính Promotion này
+                        promotionId: '@Model.Id'
                     },
                     dataSrc: ''
                 },

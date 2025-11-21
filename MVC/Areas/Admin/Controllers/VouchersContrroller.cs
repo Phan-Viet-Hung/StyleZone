@@ -236,28 +236,22 @@ namespace MVC.Controllers
                 return View(request);
             }
         }
-
-
-
-
-
-
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(ChangeStatusRequest request)
         {
             var a = HttpContext.Session.GetString("JWToken");
             if (string.IsNullOrEmpty(a))
                 return RedirectToAction("Login", "MVCAuth");
-            
+
             try
             {
                 var client = _httpClientFactory.CreateClient("ApiClient");
                 using var formdata = new MultipartFormDataContent
-                {
-                    { new StringContent(request.Status), nameof(request.Status) }
-                };
-                var apiUrl = $"https://localhost:7257/api/voucher/{request.Id}/change-status";
-                var response = await client.PostAsync(apiUrl, formdata);
+        {
+          { new StringContent(request.Status), nameof(request.Status) }
+        };
+                // ===== SỬA LẠI THÀNH URL TƯƠNG ĐỐI =====
+                var response = await client.PostAsync($"voucher/{request.Id}/change-status", formdata);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -277,10 +271,6 @@ namespace MVC.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BulkChangeStatus(BulkStatusChangeRequest request)

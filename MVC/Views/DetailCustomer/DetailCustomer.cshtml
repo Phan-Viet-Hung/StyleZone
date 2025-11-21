@@ -3,13 +3,22 @@
 @{
     ViewData["Title"] = "DetailCustomer";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
+    var publicApiUrl = Configuration["PublicApiUrl"]; 
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    // ===========================
+
     var imageUrls = new List<string>();
 
+    // ===== SỬA CÁC DÒNG NÀY =====
     if (!string.IsNullOrEmpty(Model.MainImageUrl))
-        imageUrls.Add("https://localhost:7257/" + Model.MainImageUrl);
+        imageUrls.Add(imageBaseUrl + Model.MainImageUrl.TrimStart('/'));
 
     if (Model.ImageUrls != null && Model.ImageUrls.Any())
-        imageUrls.AddRange(Model.ImageUrls.Select(url => "https://localhost:7257/" + url));
+        imageUrls.AddRange(Model.ImageUrls.Select(url => imageBaseUrl + url.TrimStart('/')));
 
     bool hasActivePromotion = false;
     decimal? priceBefore = null;
@@ -352,7 +361,7 @@
                     </ul>
                     <p><strong>@Model.Name</strong> @Model.ProductDescription.</p>
                     <div class="d-flex justify-content-center my-3">
-                        <img src="@($"https://localhost:7257/{(string.IsNullOrEmpty(Model.ImageUrls.FirstOrDefault())  ? "images/default.jpg": Model.ImageUrls.FirstOrDefault())}")" alt="@Model.Name" style="max-height: 350px; object-fit: contain;" class="img-fluid" />
+                        <img src="@(imageBaseUrl + (string.IsNullOrEmpty(Model.ImageUrls.FirstOrDefault()) ? "images/default.jpg" : Model.ImageUrls.FirstOrDefault()).TrimStart('/'))" alt="@Model.Name" style="max-height: 350px; object-fit: contain;" class="img-fluid" />
                     </div>
                 </div>
                 <button id="toggle-desc" class="btn-toggle-desc" aria-expanded="false">Xem thêm</button>
@@ -436,7 +445,7 @@
                         {
                             <div class="related-product-card">
                                 <a asp-action="DetailCustomer" asp-controller="DetailCustomer" asp-route-id="@a.Id" class="text-decoration-none">
-                                    <img src="@($"https://localhost:7257/{(string.IsNullOrEmpty(a.ImageUrl) ? "images/default.jpg" : a.ImageUrl)}")" />
+                                    <img src="@(imageBaseUrl + (string.IsNullOrEmpty(a.ImageUrl) ? "images/default.jpg" : a.ImageUrl).TrimStart('/'))" />
                                     <p class="related-product-name">@a.Name</p>
                                     <p class="related-product-price">@String.Format("{0:#,##0}₫", a.Price)</p>
                                 </a>

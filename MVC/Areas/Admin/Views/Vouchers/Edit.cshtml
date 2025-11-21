@@ -17,6 +17,13 @@
         new SelectListItem { Value = "Inactive", Text = "Chưa áp dụng" },
         new SelectListItem { Value = "Expired", Text = "Ngừng áp dụng" }
     };
+    // ===== THÊM KHỐI NÀY VÀO ĐẦU FILE =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
 }
 
 @section Styles {
@@ -138,9 +145,9 @@
                                 </div>
                                 <div class="col-md-6 d-flex justify-content-center">
                                     <img id="imagePreview"
-                                         src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "" : $"https://localhost:7257{Model.ImageUrl}")"
+                                         src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "" : (imageBaseUrl + Model.ImageUrl.TrimStart('/')))"
                                          alt="Preview"
-                                         style="max-height: 150px; border-radius:8px; @(string.IsNullOrEmpty(Model.ImageUrl) ? "display:none;" : "display:block;")" />
+                                         style="max-height: 150px; border-radius:8px; display: @(string.IsNullOrEmpty(Model.ImageUrl) ? "none" : "block");" />
                                 </div>
                             </div>
                             <div class="col-md-6" hidden>
@@ -186,7 +193,7 @@
             document.getElementById("Code").value = code;
         }
 
-        const defaultImage = "https://localhost:7257" + "@Model.ImageUrl";
+        const defaultImage = "@(imageBaseUrl + (Model.ImageUrl ?? "").TrimStart('/'))";
 
         function previewImage(input) {
             const fileInput = document.getElementById("ImageFileInput");

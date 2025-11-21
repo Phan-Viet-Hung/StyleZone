@@ -14,8 +14,8 @@ namespace MVC.Controllers
 
         public CartCustomerController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            //_httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
@@ -86,7 +86,7 @@ namespace MVC.Controllers
         public async Task<IActionResult> CartCustomerIndex()
         {
             //const string CookieCartKey = "CustomerCart";
-          string  username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
+            string username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (!string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
@@ -120,7 +120,7 @@ namespace MVC.Controllers
             // B3: Đồng bộ dữ liệu từ API với cookie
             foreach (var item in apiCart)
             {
-                if (item.Quantity == 0 )
+                if (item.Quantity == 0)
                     continue;
 
                 var existing = existingCart.FirstOrDefault(x => x.ProductDetailcode == item.ProductDetailcode);
@@ -132,7 +132,7 @@ namespace MVC.Controllers
                     existing.Amount = existing.Price * existing.Quantity;
                 }
                 else
-                        {
+                {
                     // Thêm sản phẩm mới, giữ nguyên số lượng từ item
                     existingCart.Add(item);
                 }
@@ -237,8 +237,8 @@ namespace MVC.Controllers
             return RedirectToAction("CartCustomerIndex");
         }
 
-     
-     
+
+
 
         [HttpGet]
         public async Task<IActionResult> RemoveFromCartCustomer(string ProductDetailcode)
@@ -293,7 +293,7 @@ namespace MVC.Controllers
 
             var response = await _httpClient.GetAsync($"CartCustomer/increase?ProductDetailcode={ProductDetailcode}");
             var updatedItemsJson = await response.Content.ReadAsStringAsync();
-            
+
 
             List<CartCustomerDto> updatedItems;
             try

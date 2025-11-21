@@ -3,13 +3,22 @@
 
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    // ======================================
+
     var imageUrls = new List<string>();
 
+    // ===== SỬA CÁC DÒNG NÀY =====
     if (!string.IsNullOrEmpty(Model.MainImageUrl))
-        imageUrls.Add("https://localhost:7257" + Model.MainImageUrl);
+        imageUrls.Add(imageBaseUrl + Model.MainImageUrl.TrimStart('/'));
 
     if (Model.ImageUrls != null && Model.ImageUrls.Any())
-        imageUrls.AddRange(Model.ImageUrls.Select(url => "https://localhost:7257" + url));
+        imageUrls.AddRange(Model.ImageUrls.Select(url => imageBaseUrl + url.TrimStart('/')));
 }
 
 @section Styles {

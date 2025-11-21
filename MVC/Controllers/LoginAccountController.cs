@@ -13,6 +13,12 @@ using API.DomainCusTomer.Request.LoginAccountCustomerRequest;
 using DAL_Empty.Models;
 using API.DomainCusTomer.Request.Cast;
 using API.DomainCusTomer.DTOs.CartICustomer;
+using System;                   // Thêm using
+using System.Linq;              // Thêm using
+using System.Net.Http;          // Thêm using
+using System.Net.Http.Json;     // Thêm using
+using System.Threading.Tasks;   // Thêm using
+using System.Collections.Generic; // Thêm using
 
 namespace MVC.Controllers
 {
@@ -20,22 +26,27 @@ namespace MVC.Controllers
     {
         private readonly HttpClient _httpClient;
         private const string CookieCartKey = "CustomerCart";
-        public LoginAccountController(HttpClient httpClient)
+
+        // ===== SỬA CONSTRUCTOR =====
+        public LoginAccountController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
+            // 1. Sử dụng client "ApiClient" đã được cấu hình trong Program.cs
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+
+            // 2. Xóa bỏ dòng gán "localhost"
+            // _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
         }
+        // ===========================
 
         // ========== SEND OTP FOR PASSWORD RESET ==========
         [HttpGet]
         public IActionResult SendOtp()
         {
             var username = HttpContext.Request.Cookies["UserName"]
-                ?? HttpContext.Request.Cookies["LoginMethod"];
+                  ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (!string.IsNullOrEmpty(username))
             {
-                // Người dùng đã đăng nhập --> chuyển về trang chính
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -50,24 +61,31 @@ namespace MVC.Controllers
                 return View();
             }
 
-            var response = await _httpClient.PostAsync($"LoginAccountCustomer/send-otp?email={email}", null);
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                ViewBag.OtpMessage = "Không thể gửi OTP. Vui lòng thử lại.";
+                // URL tương đối
+                var response = await _httpClient.PostAsync($"LoginAccountCustomer/send-otp?email={email}", null);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (responseContent.Contains("Tài khoản chưa tồn tại"))
+                    {
+                        ViewBag.OtpMessage = "Email chưa tồn tại trong hệ thống.";
+                        return View();
+                    }
+                    ViewBag.OtpMessage = "Không thể gửi OTP. Vui lòng thử lại.";
+                    return View();
+                }
+
+                HttpContext.Session.SetString("EmailForgot", email);
+                return RedirectToAction("ConfirmOtpp", "LoginAccount");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.OtpMessage = $"Lỗi kết nối API: {ex.Message}";
                 return View();
             }
-
-            if (responseContent.Contains("Tài khoản chưa tồn tại"))
-            {
-                ViewBag.OtpMessage = "Email chưa tồn tại trong hệ thống.";
-                return View();
-            }
-
-            // Lưu Email vào Session
-            HttpContext.Session.SetString("EmailForgot", email);
-            return RedirectToAction("ConfirmOtpp", "LoginAccount");
         }
 
         [HttpGet]
@@ -102,19 +120,28 @@ namespace MVC.Controllers
                 return View();
             }
 
-            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("LoginAccountCustomer/OTP", content);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                ViewBag.ConfirmOtpp = "Mã OTP không đúng";
+                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                // URL tương đối
+                var response = await _httpClient.PostAsync("LoginAccountCustomer/OTP", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.ConfirmOtpp = "Mã OTP không đúng";
+                    ViewBag.Email = email;
+                    return View();
+                }
+
+                HttpContext.Session.SetString("OtpForgot", model.OTP);
+                return RedirectToAction("ResetPassword", "LoginAccount");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ConfirmOtpp = $"Lỗi kết nối API: {ex.Message}";
                 ViewBag.Email = email;
                 return View();
             }
-
-            // Lưu OTP vào Session
-            HttpContext.Session.SetString("OtpForgot", model.OTP);
-            return RedirectToAction("ResetPassword", "LoginAccount");
         }
 
         [HttpGet]
@@ -160,26 +187,35 @@ namespace MVC.Controllers
                 return View(request);
             }
 
-            var json = JsonConvert.SerializeObject(request);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("LoginAccountCustomer/reset-password", content);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var apiResult = await response.Content.ReadAsStringAsync();
-                ViewBag.Error = "Đổi mật khẩu thất bại. Chi tiết: " + apiResult;
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // URL tương đối
+                var response = await _httpClient.PostAsync("LoginAccountCustomer/reset-password", content);
 
+                if (!response.IsSuccessStatusCode)
+                {
+                    var apiResult = await response.Content.ReadAsStringAsync();
+                    ViewBag.Error = "Đổi mật khẩu thất bại. Chi tiết: " + apiResult;
+                    ViewBag.Email = email;
+                    ViewBag.Otp = otp;
+                    return View(request);
+                }
+
+                HttpContext.Session.Remove("EmailForgot");
+                HttpContext.Session.Remove("OtpForgot");
+                TempData["Message"] = "Đổi mật khẩu thành công.";
+
+                return RedirectToAction("Login", "LoginAccount");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi kết nối API: {ex.Message}";
                 ViewBag.Email = email;
                 ViewBag.Otp = otp;
                 return View(request);
             }
-
-            // Xóa session sau khi thành công
-            HttpContext.Session.Remove("EmailForgot");
-            HttpContext.Session.Remove("OtpForgot");
-            TempData["Message"] = "Đổi mật khẩu thành công.";
-
-            return RedirectToAction("Login", "LoginAccount");
         }
 
 
@@ -188,11 +224,10 @@ namespace MVC.Controllers
         public IActionResult SendOtppRegister()
         {
             var username = HttpContext.Request.Cookies["UserName"]
-                ?? HttpContext.Request.Cookies["LoginMethod"];
+                  ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (!string.IsNullOrEmpty(username))
             {
-
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -207,24 +242,31 @@ namespace MVC.Controllers
                 return View();
             }
 
-            var response = await _httpClient.PostAsync($"LoginAccountCustomer/send-otpRegister?email={email}", null);
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                ViewBag.OtpMessage = "Không thể gửi OTP. Vui lòng thử lại.";
+                // URL tương đối
+                var response = await _httpClient.PostAsync($"LoginAccountCustomer/send-otpRegister?email={email}", null);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (responseContent.Contains("Tài khoản đã tồn tại"))
+                    {
+                        ViewBag.OtpMessage = "Email đã tồn tại trong hệ thống.";
+                        return View();
+                    }
+                    ViewBag.OtpMessage = "Không thể gửi OTP. Vui lòng thử lại.";
+                    return View();
+                }
+
+                HttpContext.Session.SetString("EmailRegister", email);
+                return RedirectToAction("ConfirmOtppRegister", "LoginAccount");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.OtpMessage = $"Lỗi kết nối API: {ex.Message}";
                 return View();
             }
-
-            if (responseContent.Contains("Tài khoản đã tồn tại"))
-            {
-                ViewBag.OtpMessage = "Email đã tồn tại trong hệ thống.";
-                return View();
-            }
-
-            // Lưu Email vào Session
-            HttpContext.Session.SetString("EmailRegister", email);
-            return RedirectToAction("ConfirmOtppRegister", "LoginAccount");
         }
 
         [HttpGet]
@@ -259,19 +301,28 @@ namespace MVC.Controllers
                 return View();
             }
 
-            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("LoginAccountCustomer/OTP", content);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                ViewBag.ConfirmOtpp = "Mã OTP không đúng";
+                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                // URL tương đối
+                var response = await _httpClient.PostAsync("LoginAccountCustomer/OTP", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.ConfirmOtpp = "Mã OTP không đúng";
+                    ViewBag.Email1 = email;
+                    return View();
+                }
+
+                HttpContext.Session.SetString("OtpVerified", model.OTP);
+                return RedirectToAction("Register", "LoginAccount");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ConfirmOtpp = $"Lỗi kết nối API: {ex.Message}";
                 ViewBag.Email1 = email;
                 return View();
             }
-
-            // Lưu OTP vào Session
-            HttpContext.Session.SetString("OtpVerified", model.OTP);
-            return RedirectToAction("Register", "LoginAccount");
         }
 
         [HttpGet]
@@ -291,7 +342,6 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisteCustomerRequest request)
         {
-            // Gán Email và Otp từ Session
             request.Email = HttpContext.Session.GetString("EmailRegister") ?? string.Empty;
             request.Otp = HttpContext.Session.GetString("OtpVerified") ?? string.Empty;
 
@@ -313,26 +363,35 @@ namespace MVC.Controllers
                 return View(request);
             }
 
-            var json = JsonConvert.SerializeObject(request);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("LoginAccountCustomer/register", content);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var apiResult = await response.Content.ReadAsStringAsync();
-                ViewBag.Error = "Đăng ký thất bại hoặc email đã tồn tại. Chi tiết: " + apiResult;
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // URL tương đối
+                var response = await _httpClient.PostAsync("LoginAccountCustomer/register", content);
 
+                if (!response.IsSuccessStatusCode)
+                {
+                    var apiResult = await response.Content.ReadAsStringAsync();
+                    ViewBag.Error = "Đăng ký thất bại hoặc email đã tồn tại. Chi tiết: " + apiResult;
+                    ViewBag.Email1 = request.Email;
+                    ViewBag.Otp1 = request.Otp;
+                    return View(request);
+                }
+
+                HttpContext.Session.Remove("EmailRegister");
+                HttpContext.Session.Remove("OtpVerified");
+                TempData["Message"] = "Đăng ký thành công. Vui lòng đăng nhập.";
+
+                return RedirectToAction("Login", "LoginAccount");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi kết nối API: {ex.Message}";
                 ViewBag.Email1 = request.Email;
                 ViewBag.Otp1 = request.Otp;
                 return View(request);
             }
-
-            // Đăng ký thành công -> Clear session
-            HttpContext.Session.Remove("EmailRegister");
-            HttpContext.Session.Remove("OtpVerified");
-            TempData["Message"] = "Đăng ký thành công. Vui lòng đăng nhập.";
-
-            return RedirectToAction("Login", "LoginAccount");
         }
 
 
@@ -344,25 +403,21 @@ namespace MVC.Controllers
 
             try
             {
-                // 1. Deserialize cookie thành DTO
                 var guestCartDto = JsonConvert.DeserializeObject<List<CartCustomerDto>>(guestCartJson) ?? new();
-
                 if (!guestCartDto.Any())
                     return;
 
-                // 2. Map sang request model
                 var requests = guestCartDto.Select(x => new CartCustomerRequest
                 {
                     ProductDetailcode = x.ProductDetailcode,
                     Quantity = x.Quantity > 0 ? x.Quantity : 1
                 }).ToList();
 
-                // 3. Gửi API merge
+                // URL tương đối
                 var response = await _httpClient.PostAsJsonAsync($"CartCustomerID/merge/{username}", requests);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // 4. Xóa cookie nếu merge thành công
                     Response.Cookies.Delete(CookieCartKey);
                     Console.WriteLine("Merge cart thành công và đã xóa cookie.");
                 }
@@ -385,7 +440,7 @@ namespace MVC.Controllers
         public IActionResult Login()
         {
             var username = HttpContext.Request.Cookies["UserName"]
-                ?? HttpContext.Request.Cookies["LoginMethod"];
+                  ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (!string.IsNullOrEmpty(username))
             {
@@ -397,26 +452,36 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginnCustomerRequest request)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("LoginAccountCustomer/login", content);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var errorMsg = await response.Content.ReadAsStringAsync();
-                ViewBag.Error = errorMsg;
+                var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                // URL tương đối
+                var response = await _httpClient.PostAsync("LoginAccountCustomer/login", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    ViewBag.Error = errorMsg;
+                    return View(request);
+                }
+
+                HttpContext.Response.Cookies.Append("UserName", request.UserName ?? string.Empty, new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddDays(7),
+                    HttpOnly = false,
+                    Secure = true,
+                    SameSite = SameSiteMode.Lax
+                });
+
+                await MergeGuestCart(request.UserName);
+                TempData["Message"] = "Đăng nhập thành công";
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Lỗi kết nối API: {ex.Message}";
                 return View(request);
             }
-            HttpContext.Response.Cookies.Append("UserName", request.UserName ?? string.Empty, new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddDays(7),
-                HttpOnly = false,
-                Secure = true,
-                SameSite = SameSiteMode.Lax
-            });
-
-            await MergeGuestCart(request.UserName);
-            TempData["Message"] = "Đăng nhập thành công";
-            return RedirectToAction("Index", "Home");
         }
 
         public async Task LoginByGoogle()
@@ -432,7 +497,7 @@ namespace MVC.Controllers
         public async Task<IActionResult> GoogleResponse()
         {
             var username = HttpContext.Request.Cookies["UserName"]
-               ?? HttpContext.Request.Cookies["LoginMethod"];
+                  ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (!string.IsNullOrEmpty(username))
             {
@@ -464,11 +529,11 @@ namespace MVC.Controllers
 
             try
             {
+                // URL tương đối
                 var response = await _httpClient.PostAsJsonAsync("LoginAccountCustomer/LoginGoole", request);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // ✅ chỉ set cookie khi login Google thành công
                     HttpContext.Response.Cookies.Append("LoginMethod", request.UserName, new CookieOptions
                     {
                         Expires = DateTimeOffset.UtcNow.AddDays(7),
@@ -520,7 +585,6 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
-            // Xóa các cookies mà bạn đã lưu khi login
             if (Request.Cookies.ContainsKey("UserName"))
                 Response.Cookies.Delete("UserName");
 

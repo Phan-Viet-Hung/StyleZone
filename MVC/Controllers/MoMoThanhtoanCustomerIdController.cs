@@ -5,29 +5,48 @@ using API.DomainCusTomer.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
+using System; // Thêm using
+using System.Collections.Generic; // Thêm using
+using System.Linq; // Thêm using
+using System.Net.Http; // Thêm using
+using System.Net.Http.Headers; // Thêm using
+using System.Net.Http.Json; // Thêm using
+using System.Threading.Tasks; // Thêm using
+using Microsoft.AspNetCore.Http; // Thêm using
+using Newtonsoft.Json; // Thêm using (vì bạn đang dùng cả hai)
+
 namespace MVC.Controllers
 {
     public class MoMoThanhtoanCustomerIdController : Controller
     {
         private readonly IMomoCustomerIdServices _momoService;
         private readonly HttpClient _httpClient;
+
+        // ===== SỬA CONSTRUCTOR =====
         public MoMoThanhtoanCustomerIdController(IMomoCustomerIdServices momoService, IHttpClientFactory httpClientFactory)
         {
             _momoService = momoService;
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
+            // 1. Sử dụng client "ApiClient" đã được cấu hình trong Program.cs
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+
+            // 2. Xóa bỏ các dòng gán "localhost" và header (đã được cấu hình trong factory)
+            // _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
+            // _httpClient.DefaultRequestHeaders.Accept.Add(
+            //     new MediaTypeWithQualityHeaderValue("application/json"));
         }
+        // ===========================
+
         [HttpGet]
         public async Task<IActionResult> PaymentCallBackId()
         {
             var username = HttpContext.Request.Cookies["UserName"]
-              ?? HttpContext.Request.Cookies["LoginMethod"];
+                  ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (string.IsNullOrEmpty(username))
             {
                 return RedirectToAction("Index", "Home");
             }
-           
+
             Console.WriteLine("== MoMo CALLBACK ==\n" + string.Join("\n", Request.Query.Select(q => $"{q.Key} = {q.Value}")));
 
             if (!_momoService.ValidateSignature(Request.Query))
@@ -35,57 +54,58 @@ namespace MVC.Controllers
 
             var result = _momoService.PaymentExecuteAsync(Request.Query);
             var jsonData = HttpContext.Session.GetString("MomoOrder");
-            var order = JsonSerializer.Deserialize<OrderCustomerIdDto>(jsonData);
-            if (result.ErrorCode == "0")
+
+            // Thêm kiểm tra null cho jsonData ngay lập tức
+            if (string.IsNullOrEmpty(jsonData))
+                return BadRequest("Không tìm thấy dữ liệu đơn hàng trong session");
+
+            var order = System.Text.Json.JsonSerializer.Deserialize<OrderCustomerIdDto>(jsonData);
+
+            if (result.ErrorCode == "0") // Thanh toán MoMo thành công
             {
-
-                if (string.IsNullOrEmpty(jsonData))
-                    return BadRequest("Không tìm thấy dữ liệu đơn hàng trong session");
-
-                var content = new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync($"ThanhToanCustomerId/create-by-customer-id?username={username}", content);
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    if (order.IsFromCart == true)
+                    var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
+
+                    // URL tương đối
+                    var response = await _httpClient.PostAsync($"ThanhToanCustomerId/create-by-customer-id?username={username}", content);
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        var responseremove = await _httpClient.DeleteAsync($"ThanhToanCustomerId/remove-all/{username}");
-
-                        if (responseremove.IsSuccessStatusCode)
+                        if (order.IsFromCart == true)
                         {
-                            var resultremover = await responseremove.Content.ReadFromJsonAsync<dynamic>();
-                            return RedirectToAction("ListDonHangPending", "DonMuaCustomer");
-                        }
-                        else
-                        {
-                            var error = await response.Content.ReadFromJsonAsync<dynamic>();
+                            // URL tương đối
+                            var responseremove = await _httpClient.DeleteAsync($"ThanhToanCustomerId/remove-all/{username}");
 
+                            if (!responseremove.IsSuccessStatusCode)
+                            {
+                                // Ghi log lỗi xóa giỏ hàng nhưng vẫn tiếp tục vì đơn hàng đã thành công
+                                var error = await responseremove.Content.ReadAsStringAsync();
+                                Console.WriteLine($"Lỗi khi xóa giỏ hàng sau khi thanh toán MoMo: {error}");
+                            }
                         }
                         TempData["SuccessMessage"] = "Đặt hàng thành công qua MoMo!";
                         return RedirectToAction("ListDonHangPending", "DonMuaCustomer");
                     }
-                    else
+                    else // Lỗi khi tạo đơn hàng (dù MoMo đã trừ tiền)
                     {
-                        TempData["Error"] = "Đặt hàng thất bại !";
-                        return RedirectToAction("ListDonHangPending", "DonMuaCustomer");
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(errorContent);
+                        string errorMessage = json != null && json.ContainsKey("message") ? json["message"] : "Lỗi không xác định";
+
+                        TempData["Errormomothanhtoan"] = errorMessage + ". Vui lòng liên hệ cửa hàng để được nhận lại tiền.";
+                        return RedirectToAction("Index", "Home");
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    var json = JsonSerializer.Deserialize<Dictionary<string, string>>(errorContent);
-                    string errorMessage = json != null && json.ContainsKey("message") ? json["message"] : "";
-
-                    TempData["Errormomothanhtoan"] = errorMessage + ". Vui lòng liên hệ cửa hàng để được nhận lại tiền.";
-
+                    TempData["Errormomothanhtoan"] = $"Lỗi hệ thống sau khi thanh toán: {ex.Message}. Vui lòng liên hệ cửa hàng.";
                     return RedirectToAction("Index", "Home");
                 }
             }
-            else
+            else // Thanh toán MoMo thất bại
             {
-                //return RedirectToAction("Index", "Home");
-                //return Content($"Thanh toán thất bại. Mã lỗi: {result.ErrorCode} - {result.Message}");
-
+                TempData["Error"] = $"Thanh toán thất bại. Mã lỗi: {result.ErrorCode} - {result.Message}";
                 if (order.IsFromCart == false)
                 {
                     return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId");
@@ -102,33 +122,37 @@ namespace MVC.Controllers
         {
             // Lấy username từ cookie
             username = HttpContext.Request.Cookies["UserName"]
-                       ?? HttpContext.Request.Cookies["LoginMethod"];
+                            ?? HttpContext.Request.Cookies["LoginMethod"];
 
             if (string.IsNullOrEmpty(username))
             {
                 return RedirectToAction("Index", "Home");
             }
-            var accountResponse = await _httpClient.GetAsync($"LoginAccountCustomer/check-active/{username}");
-            if (!accountResponse.IsSuccessStatusCode)
+
+            try
             {
-               
+                // URL tương đối
+                var accountResponse = await _httpClient.GetAsync($"LoginAccountCustomer/check-active/{username}");
+                if (!accountResponse.IsSuccessStatusCode)
+                {
                     Response.Cookies.Delete("UserName");
                     Response.Cookies.Delete("LoginMethod");
                     return RedirectToAction("Index", "Home");
-             
-            }
-            if (request.ShippingFee == 0)
-            {
-                TempData["MessageDiaChi"] = "Vui lòng chọn địa chỉ";
-                return RedirectToAction("ListCartthanhtoanId", "ThanhToanCustomerId");
-            }
-            try
-            {
+                }
+
+                if (request.ShippingFee == 0)
+                {
+                    TempData["MessageDiaChi"] = "Vui lòng chọn địa chỉ";
+                    if (request.IsFromCart == true)
+                        return RedirectToAction("ListCartthanhtoanId", "ThanhToanCustomerId");
+                    else
+                        return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId");
+                }
+
                 // ==== Thanh toán Momo ====
                 if (request.PaymentMethodCode == "momo")
                 {
-
-                    HttpContext.Session.SetString("MomoOrder", JsonSerializer.Serialize(request));
+                    HttpContext.Session.SetString("MomoOrder", System.Text.Json.JsonSerializer.Serialize(request));
 
                     var paymentResponse = await _momoService.CreatePaymentAsync(new OrderInfoModel
                     {
@@ -144,15 +168,17 @@ namespace MVC.Controllers
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Không nhận được PayUrl từ MoMo.");
-                        return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId",request);
+                        if (request.IsFromCart == true)
+                            return RedirectToAction("ListCartthanhtoanId", "ThanhToanCustomerId", request);
+                        else
+                            return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId", request);
                     }
-
-
                 }
 
                 // ==== Thanh toán COD ====
                 if (request.PaymentMethodCode == "cod")
                 {
+                    // URL tương đối
                     var response = await _httpClient.PostAsJsonAsync(
                         $"ThanhToanCustomerId/create-by-customer-id?username={username}",
                         request
@@ -161,54 +187,46 @@ namespace MVC.Controllers
                     if (!response.IsSuccessStatusCode)
                     {
                         var errorContent = await response.Content.ReadAsStringAsync();
-                        var json = JsonSerializer.Deserialize<Dictionary<string, string>>(errorContent);
-                        string errorMessage = json != null && json.ContainsKey("message") ? json["message"] : "";
+                        var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(errorContent);
+                        string errorMessage = json != null && json.ContainsKey("message") ? json["message"] : "Lỗi không xác định";
 
                         TempData["ErroaccountId"] = errorMessage;
-                        return RedirectToAction("ListCartthanhtoanId", "ThanhToanCustomerId", request);
+                        if (request.IsFromCart == true)
+                            return RedirectToAction("ListCartthanhtoanId", "ThanhToanCustomerId", request);
+                        else
+                            return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId", request);
                     }
 
                     // Nếu đơn được tạo từ giỏ hàng thì xóa giỏ hàng
                     if (request.IsFromCart == true)
                     {
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            var errorContent = await response.Content.ReadAsStringAsync();
-                            var json = JsonSerializer.Deserialize<Dictionary<string, string>>(errorContent);
-                            string errorMessage = json != null && json.ContainsKey("message") ? json["message"] : "";
-
-                            TempData["ErroaccountId"] = errorMessage;
-                            return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId", request);
-                        }
+                        // URL tương đối
                         var removeCartResponse = await _httpClient.DeleteAsync($"ThanhToanCustomerId/remove-all/{username}");
                         if (removeCartResponse.IsSuccessStatusCode)
                         {
                             var result = await removeCartResponse.Content.ReadFromJsonAsync<dynamic>();
                             TempData["Message"] = result?.message ?? "Xóa thành công";
-                            TempData["SuccessMessage"] = "Đặt hàng thành công!";
-                            return RedirectToAction("ListDonHangPending", "DonMuaCustomer");
                         }
                     }
+                    TempData["SuccessMessage"] = "Đặt hàng thành công!";
                     return RedirectToAction("ListDonHangPending", "DonMuaCustomer");
                 }
+
                 ModelState.AddModelError(string.Empty, "Phương thức thanh toán không hợp lệ.");
-                return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId", request);
+                if (request.IsFromCart == true)
+                    return RedirectToAction("ListCartthanhtoanId", "ThanhToanCustomerId", request);
+                else
+                    return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId", request);
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError(string.Empty, $"Đã xảy ra lỗi không mong muốn: {ex.Message}");
                 if (request.IsFromCart == true)
-                {
-                    return RedirectToAction("ListDonHangPending", "DonMuaCustomer");
-                }
+                    return RedirectToAction("ListCartthanhtoanId", "ThanhToanCustomerId", request);
                 else
-                {
-                    ModelState.AddModelError(string.Empty, $"Đã xảy ra lỗi không mong muốn: {ex.Message}");
                     return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId", request);
-                }
-
             }
         }
-
 
         [HttpPost]
         public IActionResult MomoNotifyId([FromForm] IFormCollection collection)

@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Json; // Thêm using
+using System.Threading.Tasks; // Thêm using
+using System; // Thêm using
 
 namespace MVC.Controllers
 {
@@ -11,11 +14,16 @@ namespace MVC.Controllers
     {
         private readonly HttpClient _httpClient;
 
-        //private readonly string 
-        public DetailCustomerController(HttpClient httpClient)
+        // ===== SỬA CONSTRUCTOR =====
+        // Tiêm (inject) IHttpClientFactory
+        public DetailCustomerController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            // Yêu cầu Factory tạo ra client tên "ApiClient"
+            // (Client này đã được cấu hình BaseAddress trong Program.cs của MVC)
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
+        // ===========================
+
         // GET: DetailCustomerController
         public ActionResult Index()
         {
@@ -26,34 +34,59 @@ namespace MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> DetailCustomer(Guid id)
         {
-            var response = await _httpClient.GetAsync($"https://localhost:7257/api/DetailCustomer/{id}");
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return NotFound();
+                // ===== SỬA URL =====
+                // Sử dụng URL tương đối
+                var response = await _httpClient.GetAsync($"DetailCustomer/{id}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return NotFound();
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var productDetail = JsonConvert.DeserializeObject<DetailCustomerDto>(json);
+
+                if (productDetail == null)
+                {
+                    return NotFound();
+                }
+                return View(productDetail);
             }
-            var json = await response.Content.ReadAsStringAsync();
-            var productDetail = JsonConvert.DeserializeObject<DetailCustomerDto>(json);
-            if (productDetail == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
             }
-            return View(productDetail);
         }
+
         [HttpGet]
         public async Task<IActionResult> DetailCustomerID(Guid id)
         {
-            var response = await _httpClient.GetAsync($"https://localhost:7257/api/DetailCustomer/{id}");
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return NotFound();
+                // ===== SỬA URL =====
+                // Sử dụng URL tương đối
+                var response = await _httpClient.GetAsync($"DetailCustomer/{id}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return NotFound();
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var productDetail = JsonConvert.DeserializeObject<DetailCustomerDto>(json);
+
+                if (productDetail == null)
+                {
+                    return NotFound();
+                }
+                return View(productDetail);
             }
-            var json = await response.Content.ReadAsStringAsync();
-            var productDetail = JsonConvert.DeserializeObject<DetailCustomerDto>(json);
-            if (productDetail == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
             }
-            return View(productDetail);
         }
     }
 }

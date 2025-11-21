@@ -3,8 +3,14 @@
 @{
     ViewData["Title"] = "IndexMuaNgay";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
-
-
+    // ===== CẤU HÌNH URL =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257";
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
+    var fullApiUrl = publicApiUrl.TrimEnd('/') + "/api/";
 }
 
 
@@ -25,21 +31,20 @@
         }
         <!-- Tóm tắt đơn hàng -->
         <form asp-action="CreateGuestOrder" asp-controller="MoMoThanhtoancustomer" class="row g-3 flex-column flex-lg-row-reverse">
-            
+
             <div class="col-12 col-lg-5">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h2 class="h6 h-lg-5 mb-3 text-center text-lg-start">Tóm tắt đơn hàng</h2>
                         <div class="d-flex mb-3 align-items-center">
-                            <img src="@($"https://localhost:7257/{(Model.ImageUrl ?? "default1.jpg")}")" alt="@Model.Name"
+                            <img src="@(imageBaseUrl + (Model.ImageUrl ?? "default1.jpg").TrimStart('/'))" alt="@Model.Name"
                                  class="rounded img-fluid me-3 d-block d-sm-inline"
                                  style="width: 70px; height: 70px; object-fit: cover;">
-                           
                             <div class="flex-grow-1 small">
                                 <h6 class="mb-1 text-truncate">@Model.Name</h6>
                                 <small class="text-muted d-block">Màu: @Model.ColorName / Size: @Model.SizeName</small>
                                 <p class="mb-0">Số lượng: @Model.Quantity</p>
-                                <p>@Model.Price.ToString("N0")₫</p>
+                                <p>@Model.Price.ToString("0")₫</p>
                             </div>
                         </div>
                         <input type="hidden" name="OrderItems[0].ProductDetailId" value="@Model.ProductDetailId" />
@@ -49,7 +54,7 @@
                         <input type="hidden" name="IsFromCart" value="false" />
 
                         <!-- Mã giảm giá -->
-                       @*  <div class="input-group mb-3">
+                        @*  <div class="input-group mb-3">
                             <input type="text" class="form-control form-control-sm" placeholder="Mã giảm giá" />
                             <button class="btn btn-secondary btn-sm" disabled>Áp dụng</button>
                         </div> *@
@@ -58,7 +63,7 @@
                         <ul class="list-unstyled mb-3 small">
                             <li class="d-flex justify-content-between">
                                 <span>Tạm tính</span>
-                                <span>@Model.Total.ToString("N0")₫</span>
+                                <span>@Model.Total.ToString("0")₫</span>
                             </li>
                             <li class="d-flex justify-content-between text-muted" id="shippingFeeRow">
                                 <span>Phí vận chuyển</span>
@@ -67,8 +72,8 @@
                             </li>
                             <li class="d-flex justify-content-between border-top pt-2">
                                 <strong>Tổng cộng</strong>
-                                <strong class="text-danger fs-5" id="totalAmount">@Model.Total.ToString("N0")₫</strong>
-                                <input type="hidden" name="TotalAmount" id="TotalAmount" value="@Model.Total.ToString("N0")₫" />
+                                <strong class="text-danger fs-5" id="totalAmount">@Model.Total.ToString("0")₫</strong>
+                                <input type="hidden" name="TotalAmount" id="TotalAmount" value="@Model.Total.ToString("0")₫" />
                             </li>
                         </ul>
                     </div>
@@ -103,7 +108,7 @@
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <select  class="form-select form-select-sm" id="ward" required disabled>
+                                    <select class="form-select form-select-sm" id="ward" required disabled>
                                         <option value="">Phường / xã</option>
                                     </select>
                                 </div>
@@ -148,7 +153,7 @@
 
 @section Scripts {
     <script>
-        const apiLocalGHN = "https://localhost:7257/api/GHN/";
+        const apiLocalGHN = "@(fullApiUrl)GHN/";
         const provinceSelect = document.getElementById("province");
         const districtSelect = document.getElementById("district");
         const wardSelect = document.getElementById("ward");
@@ -157,38 +162,33 @@
         const shippingFeeInput = document.getElementById("ShippingFee");
         const totalAmountInput = document.getElementById("TotalAmount");
 
-        // Tổng giá trị ban đầu (tạm tính)
-        const subTotal = parseInt("@Model.Total".replace(/\./g, ''), 10);
-        let serviceId = 53320; // Service mặc định GHN
+        // ĐÂY LÀ ĐOẠN GÂY LỖI TÍNH TIỀN (nhưng GHN chạy được)
+        const subTotal = @(Model.Total.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        let serviceId = 53320;
 
-        // ----------------- API Helper -----------------
-        async function ghnGet(endpoint) {
-            const res = await fetch(apiLocalGHN + endpoint);
-            if (!res.ok) {
-                console.error("API Error:", res.status, await res.text());
-                return [];
+        // --- API ---
+            async function ghnGet(endpoint) {
+                try {
+                    const res = await fetch(apiLocalGHN + endpoint);
+                    return res.ok ? res.json() : [];
+                } catch { return []; }
             }
-            return await res.json();
-        }
 
-        async function ghnPost(endpoint, body) {
-            const res = await fetch(apiLocalGHN + endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body)
-            });
-            if (!res.ok) {
-                console.error("API Error:", res.status, await res.text());
-                return [];
+            async function ghnPost(endpoint, body) {
+                try {
+                    const res = await fetch(apiLocalGHN + endpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(body)
+                    });
+                    return res.ok ? res.json() : [];
+                } catch { return []; }
             }
-            return await res.json();
-        }
 
         // ----------------- Load Provinces -----------------
         async function loadProvinces() {
             const provinces = await ghnGet("provinces");
             provinceSelect.innerHTML = '<option value="">Tỉnh / thành</option>';
-            if (!provinces || provinces.length === 0) return;
             provinces.forEach(p => {
                 provinceSelect.innerHTML += `<option value="${p.ProvinceID}">${p.ProvinceName}</option>`;
             });
@@ -203,10 +203,6 @@
                 districtSelect.innerHTML += `<option value="${d.DistrictID}">${d.DistrictName}</option>`;
             });
             districtSelect.disabled = false;
-            wardSelect.innerHTML = '<option value="">Phường / xã</option>';
-            wardSelect.disabled = true;
-
-            // Cập nhật input hidden cho tỉnh
             document.getElementById("Province").value = provinceSelect.options[provinceSelect.selectedIndex].text;
         });
 
@@ -219,16 +215,12 @@
                 wardSelect.innerHTML += `<option value="${w.WardCode}">${w.WardName}</option>`;
             });
             wardSelect.disabled = false;
-
-            // Cập nhật input hidden cho quận
             document.getElementById("District").value = districtSelect.options[districtSelect.selectedIndex].text;
         });
 
         wardSelect.addEventListener("change", async () => {
             if (districtSelect.value && wardSelect.value) {
                 await getServiceIdAndCalculateFee();
-
-                // Cập nhật input hidden cho phường
                 document.getElementById("Ward").value = wardSelect.options[wardSelect.selectedIndex].text;
             }
         });
@@ -242,27 +234,18 @@
                     from_district_id: 1482,
                     to_district_id: parseInt(districtSelect.value),
                     to_ward_code: wardSelect.value,
-                    height: 5,
-                    length: 30,
-                    weight: 300,
-                    width: 25
+                    height: 5, length: 30, weight: 300, width: 25
                 };
                 const result = await ghnPost("calculate-fee", body);
                 if (result.total_fee !== undefined) {
                     const shippingFee = result.total_fee;
                     const totalAmount = subTotal + shippingFee;
 
-                    // Cập nhật UI
                     shippingFeeText.textContent = shippingFee.toLocaleString('vi-VN') + "₫";
                     totalAmountEl.textContent = totalAmount.toLocaleString('vi-VN') + "₫";
 
-                    // Cập nhật input hidden
                     shippingFeeInput.value = shippingFee;
                     totalAmountInput.value = totalAmount;
-
-                    console.log("ShippingFee:", shippingFee, "TotalAmount:", totalAmount);
-                } else {
-                    console.error("Không tính được phí vận chuyển:", result);
                 }
             } catch (err) {
                 console.error("Lỗi tính phí ship:", err);
@@ -272,10 +255,10 @@
         loadProvinces();
     </script>
 
-   <script>
+    <script>
         // ----------------- Xử lý nút Hoàn tất đơn hàng -----------------
         document.getElementById("btnCompleteOrder").addEventListener("click", async function (e) {
-            e.preventDefault(); 
+            e.preventDefault();
 
             const paymentMethod = document.querySelector("input[name='PaymentMethodCode']:checked");
             if (!paymentMethod) {
@@ -291,7 +274,7 @@
 
             const phoneNumber = document.getElementById("phoneNumber").value.trim();
             const address = document.getElementById("address").value.trim();
-            const amount = parseInt(document.getElementById("TotalAmount").value, 10); 
+            const amount = parseInt(document.getElementById("TotalAmount").value, 10);
 
             const orderData = {
                 FullName: fullName,
@@ -301,7 +284,7 @@
                 Quantity: @Model.Quantity,
                 PaymentMethodCode: paymentMethod.value,
                 TotalAmount: amount,
-                IsFromCart: false 
+                IsFromCart: false
             };
 
             try {
@@ -312,26 +295,15 @@
                     body: JSON.stringify(orderData)
                 });
 
-             
+
             } catch (error) {
                 console.error("Lỗi xử lý đơn hàng:", error);
                 alert("Đã xảy ra lỗi khi gửi đơn hàng.");
             }
         });
 
-</script>
+    </script>
 }
-
-
-
-
-
-
-
-
-
-
-
 <style>
     /* Remove card shadows and borders to match the screenshot */
     .card {
@@ -416,7 +388,7 @@
             box-shadow: none;
             color: white;
         }
-   
+
     /* Form inputs consistent border and radius */
     input.form-control-sm,
     select.form-select-sm {

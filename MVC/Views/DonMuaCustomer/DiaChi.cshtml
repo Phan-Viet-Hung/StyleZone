@@ -4,6 +4,12 @@
 @{
     ViewData["Title"] = "DiaChi";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
+    var apiBaseUrl = Configuration["ApiBaseUrl"];
+    if (string.IsNullOrEmpty(apiBaseUrl))
+    {
+        apiBaseUrl = "https://localhost:7257/api/"; // URL dự phòng
+    }
+    var fullApiUrl = apiBaseUrl.TrimEnd('/') + "/";
 }
 <link href="~/css/CSS/Taikhoancuatoi.css" rel="stylesheet" />
 
@@ -154,7 +160,7 @@
 
 @section Scripts {
     <script>
-        const apiLocalGHN = "https://localhost:7257/api/GHN/";
+        const apiLocalGHN = "@(fullApiUrl)GHN/";
 
         async function ghnGet(endpoint) {
             const res = await fetch(apiLocalGHN + endpoint);

@@ -16,10 +16,19 @@
         new SelectListItem { Value = "Inactive", Text = "Chưa áp dụng" },
         new SelectListItem { Value = "Expired", Text = "Ngừng áp dụng" }
     };
+
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257";
+    }
+    // Tạo URL API công khai: http://localhost:8081/api/
+    var fullApiUrl = publicApiUrl.TrimEnd('/') + "/api/";
 }
 
 @section Styles {
     <style>
+        /* ... (style của bạn giữ nguyên) ... */
         .bg-gradient-success {
             background: linear-gradient(45deg, #6cbf6c, #529152);
         }
@@ -108,10 +117,10 @@
                                 </div>
                             </div>
 
-                                
-                                <div class="mb-3 d-flex justify-content-center align-items-center">
-                                    <img id="imagePreview" src="#" alt="Preview" style="max-height: 150px; display:none; border-radius:8px;" />
-                                </div>
+
+                            <div class="mb-3 d-flex justify-content-center align-items-center">
+                                <img id="imagePreview" src="#" alt="Preview" style="max-height: 150px; display:none; border-radius:8px;" />
+                            </div>
 
                             <div class="mb-3">
                                 <label asp-for="Description" class="form-label fw-semibold">Mô tả</label>
@@ -144,7 +153,6 @@
     </div>
 </section>
 
-<!-- Modal chọn sản phẩm -->
 <div class="modal fade" id="productSelectModal" tabindex="-1" aria-labelledby="productSelectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -209,7 +217,8 @@
         $(document).ready(function () {
             productTable = $('#productTable').DataTable({
                 ajax: {
-                    url: 'https://localhost:7257/api/product-details/available-for-promotion',
+                    // ===== SỬA DÒNG NÀY (JavaScript) =====
+                    url: `@(fullApiUrl)product-details/available-for-promotion`,
                     dataSrc: ''
                 },
                 columns: [

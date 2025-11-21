@@ -10,6 +10,12 @@ using API.DomainCusTomer.DTOs.CastCustomerId;
 using API.DomainCusTomer.DTOs.ThanhToanCustomerId;
 using API.DomainCusTomer.DTOs.ThongTinCaNhaCustomer;
 using API.DomainCusTomer.DTOs.MuaNgayCustomerID;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Json;
+using System.Collections.Generic;
 
 namespace MVC.Controllers
 {
@@ -17,13 +23,19 @@ namespace MVC.Controllers
     {
         private readonly HttpClient _httpClient;
         private const string CookieCartKey = "CustomerCart";
+
+        // ===== SỬA CONSTRUCTOR =====
         public ThanhToanCustomerIdController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            // 1. Sử dụng client "ApiClient" đã được cấu hình trong Program.cs
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+
+            // 2. Xóa bỏ các dòng gán "localhost" và header (đã được cấu hình trong factory)
+            // _httpClient.BaseAddress = new Uri("https://localhost:7257/api/");
+            // _httpClient.DefaultRequestHeaders.Accept.Add(
+            //     new MediaTypeWithQualityHeaderValue("application/json"));
         }
+        // ===========================
 
         [HttpPost]
         public async Task<IActionResult> AddMuaNgayID(MuaNgayCustomerRequest request, string username)
@@ -39,21 +51,29 @@ namespace MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Serialize dữ liệu gửi sang API
-            var json = JsonConvert.SerializeObject(request);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync(
-                $"ThanhToanCustomerId/addmua-ngay?username={username}",
-                content
-            );
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return BadRequest("Số lượng không đủ.");
-            }
+                // Serialize dữ liệu gửi sang API
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId");
+                // URL tương đối (BaseAddress đã được set trong Factory)
+                var response = await _httpClient.PostAsync(
+                    $"ThanhToanCustomerId/addmua-ngay?username={username}",
+                    content
+                );
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return BadRequest("Số lượng không đủ.");
+                }
+
+                return RedirectToAction("IndexMuaNgayID", "ThanhToanCustomerId");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
 
         [HttpGet]
@@ -70,25 +90,34 @@ namespace MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Gọi API lấy dữ liệu mua ngay
-            var response = await _httpClient.GetAsync(
-                $"ThanhToanCustomerId/currentmua-ngay?username={username}"
-            );
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                TempData["Error"] = "Không có sản phẩm mua ngay.";
+                // Gọi API lấy dữ liệu mua ngay (URL tương đối)
+                var response = await _httpClient.GetAsync(
+                    $"ThanhToanCustomerId/currentmua-ngay?username={username}"
+                );
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["Error"] = "Không có sản phẩm mua ngay.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var item = await response.Content.ReadFromJsonAsync<MuangaycustomerIdDto>();
+
+                // Đảm bảo AddressList và VoucherList không bị null để tránh NullReferenceException
+                item.AddressList ??= new List<AddressDto>();
+                item.VoucherList ??= new List<VoucherDto>();
+
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Lỗi ngoại lệ: {ex.Message}";
                 return RedirectToAction("Index", "Home");
             }
-
-            var item = await response.Content.ReadFromJsonAsync<MuangaycustomerIdDto>();
-
-            // Đảm bảo AddressList và VoucherList không bị null để tránh NullReferenceException
-            item.AddressList ??= new List<AddressDto>();
-            item.VoucherList ??= new List<VoucherDto>();
-
-            return View(item);
         }
+
         [HttpGet]
         public async Task<IActionResult> ListCartthanhtoanId()
         {
@@ -99,18 +128,25 @@ namespace MVC.Controllers
                 return BadRequest("Username không được để trống");
             }
 
-            var response = await _httpClient.GetAsync($"ThanhToanCustomerId/{username}");
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return View("Error");
+                // URL tương đối
+                var response = await _httpClient.GetAsync($"ThanhToanCustomerId/{username}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return View("Error");
+                }
+
+                var model = await response.Content.ReadFromJsonAsync<ThanhToanCartIdDto>();
+
+                return View(model);
             }
-
-            var model = await response.Content.ReadFromJsonAsync<ThanhToanCartIdDto>();
-
-            return View(model);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+            }
         }
-
 
         [HttpPost]
         public async Task<IActionResult> ThemDiaChi(DiachiCustomerDto newAddress)
@@ -126,23 +162,32 @@ namespace MVC.Controllers
                 return RedirectToAction("ListCartthanhtoanId");
             }
 
-            var response = await _httpClient.PostAsync(
-                $"DonMuaCustomer/{username}/address",
-                new StringContent(JsonConvert.SerializeObject(newAddress), Encoding.UTF8, "application/json")
-            );
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.PostAsync(
+                    $"DonMuaCustomer/{username}/address",
+                    new StringContent(JsonConvert.SerializeObject(newAddress), Encoding.UTF8, "application/json")
+                );
 
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["Success"] = "Thêm địa chỉ thành công!";
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Thêm địa chỉ thành công!";
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    TempData["Error"] = $"Thêm địa chỉ thất bại: {error}";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                TempData["Error"] = $"Thêm địa chỉ thất bại: {error}";
+                TempData["Error"] = $"Lỗi hệ thống: {ex.Message}";
             }
 
             return RedirectToAction("ListCartthanhtoanId");
         }
+
         [HttpPost]
         public async Task<IActionResult> UpdateDiaChi(DiachiCustomerDto model, Guid id)
         {
@@ -152,20 +197,29 @@ namespace MVC.Controllers
                 return RedirectToAction("ListCartthanhtoanId");
             }
 
-            var response = await _httpClient.PutAsJsonAsync($"DonMuaCustomer/address/{id}", model);
+            try
+            {
+                // URL tương đối
+                var response = await _httpClient.PutAsJsonAsync($"DonMuaCustomer/address/{id}", model);
 
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["Success"] = "Cập nhật địa chỉ thành công!";
-                return RedirectToAction("ListCartthanhtoanId");
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Cập nhật địa chỉ thành công!";
+                }
+                else
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    TempData["Error"] = $"Lỗi khi cập nhật địa chỉ: {errorMessage}";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                TempData["Error"] = $"Lỗi khi cập nhật địa chỉ: {errorMessage}";
-                return RedirectToAction("ListCartthanhtoanId");
+                TempData["Error"] = $"Lỗi hệ thống: {ex.Message}";
             }
+
+            return RedirectToAction("ListCartthanhtoanId");
         }
+
         [HttpPost]
         public async Task<IActionResult> UpdateStatusDiaChi(Guid id, string username)
         {
@@ -177,7 +231,7 @@ namespace MVC.Controllers
 
             try
             {
-                // Gửi request PUT sang API
+                // URL tương đối
                 var apiUrl = $"DonMuaCustomer/UpdateStatusDiaChi/{username}/{id}";
                 var response = await _httpClient.PostAsync(apiUrl, null);
 
@@ -198,7 +252,5 @@ namespace MVC.Controllers
 
             return RedirectToAction("ListCartthanhtoanId");
         }
-
-
     }
 }

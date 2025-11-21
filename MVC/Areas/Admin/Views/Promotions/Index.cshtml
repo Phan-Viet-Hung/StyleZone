@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Danh sách khuyến mãi";
     string defaultImage = "/images/no-image.png";
+    // ===== THÊM KHỐI NÀY VÀO ĐẦU FILE =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
 }
 
 @section Styles {
@@ -80,7 +87,7 @@
                             <tr>
                                 <td><input type="checkbox" class="rowCheckbox" value="@promo.Id" onclick="updateSelected()" /></td>
                                 <td>
-                                    <img src="@(string.IsNullOrEmpty(promo.ImageUrl) ? defaultImage : "https://localhost:7257" + promo.ImageUrl)" width="50" height="50" style="object-fit: cover;" />
+                                    <img src="@(string.IsNullOrEmpty(promo.ImageUrl) ? defaultImage : imageBaseUrl + promo.ImageUrl.TrimStart('/'))" width="50" height="50" style="object-fit: cover;" />
                                 </td>
                                 <td>
                                     <a asp-action="Details" asp-route-id="@promo.Id" class="text-decoration-none text-dark">

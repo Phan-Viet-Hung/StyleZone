@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
+    var apiBaseUrl = Configuration["ApiBaseUrl"];
+
+    // 1. Lấy URL CÔNG KHAI (Cái mà trình duyệt nhìn thấy)
+    var publicUrl = Configuration["PublicApiUrl"];
+
+    // 2. Nếu không có (chạy local), dùng cổng local của bạn (KHÔNG có /api ở cuối)
+    if (string.IsNullOrEmpty(publicUrl))
+    {
+        publicUrl = "https://localhost:7257";
+    }
+
+    // 3. Xóa dấu gạch chéo ở cuối để tránh lỗi "//" khi nối chuỗi
+    var imageBaseUrl = publicUrl.TrimEnd('/');
 }
 
 <nav class="breadcrumb" aria-label="breadcrumb">
@@ -29,7 +42,7 @@
                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
                 {
                     <figure class="mb-4 article-featured-image">
-                        <img src="@($"https://localhost:7257/{(Model.ImageUrl ?? "default1.jpg")}")" alt="@Model.Title" />
+                        <img src="@(imageBaseUrl + (Model.ImageUrl ?? "default1.jpg"))" alt="@Model.Title" />
                        
                     </figure>
                 }

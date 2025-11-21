@@ -22,6 +22,7 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 using System.Text;
 using API.Domain.Service.IService.ICustomerService;
+using API.Domain.Request.AccountRequest;
 
 // =====================================
 // 1. Create Builder
@@ -151,12 +152,12 @@ builder.Services.AddSwaggerGen(options =>
 // =====================================
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost7030", policy =>
+    options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.WithOrigins("https://localhost:7030")
-              .AllowAnyHeader()
+        policy.WithOrigins("http://localhost:8080", "https://localhost:8080", "https://localhost:7030") // Chỉ định rõ nguồn
               .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowAnyHeader()
+              .AllowCredentials(); // Cho phép gửi Cookie/Credentials
     });
 });
 
@@ -240,13 +241,29 @@ if (!string.IsNullOrEmpty(smtpSettings.Pass) && smtpSettings.Pass.StartsWith("en
 // =====================================
 // 11. Seed Data
 // =====================================
+//Nếu dev thì tắt đi, nếu product thì bật lên
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    try
+//    {
+//        var context = services.GetRequiredService<DbContextApp>(); // Thay DbContextApp bằng tên DbContext của bạn
+//        context.Database.Migrate(); // Hoặc dùng .EnsureCreated() nếu bạn không dùng Migration
+//    }
+//    catch (Exception ex)
+//    {
+//        var logger = services.GetRequiredService<ILogger<Program>>();
+//        logger.LogError(ex, "An error occurred while migrating the database.");
+//        // Chúng ta không crash ở đây, để log tự báo
+//    }
+//}
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DbContextApp>();
     await SeedColorsRequest.SeedColorsAsync(dbContext);
     await SeedSizesRequest.SeedSizesAsync(dbContext);
+    await SeedAccountRequest.SeedAccountsAsync(dbContext);
 }
-
 // =====================================
 // 12. Middleware
 // =====================================
@@ -259,14 +276,14 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 app.UseRouting();
-
+app.UseStaticFiles();
 // CORS phải đặt trước Auth & Authorization
-app.UseCors("AllowLocalhost7030");
+app.UseCors("AllowSpecificOrigin");
 
 app.UseCookiePolicy();
 app.UseSession();

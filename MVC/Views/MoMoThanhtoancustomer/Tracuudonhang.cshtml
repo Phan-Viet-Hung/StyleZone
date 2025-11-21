@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Tracuudonhang";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
-
+    var publicApiUrl = Configuration["PublicApiUrl"];
+    if (string.IsNullOrEmpty(publicApiUrl))
+    {
+        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+    }
+    var imageBaseUrl = publicApiUrl.TrimEnd('/');
 }
 
 <link rel="stylesheet" href="~/css/CSS/DonMua.css" />
@@ -48,8 +53,7 @@
             @foreach (var item in Model.Details)
             {
                 <div class="order-item d-flex align-items-center mt-3">
-                    <img src="@($"https://localhost:7257/{(item.ProductDetail.Images.FirstOrDefault().Url ?? "default1.jpg")}")" alt="@item.ProductDetail.Name" style="width:80px;height:80px;object-fit:cover" class="me-3" />
-
+                    <img src="@(imageBaseUrl + (item.ProductDetail.Images.FirstOrDefault()?.Url ?? "default1.jpg").TrimStart('/'))" alt="@item.ProductDetail.Name" style="width:80px;height:80px;object-fit:cover" class="me-3" />
                     <div class="item-info flex-grow-1">
                         <div class="title fw-semibold">@item.ProductDetail.Name</div>
                         <div class="quantity text-muted">Số lượng: x @item.Quantity</div>

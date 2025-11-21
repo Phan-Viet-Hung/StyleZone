@@ -11,8 +11,8 @@ namespace MVC.Controllers
 
         public ThanhToanCustomerMVCController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7257/api/"); 
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            //_httpClient.BaseAddress = new Uri("https://localhost:7257/api/"); 
         }
 
         //[HttpGet]
@@ -30,6 +30,8 @@ namespace MVC.Controllers
             var jsonData = JsonSerializer.Serialize(request);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
+            // URL này ("ThanhToanCustomer/create-guest-order") đã là URL tương đối
+            // nên nó sẽ hoạt động chính xác khi BaseAddress được sửa ở trên.
             var response = await _httpClient.PostAsync("ThanhToanCustomer/create-guest-order", content);
 
             if (response.IsSuccessStatusCode)
