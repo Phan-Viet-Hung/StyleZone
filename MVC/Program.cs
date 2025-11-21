@@ -6,6 +6,7 @@ using API.DomainCusTomer.Services.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.DataProtection; // Nhớ using cái này
 using MVC.Handlers;
 
 internal class Program
@@ -13,26 +14,37 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        // 1. Cấu hình Data Protection (QUAN TRỌNG: Sửa lỗi key login)
+        // Nếu bạn chưa tạo Disk, dòng này sẽ lưu tạm vào ổ cứng container
+        builder.Services.AddDataProtection()
+            .PersistKeysToFileSystem(new DirectoryInfo("/root/.aspnet/DataProtection-Keys"))
+            .SetApplicationName("StyleZoneApp");
+
+        // 2. Cấu hình Momo
         builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
         builder.Services.AddScoped<IMomoService, MomoServicer>();
 
         builder.Services.Configure<MomoOptionModelId>(builder.Configuration.GetSection("MomoAPI_Customer"));
         builder.Services.AddScoped<IMomoCustomerIdServices, MomoCustomerIdServices>();
 
+        // 3. Authentication (Cookie + Google)
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
         })
-        .AddCookie()
+        .AddCookie(options =>
+        {
+            options.LoginPath = "/LoginAccount/Login";
+            options.ExpireTimeSpan = TimeSpan.FromDays(7);
+        })
         .AddGoogle(options =>
         {
-            // Sửa lại: Đọc config từ builder.Configuration
             options.ClientId = builder.Configuration["GoogleKeys:ClientId"];
             options.ClientSecret = builder.Configuration["GoogleKeys:ClientSecret"];
             options.CallbackPath = "/signin-google";
-
             options.Events = new OAuthEvents
             {
                 OnRemoteFailure = context =>
@@ -44,97 +56,48 @@ internal class Program
             };
         });
 
-        // Add services to the container.
         builder.Services.AddControllersWithViews();
         builder.Services.AddTransient<AuthHeaderHandler>();
+        builder.Services.AddDistributedMemoryCache();
 
-        // Xóa dòng AddHttpClient() vì AddHttpClient("ApiClient") đã làm điều đó
-        // builder.Services.AddHttpClient(); 
-
-        builder.Services.AddDistributedMemoryCache(); // Chỉ cần gọi 1 lần
-
-        // Chỉ gọi AddSession 1 lần
         builder.Services.AddSession(options =>
         {
-            options.IdleTimeout = TimeSpan.FromHours(10); // Giữ cấu hình dài hơn
+            options.IdleTimeout = TimeSpan.FromHours(10);
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
             options.Cookie.Name = ".StyleZone.CustomerSession";
         });
 
-        // ===== SỬA LỖI CẤU HÌNH HTTPCLIENT =====
-
-        // 1. Đọc IConfiguration trực tiếp từ builder
+        // 4. Cấu hình HttpClient gọi về API
         var configuration = builder.Configuration;
-
-        // 2. Lấy URL API.
-        // Hệ thống config sẽ TỰ ĐỘNG lấy "ApiBaseUrl" từ biến môi trường (khi chạy Docker)
-        // hoặc từ appsettings.json (khi chạy local)
         string apiBaseUrl = configuration["ApiBaseUrl"];
-
-        // 3. Đặt URL dự phòng NẾU nó vẫn rỗng (cho an toàn)
-        if (string.IsNullOrEmpty(apiBaseUrl))
-        {
-            apiBaseUrl = "https://localhost:7257/api/"; // URL debug mặc định
-        }
+        if (string.IsNullOrEmpty(apiBaseUrl)) apiBaseUrl = "https://localhost:7257/api/";
 
         builder.Services.AddHttpClient("ApiClient", client =>
         {
-            // 4. Sử dụng biến apiBaseUrl đã được đọc chính xác
             client.BaseAddress = new Uri(apiBaseUrl);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
         }).AddHttpMessageHandler<AuthHeaderHandler>();
-
-        // ===== KẾT THÚC SỬA LỖI =====
-
-        builder.Services.AddCors(options =>
-        {
-            options.AddDefaultPolicy(policy =>
-            {
-                policy.AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader();
-            });
-        });
-
-        // Xóa bỏ AddSession() thứ hai vì đã khai báo ở trên
-        // builder.Services.AddSession(options => ...);
 
         builder.Services.AddHttpContextAccessor();
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
-            // app.UseDeveloperExceptionPage(); // Dòng này chỉ nên dùng trong Development
         }
         else
         {
-            // Thêm else block để bật DeveloperExceptionPage khi phát triển
             app.UseDeveloperExceptionPage();
         }
 
         app.UseHttpsRedirection();
-        app.Use(async (context, next) =>
-        {
-            context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            context.Response.Headers["Pragma"] = "no-cache";
-            context.Response.Headers["Expires"] = "0";
-            await next();
-        });
-
-       
-
-        app.UseRouting();
         app.UseStaticFiles();
-        // Chỉ gọi UseSession() MỘT LẦN, và phải SAU UseRouting()
-        app.UseSession();
-
+        app.UseRouting();
+        app.UseSession(); // Session phải sau Routing
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllerRoute(

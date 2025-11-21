@@ -1,13 +1,15 @@
 ﻿using API.Configuration;
+using API.Domain.Request.AccountRequest;
 using API.Domain.Request.ColorRequest;
 using API.Domain.Request.SizeRequest;
-using API.Domain.Service.IService;
 using API.Domain.Service;
-using API.Domain.Validate.IExcelValidator;
+using API.Domain.Service.IService;
+using API.Domain.Service.IService.ICustomerService;
 using API.Domain.Validate;
+using API.Domain.Validate.IExcelValidator;
 using API.DomainCusTomer.Config;
-using API.DomainCusTomer.Services.IServices;
 using API.DomainCusTomer.Services;
+using API.DomainCusTomer.Services.IServices;
 using API.Service;
 using API.Services;
 using DAL_Empty.Models;
@@ -19,19 +21,12 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
-using System.Text.Json.Serialization;
 using System.Text;
-using API.Domain.Service.IService.ICustomerService;
-using API.Domain.Request.AccountRequest;
+using System.Text.Json.Serialization;
 
-// =====================================
-// 1. Create Builder
-// =====================================
 var builder = WebApplication.CreateBuilder(args);
 
-// =====================================
-// 2. Localization
-// =====================================
+// 1. Localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("vi") };
 builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -39,31 +34,18 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.DefaultRequestCulture = new RequestCulture("vi");
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
-    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
-    options.RequestCultureProviders.Insert(1, new CookieRequestCultureProvider());
-    options.RequestCultureProviders.Insert(2, new AcceptLanguageHeaderRequestCultureProvider());
 });
 
-// =====================================
-// 3. Controllers + JSON
-// =====================================
+// 2. Controllers
 builder.Services.AddControllers()
-  .AddDataAnnotationsLocalization(options =>
-  {
-      options.DataAnnotationLocalizerProvider = (type, factory) =>
-          factory.Create("ValidationMessages", typeof(Program).Assembly.FullName);
-  })
   .AddJsonOptions(opt =>
   {
       opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
   });
 
-// =====================================
-// 4. JWT Authentication
-// =====================================
+// 3. JWT Auth
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 var jwt = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
@@ -75,57 +57,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwt?.Issuer ?? builder.Configuration["JwtSettings:Issuer"],
             ValidAudience = jwt?.Audience ?? builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwt?.SecretKey ?? builder.Configuration["JwtSettings:SecretKey"])
-            ),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt?.SecretKey ?? builder.Configuration["JwtSettings:SecretKey"])),
             ClockSkew = TimeSpan.Zero
         };
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-});
-
-// =====================================
-// 5. Session & Cookie
-// =====================================
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromHours(10);
-});
-builder.Services.Configure<CookieOptions>(options =>
-{
-    options.Expires = DateTime.Now.AddDays(7);
-    options.HttpOnly = false;
-    options.Secure = true;
-    options.SameSite = SameSiteMode.Lax;
-    options.Path = "/";
-    options.IsEssential = true;
-});
-builder.Services.Configure<CookiePolicyOptions>(options =>
-{
-    options.MinimumSameSitePolicy = SameSiteMode.Lax;
-    options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None;
-    options.Secure = CookieSecurePolicy.None;
-});
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.ExpireTimeSpan = TimeSpan.FromDays(7);
-    options.SlidingExpiration = true;
-});
-
-// =====================================
-// 6. Swagger
-// =====================================
+// 4. Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "StyleZone API", Version = "v1" });
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Nhập JWT token vào đây. Ví dụ: Bearer <token>",
+        Description = "Nhập JWT token: Bearer <token>",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -134,46 +78,28 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
+            new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" } },
             Array.Empty<string>()
         }
     });
 });
 
-// =====================================
-// 7. CORS (Cấu hình động)
-// =====================================
+// 5. CORS
 var allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(',') ?? Array.Empty<string>();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.WithOrigins(allowedOrigins) // Lấy danh sách từ cấu hình
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
+        policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
     });
 });
 
-// =====================================
-// 8. DbContext
-// =====================================
+// 6. Database
 builder.Services.AddDbContext<DbContextApp>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-//options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// =====================================
-// 9. Dependency Injection Services
-// =====================================
-// Admin services
+// 7. SERVICES REGISTRATION (QUAN TRỌNG NHẤT)
+// Admin Services
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IModeOfPaymentService, ModeOfPaymentService>();
@@ -190,15 +116,13 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
-//builder.Services.AddScoped<IPaymentCallbackHandler, MomoCallbackHandler>();
-//builder.Services.AddScoped<API.Domain.Services.IServices.IMomoService, API.Domain.Services.MomoServicer>();
 builder.Services.AddScoped<IPaymentMethodService, PaymentMethodService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<IPromotionService, PromotionService>();
 builder.Services.AddScoped<IExcelValidator<ProductDetail>, ProductDetailValidator>();
 builder.Services.AddScoped<ExcelImporter>();
 
-// Customer services
+// Customer Services (Đây là phần bạn bị báo lỗi thiếu - Giờ đã có đủ)
 builder.Services.AddScoped<ITheThaoCustomerServices, TheThaoCusTomerSerVices>();
 builder.Services.AddScoped<IThoiTrangCustomerServices, ThoiTrangCustomerServices>();
 builder.Services.AddScoped<INamCustomer, NamCustomerServices>();
@@ -214,7 +138,6 @@ builder.Services.AddScoped<ITrangChuCustomerService, TrangChuCustomerService>();
 builder.Services.AddScoped<IDonMuaCustomerServices, DonMuaCustomerService>();
 builder.Services.AddScoped<ICartCustomerIDServices, CartCustomerIDServices>();
 builder.Services.AddScoped<IThanhtoanCartIdServices, ThanhtoanCartIdServices>();
-builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("Mail"));
 builder.Services.AddSingleton<EmailCustomerServicer>();
 builder.Services.AddSingleton<OtpHelperServices>();
 builder.Services.AddScoped<JwtTokenHelper>();
@@ -226,23 +149,9 @@ builder.Logging.AddConsole();
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Mail"));
 
-// =====================================
-// 10. Build App
-// =====================================
 var app = builder.Build();
 
-// Load SMTP password from env
-var smtpSettings = app.Services.GetRequiredService<IOptions<SmtpSettings>>().Value;
-if (!string.IsNullOrEmpty(smtpSettings.Pass) && smtpSettings.Pass.StartsWith("env:"))
-{
-    var envVar = smtpSettings.Pass.Replace("env:", "");
-    smtpSettings.Pass = Environment.GetEnvironmentVariable(envVar)
-        ?? throw new Exception($"Missing environment variable: {envVar}");
-}
-
-// =====================================
-// 11. Seed Data (Đã sửa để hiện lỗi)
-// =====================================
+// 8. Seed Data (Chỉ giữ lại 1 bản chuẩn nhất có Try-Catch)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -251,59 +160,36 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        logger.LogInformation("--> Bắt đầu Migration Database...");
+        logger.LogInformation("--> Đang Migration Database...");
         dbContext.Database.Migrate();
-        logger.LogInformation("--> Migration thành công!");
 
-        logger.LogInformation("--> Bắt đầu Seed Colors...");
+        logger.LogInformation("--> Đang Seed Colors...");
         await SeedColorsRequest.SeedColorsAsync(dbContext);
 
-        logger.LogInformation("--> Bắt đầu Seed Sizes...");
+        logger.LogInformation("--> Đang Seed Sizes...");
         await SeedSizesRequest.SeedSizesAsync(dbContext);
 
-        logger.LogInformation("--> Bắt đầu Seed Admin Account...");
+        logger.LogInformation("--> Đang Seed Admin Account...");
         await SeedAccountRequest.SeedAccountsAsync(dbContext);
-        logger.LogInformation("--> Seed Admin Account hoàn tất!");
+        logger.LogInformation("--> Seed Data hoàn tất!");
     }
     catch (Exception ex)
     {
-        // Log lỗi đỏ lòm ra màn hình console
-        logger.LogError(ex, "🚨 LỖI NGHIÊM TRỌNG KHI SEED DATA: " + ex.Message);
+        logger.LogError(ex, "🚨 LỖI KHI SEED DATA: " + ex.Message);
     }
 }
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<DbContextApp>();
-    await SeedColorsRequest.SeedColorsAsync(dbContext);
-    await SeedSizesRequest.SeedSizesAsync(dbContext);
-    await SeedAccountRequest.SeedAccountsAsync(dbContext);
-}
-// =====================================
-// 12. Middleware
-// =====================================
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "StyleZone API V1");
-    });
-}
 
+// 9. Middleware
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StyleZone API V1"));
 
 app.UseHttpsRedirection();
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
-
 app.UseRouting();
 app.UseStaticFiles();
-// CORS phải đặt trước Auth & Authorization
-app.UseCors("AllowSpecificOrigin");
-
-app.UseCookiePolicy();
-app.UseSession();
+app.UseCors("AllowSpecificOrigin"); // Quan trọng: Đặt trước Auth
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
