@@ -148,16 +148,18 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // =====================================
-// 7. CORS
+// 7. CORS (Cấu hình động)
 // =====================================
+var allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(',') ?? Array.Empty<string>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.WithOrigins("http://localhost:8080", "https://localhost:8080", "https://localhost:7030") // Chỉ định rõ nguồn
+        policy.WithOrigins(allowedOrigins) // Lấy danh sách từ cấu hình
               .AllowAnyMethod()
               .AllowAnyHeader()
-              .AllowCredentials(); // Cho phép gửi Cookie/Credentials
+              .AllowCredentials();
     });
 });
 
@@ -165,8 +167,8 @@ builder.Services.AddCors(options =>
 // 8. DbContext
 // =====================================
 builder.Services.AddDbContext<DbContextApp>(options =>
-    //options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+//options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // =====================================
 // 9. Dependency Injection Services
@@ -242,21 +244,21 @@ if (!string.IsNullOrEmpty(smtpSettings.Pass) && smtpSettings.Pass.StartsWith("en
 // 11. Seed Data
 // =====================================
 //Nếu dev thì tắt đi, nếu product thì bật lên
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    try
-//    {
-//        var context = services.GetRequiredService<DbContextApp>(); // Thay DbContextApp bằng tên DbContext của bạn
-//        context.Database.Migrate(); // Hoặc dùng .EnsureCreated() nếu bạn không dùng Migration
-//    }
-//    catch (Exception ex)
-//    {
-//        var logger = services.GetRequiredService<ILogger<Program>>();
-//        logger.LogError(ex, "An error occurred while migrating the database.");
-//        // Chúng ta không crash ở đây, để log tự báo
-//    }
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<DbContextApp>(); // Thay DbContextApp bằng tên DbContext của bạn
+        context.Database.Migrate(); // Hoặc dùng .EnsureCreated() nếu bạn không dùng Migration
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+        // Chúng ta không crash ở đây, để log tự báo
+    }
+}
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DbContextApp>();
@@ -291,4 +293,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();
