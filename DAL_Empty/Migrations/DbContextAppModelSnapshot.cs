@@ -28,7 +28,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Address")
                         .HasMaxLength(200)
@@ -86,7 +86,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid?>("CustomerId")
                         .IsRequired()
@@ -138,7 +138,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -169,7 +169,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime")
@@ -193,7 +193,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid?>("CartId")
                         .IsRequired()
@@ -225,7 +225,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -253,7 +253,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Code")
                         .HasMaxLength(50)
@@ -283,7 +283,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime");
@@ -338,7 +338,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid?>("CustomerId")
                         .IsRequired()
@@ -367,7 +367,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("AltText")
                         .HasMaxLength(200)
@@ -410,7 +410,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -439,7 +439,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime");
@@ -476,7 +476,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid?>("ModeOfPaymentId")
                         .IsRequired()
@@ -502,7 +502,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid?>("OrderId")
                         .IsRequired()
@@ -536,7 +536,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid?>("BillId")
                         .HasColumnType("uuid");
@@ -568,7 +568,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Address")
                         .HasMaxLength(200)
@@ -638,7 +638,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid?>("OrderId")
                         .IsRequired()
@@ -668,7 +668,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -697,7 +697,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -716,7 +716,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uuid");
@@ -764,7 +764,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -828,7 +828,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -876,7 +876,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -909,7 +909,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -928,7 +928,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -959,7 +959,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -993,7 +993,7 @@ namespace DAL_Empty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ID")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("(gen_random_uuid())");
 
                     b.Property<string>("Code")
                         .IsRequired()

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL_Empty.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate_Postgres : Migration
+    public partial class Rebuild_Database_V1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace DAL_Empty.Migrations
                 name: "Brand",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Code = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -30,7 +30,7 @@ namespace DAL_Empty.Migrations
                 name: "Category",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -45,7 +45,7 @@ namespace DAL_Empty.Migrations
                 name: "Color",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Code = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: true),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -60,7 +60,7 @@ namespace DAL_Empty.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Fullname = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime", nullable: true),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -81,7 +81,7 @@ namespace DAL_Empty.Migrations
                 name: "Material",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -96,7 +96,7 @@ namespace DAL_Empty.Migrations
                 name: "ModeOfPayment",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Creator = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Fixer = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
@@ -113,7 +113,7 @@ namespace DAL_Empty.Migrations
                 name: "Origin",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -128,7 +128,7 @@ namespace DAL_Empty.Migrations
                 name: "PaymentMethod",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -140,7 +140,7 @@ namespace DAL_Empty.Migrations
                 name: "Promotion",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     DiscountType = table.Column<int>(type: "integer", maxLength: 100, nullable: false),
                     DiscountValue = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
@@ -159,7 +159,7 @@ namespace DAL_Empty.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
@@ -171,7 +171,7 @@ namespace DAL_Empty.Migrations
                 name: "Size",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Code = table.Column<string>(type: "character varying(20)", unicode: false, maxLength: 20, nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -186,7 +186,7 @@ namespace DAL_Empty.Migrations
                 name: "Supplier",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Contact = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -201,7 +201,7 @@ namespace DAL_Empty.Migrations
                 name: "Voucher",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     ImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 500, nullable: true),
@@ -225,7 +225,7 @@ namespace DAL_Empty.Migrations
                 name: "Product",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     Gender = table.Column<int>(type: "integer", nullable: false),
@@ -257,7 +257,7 @@ namespace DAL_Empty.Migrations
                 name: "Address",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Province = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     District = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Ward = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -282,7 +282,7 @@ namespace DAL_Empty.Migrations
                 name: "Cart",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
@@ -300,7 +300,7 @@ namespace DAL_Empty.Migrations
                 name: "Account",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime", nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -326,7 +326,7 @@ namespace DAL_Empty.Migrations
                 name: "CustomerVoucher",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     UsedDate = table.Column<DateTime>(type: "datetime", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
                     VoucherId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -352,7 +352,7 @@ namespace DAL_Empty.Migrations
                 name: "ProductDetail",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Code = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
@@ -405,7 +405,7 @@ namespace DAL_Empty.Migrations
                 name: "OrderInfo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
                     UpdateBy = table.Column<Guid>(type: "uuid", nullable: true),
@@ -445,7 +445,7 @@ namespace DAL_Empty.Migrations
                 name: "CartItem",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Quantity = table.Column<int>(type: "integer", nullable: true),
                     Price = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
                     CartId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -472,7 +472,7 @@ namespace DAL_Empty.Migrations
                 name: "Image",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     URL = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     FileName = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     AltText = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
@@ -495,7 +495,7 @@ namespace DAL_Empty.Migrations
                 name: "PromotionProduct",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     PromotionId = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductDetailId = table.Column<Guid>(type: "uuid", nullable: false),
                     Pricebeforereduction = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
@@ -523,7 +523,7 @@ namespace DAL_Empty.Migrations
                 name: "BillHistory",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     BillId = table.Column<Guid>(type: "uuid", nullable: true),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     amount = table.Column<string>(type: "text", nullable: true),
@@ -544,7 +544,7 @@ namespace DAL_Empty.Migrations
                 name: "ModeOfPaymentOrder",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     ModeOfPaymentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -569,7 +569,7 @@ namespace DAL_Empty.Migrations
                 name: "OrderDetail",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -596,7 +596,7 @@ namespace DAL_Empty.Migrations
                 name: "OrderPaymentMethod",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(newid())"),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "(gen_random_uuid())"),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     PaymentMethodId = table.Column<Guid>(type: "uuid", nullable: false),
                     PaymentAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false)
