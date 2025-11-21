@@ -11,51 +11,66 @@ namespace API.Domain.Request.AccountRequest
     {
         public static async Task SeedAccountsAsync(DbContextApp context)
         {
-            // 1. Đảm bảo Role Admin tồn tại
+            // 1. TÌM HOẶC TẠO ROLE ADMIN
+            // Sử dụng ID cố định cho Role Admin để dễ quản lý
+            var adminRoleId = Guid.Parse("11111111-1111-1111-1111-111111111111");
             var adminRole = await context.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
+
             if (adminRole == null)
             {
                 adminRole = new Role
                 {
-                    Id = Guid.Parse("11111111-1111-1111-1111-111111111111"), // Cố định ID cho dễ nhớ
+                    Id = adminRoleId,
                     Name = "Admin"
                 };
                 await context.Roles.AddAsync(adminRole);
-                await context.SaveChangesAsync();
-            }
-
-            // 2. Kiểm tra tài khoản Admin
-            var adminAccount = await context.Accounts.FirstOrDefaultAsync(a => a.UserName == "Admin");
-
-            if (adminAccount == null)
-            {
-                // Nếu chưa có -> Tạo mới
-                adminAccount = new Account
-                {
-                    Id = Guid.Parse("99999999-9999-9999-9999-999999999999"), // Cố định ID Admin
-                    Name = "Administrator",
-                    Birthday = new DateTime(1990, 1, 1).ToUniversalTime(), // Nhớ chuyển UTC cho Postgres
-                    Email = "admin@stylezone.com",
-                    PhoneNumber = "0901234567",
-                    UserName = "Admin",
-                    Gender = GenderEnum.Nam, // 1: Nam
-                    Password = BCrypt.Net.BCrypt.HashPassword("Admin@123"), // Mật khẩu chuẩn
-                    Address = "Hanoi, Vietnam",
-                    IsActive = true,
-                    RoleId = adminRole.Id
-                };
-                await context.Accounts.AddAsync(adminAccount);
             }
             else
             {
-                // Nếu đã có -> Reset lại mật khẩu về mặc định (Admin@123) để chắc chắn đăng nhập được
-                adminAccount.Password = BCrypt.Net.BCrypt.HashPassword("Admin@123");
-                adminAccount.IsActive = true;
-                adminAccount.RoleId = adminRole.Id; // Đảm bảo luôn có quyền Admin
-                context.Accounts.Update(adminAccount);
+                // Nếu Role đã có nhưng ID khác, ta vẫn dùng ID của role đó
+                adminRoleId = adminRole.Id;
             }
 
-            // 3. Lưu thay đổi
+            // Lưu Role trước để đảm bảo khóa ngoại tồn tại
+            await context.SaveChangesAsync();
+
+            // 2. XỬ LÝ TÀI KHOẢN ADMIN
+            var adminUser = await context.Accounts.FirstOrDefaultAsync(a => a.UserName == "Admin");
+
+            // Mật khẩu mặc định: Admin@123
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123");
+
+            if (adminUser == null)
+            {
+                // --- TRƯỜNG HỢP CHƯA CÓ -> TẠO MỚI ---
+                adminUser = new Account
+                {
+                    Id = Guid.NewGuid(), // Hoặc cố định nếu muốn
+                    Name = "Administrator",
+                    Birthday = new DateTime(1990, 1, 1).ToUniversalTime(), // Quan trọng: PostgreSQL cần UTC
+                    Email = "admin@stylezone.com",
+                    PhoneNumber = "0909999999",
+                    UserName = "Admin",
+                    Gender = GenderEnum.Nam, // 1: Nam
+                    Password = passwordHash,
+                    Address = "System Admin",
+                    IsActive = true,
+                    RoleId = adminRoleId // Gán quyền Admin
+                };
+                await context.Accounts.AddAsync(adminUser);
+            }
+            else
+            {
+                // --- TRƯỜNG HỢP ĐÃ CÓ -> RESET LẠI THÔNG TIN (QUAN TRỌNG) ---
+                // Điều này giúp bạn đăng nhập được ngay cả khi quên mật khẩu cũ
+                adminUser.Password = passwordHash;
+                adminUser.IsActive = true;
+                adminUser.RoleId = adminRoleId; // Đảm bảo quyền Admin không bị mất
+
+                context.Accounts.Update(adminUser);
+            }
+
+            // 3. LƯU THAY ĐỔI CUỐI CÙNG
             await context.SaveChangesAsync();
         }
     }
