@@ -1,5 +1,6 @@
 ﻿using API.Configuration;
 using API.Domain.Request.AccountRequest;
+using API.Domain.Request.CategoryRequest; // Đã thêm using mới
 using API.Domain.Request.ColorRequest;
 using API.Domain.Request.SizeRequest;
 using API.Domain.Service;
@@ -26,6 +27,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ... (Giữ nguyên phần cấu hình Service từ đầu đến dòng 135) ...
 // 1. Localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("vi") };
@@ -93,12 +95,15 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
     });
 });
+
+// Fix lỗi ngày tháng cho Postgres
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // 6. Database
 builder.Services.AddDbContext<DbContextApp>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 7. SERVICES REGISTRATION (QUAN TRỌNG NHẤT)
+// 7. SERVICES REGISTRATION
 // Admin Services
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
@@ -122,7 +127,7 @@ builder.Services.AddScoped<IPromotionService, PromotionService>();
 builder.Services.AddScoped<IExcelValidator<ProductDetail>, ProductDetailValidator>();
 builder.Services.AddScoped<ExcelImporter>();
 
-// Customer Services (Đây là phần bạn bị báo lỗi thiếu - Giờ đã có đủ)
+// Customer Services
 builder.Services.AddScoped<ITheThaoCustomerServices, TheThaoCusTomerSerVices>();
 builder.Services.AddScoped<IThoiTrangCustomerServices, ThoiTrangCustomerServices>();
 builder.Services.AddScoped<INamCustomer, NamCustomerServices>();
@@ -151,7 +156,7 @@ builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Mail"
 
 var app = builder.Build();
 
-// 8. Seed Data (Chỉ giữ lại 1 bản chuẩn nhất có Try-Catch)
+// 8. SEED DATA (Đã sắp xếp lại thứ tự ưu tiên)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -161,9 +166,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("--> 🛠️ Đang tạo hàm newid() cho PostgreSQL...");
-
-        // === CHÈN ĐOẠN CODE NÀY VÀO ===
-        // Lệnh này tạo hàm newid() giả để đánh lừa EF Core
+        // Tạo hàm newid() giả để đánh lừa EF Core
         await dbContext.Database.ExecuteSqlRawAsync(@"
             CREATE EXTENSION IF NOT EXISTS ""pgcrypto"";
             CREATE OR REPLACE FUNCTION newid() RETURNS uuid AS $$
@@ -172,23 +175,30 @@ using (var scope = app.Services.CreateScope())
             END;
             $$ LANGUAGE plpgsql;
         ");
-        // ===============================
 
         logger.LogInformation("--> Đang Migration Database...");
-        dbContext.Database.Migrate(); // <--- Dòng này bây giờ sẽ chạy ngon lành!
+        dbContext.Database.Migrate();
 
+        // 🚩 ƯU TIÊN SỐ 1: TẠO ADMIN ACCOUNT NGAY LẬP TỨC
+        logger.LogInformation("--> Đang Seed Admin Account...");
+        await SeedAccountRequest.SeedAccountsAsync(dbContext);
+
+        // 🚩 ƯU TIÊN SỐ 2: TẠO CATEGORY (Dữ liệu nền tảng)
+        logger.LogInformation("--> Đang Seed Categories...");
+        await SeedCategoryRequest.SeedCategoriesAsync(dbContext);
+
+        // Các dữ liệu phụ (Nếu lỗi thì cũng không sao, Admin vẫn vào được)
         logger.LogInformation("--> Đang Seed Colors...");
         await SeedColorsRequest.SeedColorsAsync(dbContext);
 
         logger.LogInformation("--> Đang Seed Sizes...");
         await SeedSizesRequest.SeedSizesAsync(dbContext);
 
-        logger.LogInformation("--> Đang Seed Admin Account...");
-        await SeedAccountRequest.SeedAccountsAsync(dbContext);
-        logger.LogInformation("--> Seed Data hoàn tất!");
+        logger.LogInformation("--> ✅ Seed Data hoàn tất!");
     }
     catch (Exception ex)
     {
+        // Log lỗi nhưng không làm sập app
         logger.LogError(ex, "🚨 LỖI KHI SEED DATA: " + ex.Message);
     }
 }
