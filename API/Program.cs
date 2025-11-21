@@ -241,22 +241,34 @@ if (!string.IsNullOrEmpty(smtpSettings.Pass) && smtpSettings.Pass.StartsWith("en
 }
 
 // =====================================
-// 11. Seed Data
+// 11. Seed Data (Đã sửa để hiện lỗi)
 // =====================================
-//Nếu dev thì tắt đi, nếu product thì bật lên
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    var dbContext = services.GetRequiredService<DbContextApp>();
+
     try
     {
-        var context = services.GetRequiredService<DbContextApp>(); // Thay DbContextApp bằng tên DbContext của bạn
-        context.Database.Migrate(); // Hoặc dùng .EnsureCreated() nếu bạn không dùng Migration
+        logger.LogInformation("--> Bắt đầu Migration Database...");
+        dbContext.Database.Migrate();
+        logger.LogInformation("--> Migration thành công!");
+
+        logger.LogInformation("--> Bắt đầu Seed Colors...");
+        await SeedColorsRequest.SeedColorsAsync(dbContext);
+
+        logger.LogInformation("--> Bắt đầu Seed Sizes...");
+        await SeedSizesRequest.SeedSizesAsync(dbContext);
+
+        logger.LogInformation("--> Bắt đầu Seed Admin Account...");
+        await SeedAccountRequest.SeedAccountsAsync(dbContext);
+        logger.LogInformation("--> Seed Admin Account hoàn tất!");
     }
     catch (Exception ex)
     {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while migrating the database.");
-        // Chúng ta không crash ở đây, để log tự báo
+        // Log lỗi đỏ lòm ra màn hình console
+        logger.LogError(ex, "🚨 LỖI NGHIÊM TRỌNG KHI SEED DATA: " + ex.Message);
     }
 }
 using (var scope = app.Services.CreateScope())
