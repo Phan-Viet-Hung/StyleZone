@@ -1,6 +1,6 @@
 ﻿using API.Configuration;
 using API.Domain.Request.AccountRequest;
-using API.Domain.Request.CategoryRequest; // Đã thêm using mới
+using API.Domain.Request.CategoryRequest;
 using API.Domain.Request.ColorRequest;
 using API.Domain.Request.SizeRequest;
 using API.Domain.Service;
@@ -27,7 +27,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ... (Giữ nguyên phần cấu hình Service từ đầu đến dòng 135) ...
 // 1. Localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("vi") };
@@ -96,15 +95,18 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Fix lỗi ngày tháng cho Postgres
+// --- Fix lỗi ngày tháng cho Postgres ---
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // 6. Database
 builder.Services.AddDbContext<DbContextApp>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 7. SERVICES REGISTRATION
-// Admin Services
+// ==================================================================
+// 7. SERVICES REGISTRATION (ĐÂY LÀ PHẦN BẠN ĐANG THIẾU!) ⚠️
+// ==================================================================
+
+// --- Admin Services ---
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IModeOfPaymentService, ModeOfPaymentService>();
@@ -119,7 +121,7 @@ builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IOriginService, OriginService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>(); // <-- QUAN TRỌNG ĐỂ ĐĂNG NHẬP ADMIN
 builder.Services.AddScoped<IStatisticService, StatisticService>();
 builder.Services.AddScoped<IPaymentMethodService, PaymentMethodService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
@@ -127,7 +129,7 @@ builder.Services.AddScoped<IPromotionService, PromotionService>();
 builder.Services.AddScoped<IExcelValidator<ProductDetail>, ProductDetailValidator>();
 builder.Services.AddScoped<ExcelImporter>();
 
-// Customer Services
+// --- Customer Services (THIẾU CÁI NÀY LÀ TRANG CHỦ LỖI) ---
 builder.Services.AddScoped<ITheThaoCustomerServices, TheThaoCusTomerSerVices>();
 builder.Services.AddScoped<IThoiTrangCustomerServices, ThoiTrangCustomerServices>();
 builder.Services.AddScoped<INamCustomer, NamCustomerServices>();
@@ -139,7 +141,7 @@ builder.Services.AddHttpClient<IGhnService, GhnSerVices>();
 builder.Services.AddScoped<IThanhtoanCustomer, ThanhToanCustomer>();
 builder.Services.AddScoped<ISeachCustomerService, SeachCustomerService>();
 builder.Services.AddScoped<ITinTucService, TinTucService>();
-builder.Services.AddScoped<ITrangChuCustomerService, TrangChuCustomerService>();
+builder.Services.AddScoped<ITrangChuCustomerService, TrangChuCustomerService>(); // <-- QUAN TRỌNG ĐỂ LOAD TRANG CHỦ
 builder.Services.AddScoped<IDonMuaCustomerServices, DonMuaCustomerService>();
 builder.Services.AddScoped<ICartCustomerIDServices, CartCustomerIDServices>();
 builder.Services.AddScoped<IThanhtoanCartIdServices, ThanhtoanCartIdServices>();
@@ -156,7 +158,7 @@ builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Mail"
 
 var app = builder.Build();
 
-// 8. SEED DATA (Đã sắp xếp lại thứ tự ưu tiên)
+// 8. SEED DATA (Thứ tự ưu tiên: Tạo hàm -> Migration -> Admin -> Category -> Khác)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -166,7 +168,6 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("--> 🛠️ Đang tạo hàm newid() cho PostgreSQL...");
-        // Tạo hàm newid() giả để đánh lừa EF Core
         await dbContext.Database.ExecuteSqlRawAsync(@"
             CREATE EXTENSION IF NOT EXISTS ""pgcrypto"";
             CREATE OR REPLACE FUNCTION newid() RETURNS uuid AS $$
@@ -179,15 +180,12 @@ using (var scope = app.Services.CreateScope())
         logger.LogInformation("--> Đang Migration Database...");
         dbContext.Database.Migrate();
 
-        // 🚩 ƯU TIÊN SỐ 1: TẠO ADMIN ACCOUNT NGAY LẬP TỨC
         logger.LogInformation("--> Đang Seed Admin Account...");
-        await SeedAccountRequest.SeedAccountsAsync(dbContext);
+        await SeedAccountRequest.SeedAccountsAsync(dbContext); // QUAN TRỌNG ĐỂ CÓ ADMIN
 
-        // 🚩 ƯU TIÊN SỐ 2: TẠO CATEGORY (Dữ liệu nền tảng)
         logger.LogInformation("--> Đang Seed Categories...");
         await SeedCategoryRequest.SeedCategoriesAsync(dbContext);
 
-        // Các dữ liệu phụ (Nếu lỗi thì cũng không sao, Admin vẫn vào được)
         logger.LogInformation("--> Đang Seed Colors...");
         await SeedColorsRequest.SeedColorsAsync(dbContext);
 
@@ -198,7 +196,6 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        // Log lỗi nhưng không làm sập app
         logger.LogError(ex, "🚨 LỖI KHI SEED DATA: " + ex.Message);
     }
 }
@@ -211,9 +208,11 @@ app.UseHttpsRedirection();
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 app.UseRouting();
 app.UseStaticFiles();
-app.UseCors("AllowSpecificOrigin"); // Quan trọng: Đặt trước Auth
+app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+// --- Cấu hình cổng động (Quan trọng cho Render) ---
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Run($"http://0.0.0.0:{port}");
