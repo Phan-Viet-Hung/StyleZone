@@ -160,8 +160,22 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
+        logger.LogInformation("--> 🛠️ Đang tạo hàm newid() cho PostgreSQL...");
+
+        // === CHÈN ĐOẠN CODE NÀY VÀO ===
+        // Lệnh này tạo hàm newid() giả để đánh lừa EF Core
+        await dbContext.Database.ExecuteSqlRawAsync(@"
+            CREATE EXTENSION IF NOT EXISTS ""pgcrypto"";
+            CREATE OR REPLACE FUNCTION newid() RETURNS uuid AS $$
+            BEGIN
+                RETURN gen_random_uuid();
+            END;
+            $$ LANGUAGE plpgsql;
+        ");
+        // ===============================
+
         logger.LogInformation("--> Đang Migration Database...");
-        dbContext.Database.Migrate();
+        dbContext.Database.Migrate(); // <--- Dòng này bây giờ sẽ chạy ngon lành!
 
         logger.LogInformation("--> Đang Seed Colors...");
         await SeedColorsRequest.SeedColorsAsync(dbContext);
