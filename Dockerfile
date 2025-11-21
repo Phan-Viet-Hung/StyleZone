@@ -12,7 +12,7 @@ COPY ./Empty.sln ./
 COPY ./DAL_Empty/DAL_Empty.csproj ./DAL_Empty/
 COPY ./API/API.csproj ./API/
 COPY ./MVC/MVC.csproj ./MVC/
-
+COPY ["MVC/wwwroot", "wwwroot"]
 # Restore dependencies
 RUN dotnet restore "./DAL_Empty/DAL_Empty.csproj"
 RUN dotnet restore "./API/API.csproj"
