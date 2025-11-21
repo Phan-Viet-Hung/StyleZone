@@ -93,7 +93,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
     });
 });
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // 6. Database
 builder.Services.AddDbContext<DbContextApp>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
