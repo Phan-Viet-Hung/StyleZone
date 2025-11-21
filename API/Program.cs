@@ -37,8 +37,11 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
-// 2. Controllers
-builder.Services.AddControllers()
+// ==================================================================
+// ⚠️ THAY ĐỔI 1: Dùng AddControllersWithViews thay vì AddControllers
+// Để hệ thống biết cần render cả file .cshtml (View)
+// ==================================================================
+builder.Services.AddControllersWithViews()
   .AddJsonOptions(opt =>
   {
       opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -102,11 +105,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddDbContext<DbContextApp>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ==================================================================
-// 7. SERVICES REGISTRATION (ĐÂY LÀ PHẦN BẠN ĐANG THIẾU!) ⚠️
-// ==================================================================
-
-// --- Admin Services ---
+// 7. SERVICES REGISTRATION
+// Admin Services
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IModeOfPaymentService, ModeOfPaymentService>();
@@ -121,7 +121,7 @@ builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IOriginService, OriginService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
-builder.Services.AddScoped<IAuthService, AuthService>(); // <-- QUAN TRỌNG ĐỂ ĐĂNG NHẬP ADMIN
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
 builder.Services.AddScoped<IPaymentMethodService, PaymentMethodService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
@@ -129,7 +129,7 @@ builder.Services.AddScoped<IPromotionService, PromotionService>();
 builder.Services.AddScoped<IExcelValidator<ProductDetail>, ProductDetailValidator>();
 builder.Services.AddScoped<ExcelImporter>();
 
-// --- Customer Services (THIẾU CÁI NÀY LÀ TRANG CHỦ LỖI) ---
+// Customer Services
 builder.Services.AddScoped<ITheThaoCustomerServices, TheThaoCusTomerSerVices>();
 builder.Services.AddScoped<IThoiTrangCustomerServices, ThoiTrangCustomerServices>();
 builder.Services.AddScoped<INamCustomer, NamCustomerServices>();
@@ -141,7 +141,7 @@ builder.Services.AddHttpClient<IGhnService, GhnSerVices>();
 builder.Services.AddScoped<IThanhtoanCustomer, ThanhToanCustomer>();
 builder.Services.AddScoped<ISeachCustomerService, SeachCustomerService>();
 builder.Services.AddScoped<ITinTucService, TinTucService>();
-builder.Services.AddScoped<ITrangChuCustomerService, TrangChuCustomerService>(); // <-- QUAN TRỌNG ĐỂ LOAD TRANG CHỦ
+builder.Services.AddScoped<ITrangChuCustomerService, TrangChuCustomerService>();
 builder.Services.AddScoped<IDonMuaCustomerServices, DonMuaCustomerService>();
 builder.Services.AddScoped<ICartCustomerIDServices, CartCustomerIDServices>();
 builder.Services.AddScoped<IThanhtoanCartIdServices, ThanhtoanCartIdServices>();
@@ -158,7 +158,7 @@ builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Mail"
 
 var app = builder.Build();
 
-// 8. SEED DATA (Thứ tự ưu tiên: Tạo hàm -> Migration -> Admin -> Category -> Khác)
+// 8. SEED DATA
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -181,7 +181,7 @@ using (var scope = app.Services.CreateScope())
         dbContext.Database.Migrate();
 
         logger.LogInformation("--> Đang Seed Admin Account...");
-        await SeedAccountRequest.SeedAccountsAsync(dbContext); // QUAN TRỌNG ĐỂ CÓ ADMIN
+        await SeedAccountRequest.SeedAccountsAsync(dbContext);
 
         logger.LogInformation("--> Đang Seed Categories...");
         await SeedCategoryRequest.SeedCategoriesAsync(dbContext);
@@ -207,10 +207,20 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StyleZone A
 app.UseHttpsRedirection();
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 app.UseRouting();
-app.UseStaticFiles();
+app.UseStaticFiles(); // Quan trọng cho MVC để load CSS/JS
 app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
+
+// ==================================================================
+// ⚠️ THAY ĐỔI 2: Thêm Route Mặc định cho MVC
+// Để khi vào trang chủ "/" nó biết tìm đến HomeController -> Index
+// ==================================================================
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Vẫn giữ cái này cho các API Controller dùng [Route]
 app.MapControllers();
 
 // --- Cấu hình cổng động (Quan trọng cho Render) ---
