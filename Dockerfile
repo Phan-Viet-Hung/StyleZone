@@ -11,7 +11,11 @@ COPY ./DAL_Empty/DAL_Empty.csproj ./DAL_Empty/
 COPY ./API/API.csproj ./API/
 COPY ./MVC/MVC.csproj ./MVC/
 
-# ⚠️ QUAN TRỌNG: Copy tài nguyên tĩnh NGAY TỪ LÚC BUILD
+# 🔥 TUYỆT CHIÊU: Dùng lệnh này để sửa file DAL_Empty.csproj ngay trong Docker
+# Nó sẽ tìm chữ "Microsoft.NET.Sdk.Web" và đổi thành "Microsoft.NET.Sdk"
+RUN sed -i 's/Microsoft.NET.Sdk.Web/Microsoft.NET.Sdk/g' ./DAL_Empty/DAL_Empty.csproj
+
+# Copy Tài nguyên tĩnh
 COPY ["MVC/wwwroot", "MVC/wwwroot"]
 COPY ["MVC/Views", "MVC/Views"]
 
@@ -33,25 +37,23 @@ RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/mvc --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
+# Cài đặt các công cụ cần thiết (nếu cần debug sau này)
+RUN apt-get update && apt-get install -y curl
+
 # Copy App đã build
 COPY --from=build /app/api ./api
 COPY --from=build /app/mvc ./mvc
 
-# ⚠️ QUAN TRỌNG: Copy đè lại wwwroot một lần nữa vào thư mục chạy của MVC
-# Để đảm bảo cấu trúc /app/mvc/wwwroot/... là chính xác
+# Copy đè wwwroot và Views vào đúng thư mục của MVC
 COPY --from=build /src/MVC/wwwroot ./mvc/wwwroot
 COPY --from=build /src/MVC/Views ./mvc/Views
 
-# Cấu hình Database
+# Cấu hình ENV (Database & API)
 ENV ConnectionStrings__DefaultConnection="Server=stylezone-sql,1433;Database=StyleZoneDb;User Id=sa;Password=YourStrong@Passw0rd1!;TrustServerCertificate=True;"
-
-# 🔴 CHỐT HẠ: Cấu hình đường dẫn API
-# Bắt buộc MVC phải gọi vào 127.0.0.1:5000
 ENV ApiBaseUrl="http://127.0.0.1:5000/api/"
 
-# Entrypoint
-# - API: Chạy cổng 5000 (Nội bộ)
-# - MVC: Chạy cổng $PORT (Public)
-ENTRYPOINT ["sh", "-c", "dotnet api/API.dll --urls http://127.0.0.1:5000 & \
-                        dotnet mvc/MVC.dll --urls http://0.0.0.0:${PORT:-80} && \
+# 🚀 ENTRYPOINT (Sửa lỗi CSS & API):
+# Chạy 2 ứng dụng song song, mỗi cái ở đúng thư mục của nó
+ENTRYPOINT ["sh", "-c", "(cd /app/api && dotnet API.dll --urls http://127.0.0.1:5000) & \
+                        (cd /app/mvc && dotnet MVC.dll --urls http://0.0.0.0:${PORT:-80}) && \
                         wait"]
