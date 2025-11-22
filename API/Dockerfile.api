@@ -1,0 +1,31 @@
+# ===========================================
+# STAGE 1: Build API
+# ===========================================
+# Sử dụng base image là SDK 8.0 để build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy tất cả các file cấu hình và project file để restore dependencies
+# Copy toàn bộ Solution, vì các project phụ thuộc vào nhau
+COPY . .
+
+# Restore dependencies cho toàn bộ solution
+RUN dotnet restore Empty.sln
+
+# Publish chỉ project API
+# API.csproj nằm trong thư mục API/
+RUN dotnet publish "API/API.csproj" -c Release -o /app/publish
+
+# ===========================================
+# STAGE 2: Runtime API
+# ===========================================
+# Sử dụng base image nhẹ hơn để chạy ứng dụng (ASP.NET Runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+
+# Copy các files đã publish từ stage 'build'
+COPY --from=build /app/publish .
+
+# ⚠️ QUAN TRỌNG: API Service sẽ chạy ở PORT mặc định của Render (thường là 8080)
+# Và API là Web Service chính cần chạy để giao tiếp với DB
+ENTRYPOINT ["dotnet", "API.dll"]
