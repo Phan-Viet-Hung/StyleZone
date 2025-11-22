@@ -1,6 +1,7 @@
-﻿using API.Configuration;
+﻿
+using API.Configuration;
 using API.Domain.Request.AccountRequest;
-using API.Domain.Request.CategoryRequest;
+using API.Domain.Request.CategoryRequest; // Đã thêm using mới
 using API.Domain.Request.ColorRequest;
 using API.Domain.Request.SizeRequest;
 using API.Domain.Service;
@@ -27,6 +28,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ... (Giữ nguyên phần cấu hình Service từ đầu đến dòng 135) ...
 // 1. Localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("vi") };
@@ -37,34 +39,31 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
-// ==================================================================
-// ⚠️ THAY ĐỔI 1: Dùng AddControllersWithViews thay vì AddControllers
-// Để hệ thống biết cần render cả file .cshtml (View)
-// ==================================================================
-builder.Services.AddControllersWithViews()
-  .AddJsonOptions(opt =>
-  {
-      opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-  });
+// 2. Controllers
+builder.Services.AddControllers()
+ .AddJsonOptions(opt =>
+ {
+     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+ });
 
 // 3. JWT Auth
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 var jwt = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt =>
-    {
-        opt.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwt?.Issuer ?? builder.Configuration["JwtSettings:Issuer"],
-            ValidAudience = jwt?.Audience ?? builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt?.SecretKey ?? builder.Configuration["JwtSettings:SecretKey"])),
-            ClockSkew = TimeSpan.Zero
-        };
-    });
+  .AddJwtBearer(opt =>
+  {
+      opt.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidateLifetime = true,
+          ValidateIssuerSigningKey = true,
+          ValidIssuer = jwt?.Issuer ?? builder.Configuration["JwtSettings:Issuer"],
+          ValidAudience = jwt?.Audience ?? builder.Configuration["JwtSettings:Audience"],
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt?.SecretKey ?? builder.Configuration["JwtSettings:SecretKey"])),
+          ClockSkew = TimeSpan.Zero
+      };
+  });
 
 // 4. Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -80,12 +79,12 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer"
     });
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
+  {
     {
-        {
-            new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" } },
-            Array.Empty<string>()
-        }
-    });
+      new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" } },
+      Array.Empty<string>()
+    }
+  });
 });
 
 // 5. CORS
@@ -98,12 +97,12 @@ builder.Services.AddCors(options =>
     });
 });
 
-// --- Fix lỗi ngày tháng cho Postgres ---
+// Fix lỗi ngày tháng cho Postgres
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // 6. Database
 builder.Services.AddDbContext<DbContextApp>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+  options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // 7. SERVICES REGISTRATION
 // Admin Services
@@ -158,7 +157,7 @@ builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Mail"
 
 var app = builder.Build();
 
-// 8. SEED DATA
+// 8. SEED DATA (Đã sắp xếp lại thứ tự ưu tiên)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -168,25 +167,29 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("--> 🛠️ Đang tạo hàm newid() cho PostgreSQL...");
-        await dbContext.Database.ExecuteSqlRawAsync(@"
-            CREATE EXTENSION IF NOT EXISTS ""pgcrypto"";
-            CREATE OR REPLACE FUNCTION newid() RETURNS uuid AS $$
-            BEGIN
-                RETURN gen_random_uuid();
-            END;
-            $$ LANGUAGE plpgsql;
-        ");
+        // Tạo hàm newid() giả để đánh lừa EF Core
+        await dbContext.Database.ExecuteSqlRawAsync(@"
+            CREATE EXTENSION IF NOT EXISTS ""pgcrypto"";
+            CREATE OR REPLACE FUNCTION newid() RETURNS uuid AS $$
+            BEGIN
+                RETURN gen_random_uuid();
+            END;
+            $$ LANGUAGE plpgsql;
+        ");
 
         logger.LogInformation("--> Đang Migration Database...");
         dbContext.Database.Migrate();
 
-        logger.LogInformation("--> Đang Seed Admin Account...");
+        // 🚩 ƯU TIÊN SỐ 1: TẠO ADMIN ACCOUNT NGAY LẬP TỨC
+        logger.LogInformation("--> Đang Seed Admin Account...");
         await SeedAccountRequest.SeedAccountsAsync(dbContext);
 
-        logger.LogInformation("--> Đang Seed Categories...");
+        // 🚩 ƯU TIÊN SỐ 2: TẠO CATEGORY (Dữ liệu nền tảng)
+        logger.LogInformation("--> Đang Seed Categories...");
         await SeedCategoryRequest.SeedCategoriesAsync(dbContext);
 
-        logger.LogInformation("--> Đang Seed Colors...");
+        // Các dữ liệu phụ (Nếu lỗi thì cũng không sao, Admin vẫn vào được)
+        logger.LogInformation("--> Đang Seed Colors...");
         await SeedColorsRequest.SeedColorsAsync(dbContext);
 
         logger.LogInformation("--> Đang Seed Sizes...");
@@ -196,7 +199,8 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "🚨 LỖI KHI SEED DATA: " + ex.Message);
+        // Log lỗi nhưng không làm sập app
+        logger.LogError(ex, "🚨 LỖI KHI SEED DATA: " + ex.Message);
     }
 }
 
@@ -207,22 +211,10 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StyleZone A
 app.UseHttpsRedirection();
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 app.UseRouting();
-app.UseStaticFiles(); // Quan trọng cho MVC để load CSS/JS
-app.UseCors("AllowSpecificOrigin");
+app.UseStaticFiles();
+app.UseCors("AllowSpecificOrigin"); // Quan trọng: Đặt trước Auth
 app.UseAuthentication();
 app.UseAuthorization();
-
-// ==================================================================
-// ⚠️ THAY ĐỔI 2: Thêm Route Mặc định cho MVC
-// Để khi vào trang chủ "/" nó biết tìm đến HomeController -> Index
-// ==================================================================
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-// Vẫn giữ cái này cho các API Controller dùng [Route]
 app.MapControllers();
 
-// --- Cấu hình cổng động (Quan trọng cho Render) ---
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-app.Run($"http://0.0.0.0:{port}");
+app.Run();
