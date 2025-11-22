@@ -98,7 +98,35 @@ internal class Program
         {
             app.UseDeveloperExceptionPage();
         }
+        app.Use(async (context, next) =>
+        {
+            // Kiểm tra nếu đường dẫn bắt đầu bằng /uploads
+            if (context.Request.Path.Value != null &&
+                context.Request.Path.Value.StartsWith("/uploads", StringComparison.OrdinalIgnoreCase))
+            {
+                // Lấy đường dẫn gốc của API từ cấu hình (hoặc bạn Hardcode link API của bạn vào đây)
+                // Ví dụ: var apiDomain = "https://stylezone-api.onrender.com";
+                var configuration = context.RequestServices.GetRequiredService<IConfiguration>();
+                var apiBaseUrl = configuration["ApiBaseUrl"]; // Đảm bảo trong appsettings.json có cái này
 
+                if (!string.IsNullOrEmpty(apiBaseUrl))
+                {
+                    // Loại bỏ chữ "/api/" ở cuối nếu có để lấy domain gốc
+                    var apiDomain = apiBaseUrl.Replace("/api/", "", StringComparison.OrdinalIgnoreCase).TrimEnd('/');
+
+                    // Tạo đường dẫn mới: Domain API + Đường dẫn ảnh
+                    var newUrl = apiDomain + context.Request.Path.Value;
+
+                    // Chuyển hướng trình duyệt sang link ảnh thật bên API
+                    context.Response.Redirect(newUrl);
+                    return;
+                }
+            }
+            // Nếu không phải ảnh upload thì chạy tiếp các việc khác
+            await next();
+        });
+        // 👆 KẾT THÚC ĐOẠN FIX NHANH
+        // =============================================================
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
