@@ -993,13 +993,13 @@ $.extend( $.validator, {
 
 					// If the element is not a child of an associated label, then it's necessary
 					// to explicitly apply aria-describedby
-				} else if ( error.parents( "label[for='" + this.escapeCssMeta( elementID ) + "']" ).length === 0 ) {
+				} else if ( error.parents( "label[for='" + this.escapecssMeta( elementID ) + "']" ).length === 0 ) {
 					errorID = error.attr( "id" );
 
 					// Respect existing non-error aria-describedby
 					if ( !describedBy ) {
 						describedBy = errorID;
-					} else if ( !describedBy.match( new RegExp( "\\b" + this.escapeCssMeta( errorID ) + "\\b" ) ) ) {
+					} else if ( !describedBy.match( new RegExp( "\\b" + this.escapecssMeta( errorID ) + "\\b" ) ) ) {
 
 						// Add to end of list if not already present
 						describedBy += " " + errorID;
@@ -1012,7 +1012,7 @@ $.extend( $.validator, {
 						v = this;
 						$.each( v.groups, function( name, testgroup ) {
 							if ( testgroup === group ) {
-								$( "[name='" + v.escapeCssMeta( name ) + "']", v.currentForm )
+								$( "[name='" + v.escapecssMeta( name ) + "']", v.currentForm )
 									.attr( "aria-describedby", error.attr( "id" ) );
 							}
 						} );
@@ -1031,13 +1031,13 @@ $.extend( $.validator, {
 		},
 
 		errorsFor: function( element ) {
-			var name = this.escapeCssMeta( this.idOrName( element ) ),
+			var name = this.escapecssMeta( this.idOrName( element ) ),
 				describer = $( element ).attr( "aria-describedby" ),
 				selector = "label[for='" + name + "'], label[for='" + name + "'] *";
 
 			// 'aria-describedby' should directly reference the error element
 			if ( describer ) {
-				selector = selector + ", #" + this.escapeCssMeta( describer )
+				selector = selector + ", #" + this.escapecssMeta( describer )
 					.replace( /\s+/g, ", #" );
 			}
 
@@ -1046,10 +1046,10 @@ $.extend( $.validator, {
 				.filter( selector );
 		},
 
-		// See https://api.jquery.com/category/selectors/, for CSS
+		// See https://api.jquery.com/category/selectors/, for css
 		// meta-characters that should be escaped in order to be used with JQuery
 		// as a literal part of a name/id or any selector.
-		escapeCssMeta: function( string ) {
+		escapecssMeta: function( string ) {
 			if ( string === undefined ) {
 				return "";
 			}
@@ -1077,7 +1077,7 @@ $.extend( $.validator, {
 		},
 
 		findByName: function( name ) {
-			return $( this.currentForm ).find( "[name='" + this.escapeCssMeta( name ) + "']" );
+			return $( this.currentForm ).find( "[name='" + this.escapecssMeta( name ) + "']" );
 		},
 
 		getLength: function( value, element ) {

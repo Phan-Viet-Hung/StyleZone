@@ -207,7 +207,7 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StyleZone A
 //app.UseHttpsRedirection();
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 app.UseRouting();
-app.UseStaticFiles(); // Quan trọng cho MVC để load CSS/JS
+app.UseStaticFiles(); // Quan trọng cho MVC để load css/JS
 app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();

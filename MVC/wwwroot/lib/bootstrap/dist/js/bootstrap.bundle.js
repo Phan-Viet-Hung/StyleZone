@@ -2202,9 +2202,9 @@
 
     if (isIE && isHTMLElement(element)) {
       // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
-      var elementCss = getComputedStyle$1(element);
+      var elementcss = getComputedStyle$1(element);
 
-      if (elementCss.position === 'fixed') {
+      if (elementcss.position === 'fixed') {
         return null;
       }
     }
@@ -2212,9 +2212,9 @@
     var currentNode = getParentNode(element);
 
     while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
-      var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
+      var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common css properties that
       // create a containing block.
-      // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+      // https://developer.mozilla.org/en-US/docs/Web/css/Containing_block#identifying_the_containing_block
 
       if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
         return currentNode;
@@ -2327,7 +2327,7 @@
 
     if (arrowElement == null) {
       return;
-    } // CSS selector
+    } // css selector
 
 
     if (typeof arrowElement === 'string') {
@@ -2576,7 +2576,7 @@
   }
 
   function getWindowScrollBarX(element) {
-    // If <html> has a CSS width greater than the viewport, then this will be
+    // If <html> has a css width greater than the viewport, then this will be
     // incorrect for RTL.
     // Popper 1 is broken in this case and never had a bug report so let's assume
     // it's not an issue. I don't think anyone ever specifies width on <html>

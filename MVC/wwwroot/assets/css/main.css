@@ -2682,7 +2682,7 @@ h6,
   display: none;
 }
 
-/* ========== Theme Change Css ============== */
+/* ========== Theme Change css ============== */
 .darkTheme .single-notification {
   border-color: #2f3546;
 }
@@ -3413,7 +3413,7 @@ h6,
   z-index: 99;
 }
 
-/* =========== Invoice Css ============= */
+/* =========== Invoice css ============= */
 .invoice-card .invoice-header {
   display: flex;
   flex-wrap: wrap;
@@ -3507,7 +3507,7 @@ h6,
   min-width: 100px;
 }
 
-/* ============== Icons Css ===========*/
+/* ============== Icons css ===========*/
 .icons-wrapper .icons,
 .icons-wrapper ul {
   display: flex;
@@ -3556,7 +3556,7 @@ h6,
   user-select: all;
 }
 
-/* ============ Calendar Css ============= */
+/* ============ Calendar css ============= */
 .calendar-card .fc {
   height: 450px;
 }
@@ -3956,7 +3956,7 @@ h6,
   justify-content: center;
 }
 
-/* ========== DEFAULT CSS ======== */
+/* ========== DEFAULT css ======== */
 /* ======= Margin Top ======= */
 .mt-5 {
   margin-top: 5px;
