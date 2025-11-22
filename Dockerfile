@@ -4,29 +4,27 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy file NuGet.Config (để sửa lỗi DevExpress/build)
+# Copy file config (nếu có)
 COPY ./NuGet.Config ./
 
-# Copy solution và các file csproj cần thiết
+# Copy solution và các file csproj
 COPY ./Empty.sln ./
 COPY ./DAL_Empty/DAL_Empty.csproj ./DAL_Empty/
 COPY ./API/API.csproj ./API/
 COPY ./MVC/MVC.csproj ./MVC/
-COPY ["MVC/wwwroot", "wwwroot"]
+
 # Restore dependencies
 RUN dotnet restore "./DAL_Empty/DAL_Empty.csproj"
 RUN dotnet restore "./API/API.csproj"
 RUN dotnet restore "./MVC/MVC.csproj"
 
-# Copy toàn bộ source code (Bao gồm file Migration mới và code C# đã sửa)
+# Copy toàn bộ source code
 COPY . .
 
-
-
 # Build và publish
+# Lưu ý: MVC cần Views và wwwroot, dotnet publish sẽ tự động gom chúng nếu csproj cấu hình đúng
 RUN dotnet publish "./API/API.csproj" -c Release -o /app/api --no-restore
 RUN dotnet publish "./MVC/MVC.csproj" -c Release -o /app/mvc --no-restore
-
 
 # ===========================================
 # STAGE 2: Runtime
@@ -38,20 +36,21 @@ WORKDIR /app
 COPY --from=build /app/api ./api
 COPY --from=build /app/mvc ./mvc
 
-# Expose ports
-EXPOSE 8080 8081
+# 👇 QUAN TRỌNG: Copy tài nguyên tĩnh (CSS/JS) của MVC nếu publish chưa đủ
+# Nếu trong folder /app/mvc/wwwroot đã có file thì dòng này thừa, nhưng cứ để cho chắc
+COPY --from=build /src/MVC/wwwroot ./mvc/wwwroot 
+COPY --from=build /src/MVC/Views ./mvc/Views
 
-# ENV Google OAuth
-ENV GoogleKeys__ClientId="61253447531-7vpfhr4i45dcac1h9k6f0np2l6q89hmi.apps.googleusercontent.com"
-ENV GoogleKeys__ClientSecret="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"
-ENV JwtSettings__SecretKey="this_is_a_super_secure_key_1234567890"
-
-# ENV Connection string (Đã đúng)
+# ENV Connection string (Giữ nguyên)
 ENV ConnectionStrings__DefaultConnection="Server=stylezone-sql,1433;Database=StyleZoneDb;User Id=sa;Password=YourStrong@Passw0rd1!;TrustServerCertificate=True;"
 
-# ENV URL API cho MVC (Đã đúng)
-ENV ApiBaseUrl="http://stylezone-all:8081/api/"
+# 👇 SỬA 1: API chạy nội bộ (Localhost), MVC gọi vào đây
+# Vì API và MVC chung 1 container nên gọi là 127.0.0.1
+ENV ApiBaseUrl="http://127.0.0.1:5000/api/" 
 
-# ===== SỬA LẠI HOÀN TOÀN ENTRYPOINT (Sửa Lỗi A - Port & Lỗi C - CSS 404) =====
-# Dùng 'cd' để đảm bảo ContentRootPath (thư mục gốc) là chính xác
-ENTRYPOINT ["sh", "-c", "(cd /app/api && ASPNETCORE_URLS=http://+:8081 dotnet API.dll) & (echo 'Đang chờ 5 giây cho API khởi động...' && sleep 5 && cd /app/mvc && ASPNETCORE_URLS=http://+:8080 dotnet MVC.dll) && wait"]
+# 👇 SỬA 2: ENTRYPOINT "BẺ LÁI"
+# - API: Chạy ngầm (-d) hoặc chạy nền (&) ở cổng 5000 (Cổng nội bộ)
+# - MVC: Chạy chính ở cổng $PORT (Cổng Render cấp - 10000) để người dùng truy cập được
+ENTRYPOINT ["sh", "-c", "dotnet api/API.dll --urls http://127.0.0.1:5000 & \
+                        dotnet mvc/MVC.dll --urls http://0.0.0.0:${PORT:-80} && \
+                        wait"]

@@ -82,6 +82,12 @@ internal class Program
         builder.Services.AddHttpContextAccessor();
 
         var app = builder.Build();
+        //Fix lỗi chuyển hướng trên render
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+                       Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+        });
 
         if (!app.Environment.IsDevelopment())
         {
