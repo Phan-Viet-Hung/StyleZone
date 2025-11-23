@@ -132,37 +132,45 @@
 </div>
 
 <script>
-       document.getElementById('checkout-form')?.addEventListener('submit', async function (e) {
-        e.preventDefault();
+        // === SCRIPT KIỂM TRA GIỎ HÀNG (VALIDATE) ===
+    document.getElementById('checkout-form')?.addEventListener('submit', async function (e) {
+     e.preventDefault(); // Chặn submit để kiểm tra trước
 
-    try {
-            // FIX QUAN TRỌNG: Gọi về MVC (cùng domain), không gọi sang API để tránh CORS và Auth
-            // Url.Action sẽ sinh ra đường dẫn tương đối: /CartCustomer/validate
-            const apiUrl = '@Url.Action("validate", "CartCustomer")';
+     try {
+             // FIX QUAN TRỌNG:
+             // Gọi về MVC Controller (cùng domain), KHÔNG gọi sang API Server.
+             // Lý do: Session giỏ hàng nằm ở MVC. API Server không đọc được Session này.
+             // Url.Action sẽ sinh ra: "/CartCustomer/validate" (đường dẫn nội bộ)
+             const apiUrl = '@Url.Action("validate", "CartCustomer")';
 
-            const response = await fetch(apiUrl, {
-                method: 'GET',
-                headers: { 'Accept': 'application/json' }
-            });
+             const response = await fetch(apiUrl, {
+                 method: 'GET',
+                 headers: { 'Accept': 'application/json' }
+                 // Không cần credentials: 'include' vì cùng domain tự động gửi cookie
+             });
 
-            const result = await response.json().catch(() => null);
+             // Xử lý phản hồi JSON an toàn
+             const result = await response.json().catch(() => null);
 
-            if (!response.ok) {
-                if (result?.errors?.length) {
-                    alert("Lỗi kiểm tra giỏ hàng:\n" + result.errors.join("\n"));
-                } else {
-                    alert("Không thể kiểm tra giỏ hàng. Vui lòng thử lại.");
-                }
-                return;
-            }
-            this.submit();
+             if (!response.ok) {
+                 if (result?.errors?.length) {
+                     alert("Lỗi kiểm tra giỏ hàng:\n" + result.errors.join("\n"));
+                 } else {
+                     // Nếu lỗi server (500) hoặc không tìm thấy (404)
+                     alert("Có lỗi khi kiểm tra giỏ hàng. Vui lòng thử lại sau.");
+                     console.error("Server Error:", response.status);
+                 }
+                 return; // Dừng lại, không chuyển trang
+             }
 
-        } catch (error) {
-            alert("Lỗi kết nối. Vui lòng kiểm tra mạng.");
-            console.error("Validation Error:", error);
-        }
-    });
+             // Nếu mọi thứ OK -> Cho phép form submit sang trang thanh toán
+             this.submit();
 
+         } catch (error) {
+             alert("Lỗi kết nối mạng. Vui lòng kiểm tra đường truyền.");
+             console.error("Network Validation Error:", error);
+         }
+     });
 </script>
 <script>
     // Format number with comma as thousands separator
