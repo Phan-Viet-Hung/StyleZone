@@ -431,7 +431,36 @@ namespace MVC.Controllers
 
             return RedirectToAction(nameof(CartCustomerIndex));
         }
+        [HttpGet]
+        public IActionResult Validate()
+        {
+            // 1. Kiểm tra dữ liệu giỏ hàng từ Cookie
+            List<CartCustomerDto> existingCart = new();
+            if (Request.Cookies.TryGetValue(CookieCartKey, out var cookieJson))
+            {
+                try
+                {
+                    existingCart = JsonConvert.DeserializeObject<List<CartCustomerDto>>(cookieJson) ?? new();
+                }
+                catch
+                {
+                    existingCart = new();
+                }
+            }
 
+            // 2. Nếu giỏ hàng trống -> Báo lỗi
+            if (existingCart == null || !existingCart.Any())
+            {
+                // Trả về lỗi 400 kèm message JSON để JavaScript hiển thị alert
+                return BadRequest(new { errors = new[] { "Giỏ hàng của bạn đang trống. Vui lòng chọn sản phẩm." } });
+            }
+
+            // 3. (Tùy chọn) Bạn có thể thêm logic check tồn kho API ở đây nếu muốn chặt chẽ hơn
+            // var checkStockResponse = await _httpClient.PostAsJsonAsync("CartCustomer/validate-stock", existingCart); ...
+
+            // 4. Nếu hợp lệ -> Trả về 200 OK
+            return Ok(new { success = true });
+        }
         [HttpGet]
         public async Task<IActionResult> CartBeforeCheckout()
         {

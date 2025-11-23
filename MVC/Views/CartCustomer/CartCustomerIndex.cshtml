@@ -132,45 +132,44 @@
 </div>
 
 <script>
-        // === SCRIPT KIỂM TRA GIỎ HÀNG (VALIDATE) ===
-    document.getElementById('checkout-form')?.addEventListener('submit', async function (e) {
-     e.preventDefault(); // Chặn submit để kiểm tra trước
+           document.getElementById('checkout-form')?.addEventListener('submit', async function (e) {
+        e.preventDefault(); // Chặn submit
 
-     try {
-             // FIX QUAN TRỌNG:
-             // Gọi về MVC Controller (cùng domain), KHÔNG gọi sang API Server.
-             // Lý do: Session giỏ hàng nằm ở MVC. API Server không đọc được Session này.
-             // Url.Action sẽ sinh ra: "/CartCustomer/validate" (đường dẫn nội bộ)
-             const apiUrl = '@Url.Action("validate", "CartCustomer")';
+        try {
+            // Sử dụng Url.Action để Razor tự sinh đường dẫn chuẩn xác
+            const apiUrl = '@Url.Action("Validate", "CartCustomer")';
 
-             const response = await fetch(apiUrl, {
-                 method: 'GET',
-                 headers: { 'Accept': 'application/json' }
-                 // Không cần credentials: 'include' vì cùng domain tự động gửi cookie
-             });
+            console.log("Đang gọi kiểm tra:", apiUrl);
 
-             // Xử lý phản hồi JSON an toàn
-             const result = await response.json().catch(() => null);
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
 
-             if (!response.ok) {
-                 if (result?.errors?.length) {
-                     alert("Lỗi kiểm tra giỏ hàng:\n" + result.errors.join("\n"));
-                 } else {
-                     // Nếu lỗi server (500) hoặc không tìm thấy (404)
-                     alert("Có lỗi khi kiểm tra giỏ hàng. Vui lòng thử lại sau.");
-                     console.error("Server Error:", response.status);
-                 }
-                 return; // Dừng lại, không chuyển trang
-             }
+            // Nếu API trả về lỗi (400, 404, 500...)
+            if (!response.ok) {
+                // Cố gắng đọc nội dung lỗi JSON
+                const result = await response.json().catch(() => null);
 
-             // Nếu mọi thứ OK -> Cho phép form submit sang trang thanh toán
-             this.submit();
+                if (result && result.errors && result.errors.length > 0) {
+                    // Lỗi logic (Chưa đăng nhập, giỏ hàng trống...)
+                    alert("Không thể thanh toán:\n- " + result.errors.join("\n- "));
+                } else {
+                    // Lỗi hệ thống (404 Not Found nếu chưa thêm Controller, hoặc 500)
+                    console.error("Lỗi Server:", response.status, response.statusText);
+                    alert(`Lỗi hệ thống (${response.status}). Vui lòng thử lại sau.`);
+                }
+                return; // Dừng lại
+            }
 
-         } catch (error) {
-             alert("Lỗi kết nối mạng. Vui lòng kiểm tra đường truyền.");
-             console.error("Network Validation Error:", error);
-         }
-     });
+            // Nếu mọi thứ OK (200) -> Submit form chuyển trang
+            this.submit();
+
+        } catch (error) {
+            console.error("Lỗi mạng:", error);
+            alert("Không thể kết nối đến máy chủ. Vui lòng kiểm tra đường truyền.");
+        }
+    });
 </script>
 <script>
     // Format number with comma as thousands separator
