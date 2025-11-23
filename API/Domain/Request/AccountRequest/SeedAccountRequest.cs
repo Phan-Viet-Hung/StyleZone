@@ -69,7 +69,38 @@ namespace API.Domain.Request.AccountRequest
 
                 context.Accounts.Update(adminUser);
             }
-
+            var paymentmethods = await context.PaymentMethods.FirstOrDefaultAsync(p => p.Name == "Thanh toán qua MoMo");
+            if (paymentmethods == null)
+            {
+                var momo = new PaymentMethod
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Thanh toán qua MoMo"
+                };
+                var cod = new PaymentMethod
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Thanh toán khi nhận hàng (COD)"
+                };
+                await context.PaymentMethods.AddAsync(momo);
+                await context.PaymentMethods.AddAsync(cod);
+            }
+            var modofpayment = await context.ModeOfPayments.FirstOrDefaultAsync(m => m.Name == "Tiền mặt");
+            if (modofpayment == null)
+            {
+                var tienmat = new ModeOfPayment
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Tiền mặt"
+                };
+                var chuyenkhoan = new ModeOfPayment
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Chuyển khoản"
+                };
+                await context.ModeOfPayments.AddAsync(tienmat);
+                await context.ModeOfPayments.AddAsync(chuyenkhoan);
+            }
             // 3. LƯU THAY ĐỔI CUỐI CÙNG
             await context.SaveChangesAsync();
         }
