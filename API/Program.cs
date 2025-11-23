@@ -89,15 +89,21 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // 5. CORS
-var allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(',') ?? Array.Empty<string>();
+//var allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(',') ?? Array.Empty<string>();
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowSpecificOrigin", policy =>
+//    {
+//        policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+//    });
+//});
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
-
 // --- Fix lỗi ngày tháng cho Postgres ---
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -208,7 +214,8 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StyleZone A
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 app.UseRouting();
 app.UseStaticFiles(); // Quan trọng cho MVC để load css/JS
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAll");
+//app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 
