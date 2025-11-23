@@ -3,23 +3,21 @@
 @{
     ViewData["Title"] = "DetailCustomer";
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
-    var publicApiUrl = Configuration["PublicApiUrl"]; 
+    // ===== SỬA URL =====
+    var publicApiUrl = Configuration["PublicApiUrl"];
     if (string.IsNullOrEmpty(publicApiUrl))
     {
-        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+        publicApiUrl = "https://localhost:7257";
     }
     var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
-    // ===========================
 
     var imageUrls = new List<string>();
-
-    // ===== SỬA CÁC DÒNG NÀY =====
+    // Dùng imageBaseUrl chuẩn
     if (!string.IsNullOrEmpty(Model.MainImageUrl))
         imageUrls.Add(imageBaseUrl + Model.MainImageUrl.TrimStart('/'));
 
     if (Model.ImageUrls != null && Model.ImageUrls.Any())
         imageUrls.AddRange(Model.ImageUrls.Select(url => imageBaseUrl + url.TrimStart('/')));
-
     bool hasActivePromotion = false;
     decimal? priceBefore = null;
     decimal? priceAfter = null;

@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_LayoutChung.cshtml";
     Context.Session.SetString("CartIDCount", Model?.Count.ToString() ?? "0");
     var username = Context.Request.Cookies["UserName"] ?? Context.Request.Cookies["LoginMethod"];
+    // ===== SỬA URL =====
     var publicApiUrl = Configuration["PublicApiUrl"];
     if (string.IsNullOrEmpty(publicApiUrl))
     {
-        publicApiUrl = "https://localhost:7257"; // URL dự phòng
+        publicApiUrl = "https://localhost:7257";
     }
     var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
 }
-
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger" role="alert">

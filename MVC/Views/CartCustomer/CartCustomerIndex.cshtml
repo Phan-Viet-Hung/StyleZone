@@ -15,7 +15,7 @@
         publicApiUrl = "https://localhost:7257";
     }
     var imageBaseUrl = publicApiUrl.TrimEnd('/') + "/";
-    var fullApiUrl = publicApiUrl.TrimEnd('/') + "/api/";
+    // var fullApiUrl = publicApiUrl.TrimEnd('/') + "/api/";
 }
 @if (TempData["ErrorMessage"] != null)
 {
@@ -132,16 +132,18 @@
 </div>
 
 <script>
-   document.getElementById('checkout-form').addEventListener('submit', async function (e) {
-    e.preventDefault(); // Chặn submit mặc định
+       document.getElementById('checkout-form')?.addEventListener('submit', async function (e) {
+        e.preventDefault();
 
     try {
-            const response = await fetch('@(fullApiUrl)CartCustomer/validate', {
-                method: 'GET',
-                headers: { 'Accept': 'application/json' },
-                credentials: 'include'
-        });
+            // FIX QUAN TRỌNG: Gọi về MVC (cùng domain), không gọi sang API để tránh CORS và Auth
+            // Url.Action sẽ sinh ra đường dẫn tương đối: /CartCustomer/validate
+            const apiUrl = '@Url.Action("validate", "CartCustomer")';
 
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
 
             const result = await response.json().catch(() => null);
 
@@ -149,18 +151,17 @@
                 if (result?.errors?.length) {
                     alert("Lỗi kiểm tra giỏ hàng:\n" + result.errors.join("\n"));
                 } else {
-                    alert("Không thể kiểm tra giỏ hàng. Mã lỗi HTTP: " + response.status);
+                    alert("Không thể kiểm tra giỏ hàng. Vui lòng thử lại.");
                 }
                 return;
             }
-
             this.submit();
 
         } catch (error) {
-            alert("Không thể kết nối tới API kiểm tra giỏ hàng. Vui lòng thử lại.");
+            alert("Lỗi kết nối. Vui lòng kiểm tra mạng.");
             console.error("Validation Error:", error);
         }
-});
+    });
 
 </script>
 <script>
