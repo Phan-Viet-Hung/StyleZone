@@ -539,7 +539,7 @@
                     });
 
                     if (response.ok) {
-                        window.location.href = "@Url.Action("IndexMuaNgay", "ThanhToanCustomer")";
+                        window.location.href = "@Url.Action("IndexMuaNgayID", "ThanhToanCustomerId")";
                     } else {
                         const errorMessage = await response.text();
                         alert(errorMessage || "Không thể mua ngay.");

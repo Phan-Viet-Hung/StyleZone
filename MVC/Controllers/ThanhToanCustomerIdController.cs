@@ -83,39 +83,47 @@ namespace MVC.Controllers
             username = string.IsNullOrEmpty(username)
                 ? HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"]
                 : username;
-
-            if (string.IsNullOrEmpty(username))
-            {
-                TempData["Error"] = "Bạn cần đăng nhập để xem sản phẩm mua ngay.";
-                return RedirectToAction("Index", "Home");
-            }
-
             try
             {
-                // Gọi API lấy dữ liệu mua ngay (URL tương đối)
-                var response = await _httpClient.GetAsync(
-                    $"ThanhToanCustomerId/currentmua-ngay?username={username}"
-                );
-
-                if (!response.IsSuccessStatusCode)
+                if (string.IsNullOrEmpty(username))
                 {
-                    TempData["Error"] = "Không có sản phẩm mua ngay.";
+                    TempData["Error"] = "Bạn cần đăng nhập để xem sản phẩm mua ngay.";
                     return RedirectToAction("Index", "Home");
                 }
 
-                var item = await response.Content.ReadFromJsonAsync<MuangaycustomerIdDto>();
+                try
+                {
+                    // Gọi API lấy dữ liệu mua ngay (URL tương đối)
+                    var response = await _httpClient.GetAsync(
+                        $"ThanhToanCustomerId/currentmua-ngay?username={username}"
+                    );
 
-                // Đảm bảo AddressList và VoucherList không bị null để tránh NullReferenceException
-                item.AddressList ??= new List<AddressDto>();
-                item.VoucherList ??= new List<VoucherDto>();
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        TempData["Error"] = "Không có sản phẩm mua ngay.";
+                        return RedirectToAction("Index", "Home");
+                    }
 
-                return View(item);
+                    var item = await response.Content.ReadFromJsonAsync<MuangaycustomerIdDto>();
+
+                    // Đảm bảo AddressList và VoucherList không bị null để tránh NullReferenceException
+                    item.AddressList ??= new List<AddressDto>();
+                    item.VoucherList ??= new List<VoucherDto>();
+
+                    return View(item);
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = $"Lỗi ngoại lệ: {ex.Message}";
+                    return RedirectToAction("Index", "Home");
+                }
             }
             catch (Exception ex)
             {
-                TempData["Error"] = $"Lỗi ngoại lệ: {ex.Message}";
-                return RedirectToAction("Index", "Home");
+
+                return RedirectToAction("ListDonHang", "DonMuaCustomer");
             }
+            
         }
 
         [HttpGet]
