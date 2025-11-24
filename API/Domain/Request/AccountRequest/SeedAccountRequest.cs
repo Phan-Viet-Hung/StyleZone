@@ -69,8 +69,7 @@ namespace API.Domain.Request.AccountRequest
 
                 context.Accounts.Update(adminUser);
             }
-            var paymentmethods = await context.PaymentMethods.FirstOrDefaultAsync(p => p.Name == "Thanh toán qua MoMo");
-            if (paymentmethods == null)
+            if (!context.PaymentMethods.Any())
             {
                 var momo = new PaymentMethod
                 {
@@ -85,8 +84,8 @@ namespace API.Domain.Request.AccountRequest
                 await context.PaymentMethods.AddAsync(momo);
                 await context.PaymentMethods.AddAsync(cod);
             }
-            var modofpayment = await context.ModeOfPayments.FirstOrDefaultAsync(m => m.Name == "Tiền mặt");
-            if (modofpayment == null)
+            
+            if (!context.ModeOfPayments.Any())
             {
                 var tienmat = new ModeOfPayment
                 {
