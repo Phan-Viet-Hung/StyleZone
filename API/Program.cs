@@ -108,22 +108,25 @@ builder.Services.AddCors(options =>
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // ==================================================================
-// 6. Database (Tự động chọn SQL Server hoặc PostgreSQL)
+// 6. Database (Tự động nhận diện thông minh)
 // ==================================================================
-var dbType = builder.Configuration["DB_TYPE"]; // Đọc biến môi trường
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-if (string.Equals(dbType, "Postgres", StringComparison.OrdinalIgnoreCase))
+// Kiểm tra xem chuỗi kết nối có dấu hiệu của PostgreSQL không
+// (Postgres thường có 'Host=' hoặc 'dpg-' trong chuỗi Render)
+bool isPostgres = connectionString != null &&
+                  (connectionString.Contains("Host=", StringComparison.OrdinalIgnoreCase) ||
+                   connectionString.Contains("dpg-", StringComparison.OrdinalIgnoreCase));
+
+if (isPostgres)
 {
-    // Cấu hình cho Render (PostgreSQL)
-    Console.WriteLine("--> Sử dụng Database: PostgreSQL");
+    Console.WriteLine("--> 🟢 PHÁT HIỆN POSTGRESQL: Kích hoạt UseNpgsql");
     builder.Services.AddDbContext<DbContextApp>(options =>
         options.UseNpgsql(connectionString));
 }
 else
 {
-    // Cấu hình mặc định cho Local (SQL Server)
-    Console.WriteLine("--> Sử dụng Database: SQL Server");
+    Console.WriteLine("--> 🔵 PHÁT HIỆN SQL SERVER: Kích hoạt UseSqlServer");
     builder.Services.AddDbContext<DbContextApp>(options =>
         options.UseSqlServer(connectionString));
 }
