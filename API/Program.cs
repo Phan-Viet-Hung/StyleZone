@@ -107,9 +107,26 @@ builder.Services.AddCors(options =>
 // --- Fix lỗi ngày tháng cho Postgres ---
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-// 6. Database
-builder.Services.AddDbContext<DbContextApp>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// ==================================================================
+// 6. Database (Tự động chọn SQL Server hoặc PostgreSQL)
+// ==================================================================
+var dbType = builder.Configuration["DB_TYPE"]; // Đọc biến môi trường
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.Equals(dbType, "Postgres", StringComparison.OrdinalIgnoreCase))
+{
+    // Cấu hình cho Render (PostgreSQL)
+    Console.WriteLine("--> Sử dụng Database: PostgreSQL");
+    builder.Services.AddDbContext<DbContextApp>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    // Cấu hình mặc định cho Local (SQL Server)
+    Console.WriteLine("--> Sử dụng Database: SQL Server");
+    builder.Services.AddDbContext<DbContextApp>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 // 7. SERVICES REGISTRATION
 // Admin Services
@@ -155,6 +172,14 @@ builder.Services.AddSingleton<EmailCustomerServicer>();
 builder.Services.AddSingleton<OtpHelperServices>();
 builder.Services.AddScoped<JwtTokenHelper>();
 
+builder.Services.AddDistributedMemoryCache(); // 1. Cache bộ nhớ để lưu Session
+builder.Services.AddSession(options =>        // 2. Đăng ký dịch vụ Session
+{
+    options.IdleTimeout = TimeSpan.FromHours(10); // Thời gian hết hạn Session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Common
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMemoryCache();
@@ -170,18 +195,24 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var logger = services.GetRequiredService<ILogger<Program>>();
     var dbContext = services.GetRequiredService<DbContextApp>();
+    var configuration = services.GetRequiredService<IConfiguration>(); // Lấy Configuration
+    //var dbType = configuration["DB_TYPE"]; // Đọc biến môi trường DB_TYPE
 
     try
     {
-        logger.LogInformation("--> 🛠️ Đang tạo hàm newid() cho PostgreSQL...");
-        await dbContext.Database.ExecuteSqlRawAsync(@"
-            CREATE EXTENSION IF NOT EXISTS ""pgcrypto"";
-            CREATE OR REPLACE FUNCTION newid() RETURNS uuid AS $$
-            BEGIN
-                RETURN gen_random_uuid();
-            END;
-            $$ LANGUAGE plpgsql;
-        ");
+        // CHỈ chạy lệnh SQL đặc thù này nếu là PostgreSQL
+        if (string.Equals(dbType, "Postgres", StringComparison.OrdinalIgnoreCase))
+        {
+            logger.LogInformation("--> 🛠️ Đang tạo hàm newid() cho PostgreSQL...");
+            await dbContext.Database.ExecuteSqlRawAsync(@"
+                CREATE EXTENSION IF NOT EXISTS ""pgcrypto"";
+                CREATE OR REPLACE FUNCTION newid() RETURNS uuid AS $$
+                BEGIN
+                    RETURN gen_random_uuid();
+                END;
+                $$ LANGUAGE plpgsql;
+            ");
+        }
 
         logger.LogInformation("--> Đang Migration Database...");
         dbContext.Database.Migrate();
@@ -218,7 +249,7 @@ app.UseCors("AllowAll");
 //app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 // ==================================================================
 // ⚠️ THAY ĐỔI 2: Thêm Route Mặc định cho MVC
 // Để khi vào trang chủ "/" nó biết tìm đến HomeController -> Index

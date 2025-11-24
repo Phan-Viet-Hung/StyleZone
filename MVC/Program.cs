@@ -6,7 +6,9 @@ using API.DomainCusTomer.Services.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.DataProtection; // Nhớ using cái này
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Runtime.InteropServices; // Cần thư viện này để check OS
 using MVC.Handlers;
 
 internal class Program
@@ -15,11 +17,28 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // 1. Cấu hình Data Protection (QUAN TRỌNG: Sửa lỗi key login)
-        // Nếu bạn chưa tạo Disk, dòng này sẽ lưu tạm vào ổ cứng container
+        // =============================================================
+        // 1. SỬA LỖI DATA PROTECTION (Chạy được cả Windows & Docker)
+        // =============================================================
+        string keysFolder;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // Nếu chạy trên Windows (Localhost Visual Studio)
+            keysFolder = Path.Combine(Directory.GetCurrentDirectory(), "keys");
+        }
+        else
+        {
+            // Nếu chạy trên Linux (Docker / Render)
+            keysFolder = "/root/.aspnet/DataProtection-Keys";
+        }
+
+        // Tạo thư mục nếu chưa có (để tránh lỗi DirectoryNotFound)
+        if (!Directory.Exists(keysFolder)) Directory.CreateDirectory(keysFolder);
+
         builder.Services.AddDataProtection()
-            .PersistKeysToFileSystem(new DirectoryInfo("/root/.aspnet/DataProtection-Keys"))
+            .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
             .SetApplicationName("StyleZoneApp");
+        // =============================================================
 
         // 2. Cấu hình Momo
         builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
@@ -28,7 +47,7 @@ internal class Program
         builder.Services.Configure<MomoOptionModelId>(builder.Configuration.GetSection("MomoAPI_Customer"));
         builder.Services.AddScoped<IMomoCustomerIdServices, MomoCustomerIdServices>();
 
-        // 3. Authentication (Cookie + Google)
+        // 3. Authentication
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -39,6 +58,9 @@ internal class Program
         {
             options.LoginPath = "/LoginAccount/Login";
             options.ExpireTimeSpan = TimeSpan.FromDays(7);
+            // Quan trọng cho Docker/Render:
+            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+            options.Cookie.SameSite = SameSiteMode.Lax;
         })
         .AddGoogle(options =>
         {
@@ -66,12 +88,19 @@ internal class Program
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
             options.Cookie.Name = ".StyleZone.CustomerSession";
+            // Quan trọng cho Docker:
+            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
         });
 
-        // 4. Cấu hình HttpClient gọi về API
+        // 4. Cấu hình HttpClient
+        // Ưu tiên lấy từ config, nếu không có thì fallback về localhost
         var configuration = builder.Configuration;
         string apiBaseUrl = configuration["ApiBaseUrl"];
-        if (string.IsNullOrEmpty(apiBaseUrl)) apiBaseUrl = "https://localhost:7257/api/";
+
+        if (string.IsNullOrEmpty(apiBaseUrl))
+        {
+            apiBaseUrl = "https://localhost:7257/api/";
+        }
 
         builder.Services.AddHttpClient("ApiClient", client =>
         {
@@ -82,11 +111,11 @@ internal class Program
         builder.Services.AddHttpContextAccessor();
 
         var app = builder.Build();
-        //Fix lỗi chuyển hướng trên render
+
+        // Fix lỗi HTTPS Redirect trên Render
         app.UseForwardedHeaders(new ForwardedHeadersOptions
         {
-            ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
-                       Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
         });
 
         if (!app.Environment.IsDevelopment())
@@ -98,39 +127,41 @@ internal class Program
         {
             app.UseDeveloperExceptionPage();
         }
+
+        // =============================================================
+        // 5. MIDDLEWARE CHUYỂN HƯỚNG ẢNH (Sửa lại logic chuẩn)
+        // =============================================================
         app.Use(async (context, next) =>
         {
-            // Kiểm tra nếu đường dẫn bắt đầu bằng /uploads
             if (context.Request.Path.Value != null &&
                 context.Request.Path.Value.StartsWith("/uploads", StringComparison.OrdinalIgnoreCase))
             {
-                // Lấy đường dẫn gốc của API từ cấu hình (hoặc bạn Hardcode link API của bạn vào đây)
-                // Ví dụ: var apiDomain = "https://stylezone-api.onrender.com";
-                var configuration = context.RequestServices.GetRequiredService<IConfiguration>();
-                var apiBaseUrl = configuration["ApiBaseUrl"]; // Đảm bảo trong appsettings.json có cái này
+                // Lấy PublicApiUrl (VD: https://stylezone-api.onrender.com)
+                var config = context.RequestServices.GetRequiredService<IConfiguration>();
+                var publicUrl = config["PublicApiUrl"];
 
-                if (!string.IsNullOrEmpty(apiBaseUrl))
+                // Nếu không có config, fallback về localhost
+                if (string.IsNullOrEmpty(publicUrl))
                 {
-                    // Loại bỏ chữ "/api/" ở cuối nếu có để lấy domain gốc
-                    var apiDomain = apiBaseUrl.Replace("/api/", "", StringComparison.OrdinalIgnoreCase).TrimEnd('/');
-
-                    // Tạo đường dẫn mới: Domain API + Đường dẫn ảnh
-                    var newUrl = apiDomain + context.Request.Path.Value;
-
-                    // Chuyển hướng trình duyệt sang link ảnh thật bên API
-                    context.Response.Redirect(newUrl);
-                    return;
+                    publicUrl = "https://localhost:7257";
                 }
+
+                // Chuẩn hóa: Xóa dấu / ở cuối
+                var apiDomain = publicUrl.TrimEnd('/');
+
+                // Redirect sang API
+                var newUrl = apiDomain + context.Request.Path.Value;
+                context.Response.Redirect(newUrl);
+                return;
             }
-            // Nếu không phải ảnh upload thì chạy tiếp các việc khác
             await next();
         });
-        // 👆 KẾT THÚC ĐOẠN FIX NHANH
         // =============================================================
-        app.UseHttpsRedirection();
+
+        app.UseHttpsRedirection(); // Tắt dòng này nếu chạy Docker port 8080 mà không có cert
         app.UseStaticFiles();
         app.UseRouting();
-        app.UseSession(); // Session phải sau Routing
+        app.UseSession();
         app.UseAuthentication();
         app.UseAuthorization();
 

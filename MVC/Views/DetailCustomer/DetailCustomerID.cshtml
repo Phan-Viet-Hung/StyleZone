@@ -477,8 +477,8 @@
             const btnIncrease = document.getElementById("qty-increase");
             const btnDecrease = document.getElementById("qty-decrease");
 
-            // 🛒 Lấy tồn kho từ Razor
-            const maxStock = @Model.Quantity; // Ví dụ: 10
+            // Lấy tồn kho
+            const maxStock = @Model.Quantity;
 
             function checkStock() {
                 let val = parseInt(qtyInput.value) || 1;
@@ -486,14 +486,12 @@
                 btnDecrease.disabled = (val <= 1);
             }
 
-            // Nút tăng
             btnIncrease.addEventListener("click", function () {
                 let val = parseInt(qtyInput.value) || 1;
                 if (val < maxStock) qtyInput.value = val + 1;
                 checkStock();
             });
 
-            // Nút giảm
             btnDecrease.addEventListener("click", function () {
                 let val = parseInt(qtyInput.value) || 1;
                 if (val > 1) qtyInput.value = val - 1;
@@ -503,27 +501,32 @@
             qtyInput.addEventListener("input", checkStock);
             checkStock();
 
-            // === Thêm vào giỏ ===
+            // === 1. SỬA LẠI LOGIC THÊM VÀO GIỎ (Báo lỗi chuẩn) ===
             addBtn.addEventListener("click", async function (e) {
                 e.preventDefault();
                 qtyHidden.value = qtyInput.value;
                 if (!validateColorSize()) return;
 
-                fetch(formAdd.action, {
-                    method: "POST",
-                    body: new FormData(formAdd),
-                })
-                    .then(res => {
-                        if (res.ok) {
-                            showSlideCart(qtyInput.value);
-                        } else {
-                            alert("Số lượng không đủ");
-                        }
-                    })
-                    .catch(err => console.error("Lỗi:", err));
+                try {
+                    const response = await fetch(formAdd.action, {
+                        method: "POST",
+                        body: new FormData(formAdd),
+                    });
+
+                    if (response.ok) {
+                        showSlideCart(qtyInput.value);
+                    } else {
+                        // Đọc thông báo lỗi thực sự từ Server
+                        const msg = await response.text();
+                        alert(msg || "Có lỗi xảy ra khi thêm vào giỏ.");
+                    }
+                } catch (err) {
+                    console.error("Lỗi fetch:", err);
+                    alert("Không thể kết nối đến Server.");
+                }
             });
 
-            // === Mua Ngay ===
+            // === 2. LOGIC MUA NGAY (Đã ổn, giữ nguyên logic báo lỗi) ===
             addBtnMuaNgay.addEventListener("click", async function (e) {
                 e.preventDefault();
                 qtyHiddenMuaNgay.value = qtyInput.value;
@@ -536,7 +539,7 @@
                     });
 
                     if (response.ok) {
-                        window.location.href = "/ThanhToanCustomerId/IndexMuaNgayID";
+                        window.location.href = "@Url.Action("IndexMuaNgay", "ThanhToanCustomer")";
                     } else {
                         const errorMessage = await response.text();
                         alert(errorMessage || "Không thể mua ngay.");
@@ -550,15 +553,16 @@
             function validateColorSize() {
                 const colorRadio = document.querySelector('.color-radio:checked');
                 const sizeBtn = document.querySelector('.size-btn.active');
-                const colorReadonly = document.querySelector('.color-option.readonly-option');
+                // Check cả trường hợp readonly (có sẵn 1 option)
+                const colorReadonly = document.querySelector('.color-option.readonly-option input');
                 const sizeReadonly = document.querySelector('.size-btn.readonly-option');
 
                 if (!colorRadio && !colorReadonly) {
-                    alert("Vui lòng chọn màu trước khi thêm!");
+                    alert("Vui lòng chọn màu sắc!");
                     return false;
                 }
                 if (!sizeBtn && !sizeReadonly) {
-                    alert("Vui lòng chọn kích thước trước khi thêm!");
+                    alert("Vui lòng chọn kích thước!");
                     return false;
                 }
                 return true;
@@ -580,8 +584,8 @@
                 document.getElementById("cartOverlay").classList.remove("active");
             }
 
-            document.querySelector(".btn-close-cart").addEventListener("click", closeSlideCart);
-            document.getElementById("cartOverlay").addEventListener("click", closeSlideCart);
+            document.querySelector(".btn-close-cart")?.addEventListener("click", closeSlideCart);
+            document.getElementById("cartOverlay")?.addEventListener("click", closeSlideCart);
         });
     </script>
 }

@@ -69,6 +69,6 @@ namespace API.DomainCusTomer.DTOs.DetailCustomer
 
         // **Map từ ColorId-SizeId sang ProductDetail.Code**
         public Dictionary<string, string> ProductVariantMap { get; set; } = new();
-
+        public Dictionary<string, int> ProductStockMap { get; set; } = new();
     }
 }

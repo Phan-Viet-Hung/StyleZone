@@ -126,7 +126,26 @@ namespace API.DomainCusTomer.Services
                     g => g.Key,
                     g => g.First().Code
                 );
+            dto.ProductVariantMap = variantList
+                .GroupBy(v => $"{v.ColorId}-{v.SizeId}")
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.First().Code
+                );
 
+            // === THÊM ĐOẠN NÀY (Đã sửa lỗi) ===
+            // Lấy tồn kho cho từng biến thể
+            var stockList = await _context.ProductDetails
+                .Where(p => p.ProductId == detail.ProductId && p.ColorId != null && p.SizeId != null)
+                .Select(p => new
+                {
+                    Key = $"{p.ColorId}-{p.SizeId}",
+                    Quantity = p.Quantity ?? 0 // Xử lý null ngay từ lúc Select
+                })
+                .ToListAsync();
+
+            dto.ProductStockMap = stockList.ToDictionary(x => x.Key, x => x.Quantity);
+            // =====================
             return dto;
         }
 

@@ -10,22 +10,22 @@ namespace DAL_Empty.Models
         {
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer(
-        //            //"Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;"
-        //            "Server=localhost,1433;Database=StyleZoneDb;User Id=sa;Password=YourStrong@Passw0rd1!;TrustServerCertificate=True;"
-        //        );
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(
+                    "Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;"
+                    //"Server=localhost,1433;Database=StyleZoneDb;User Id=sa;Password=YourStrong@Passw0rd1!;TrustServerCertificate=True;"
+                );
 
-        //        // Hoặc nếu bạn muốn dễ chuyển sang PostgreSQL thì có thể cấu hình tại đây
-        //        optionsBuilder.UseNpgsql("Host=dpg-d3jomeffte5s73fva5u0-a.oregon-postgres.render.com;Port=5432;Database=stylezone_db;Username=stylezone_db_user;Password=WM1oRd6UnZ1bNyKeq2NH4XoZFPkrhoOr;SSL Mode=Require;Trust Server Certificate=true");
-        //    }
+                // Hoặc nếu bạn muốn dễ chuyển sang PostgreSQL thì có thể cấu hình tại đây
+                //optionsBuilder.UseNpgsql("Host=dpg-d3jomeffte5s73fva5u0-a.oregon-postgres.render.com;Port=5432;Database=stylezone_db;Username=stylezone_db_user;Password=WM1oRd6UnZ1bNyKeq2NH4XoZFPkrhoOr;SSL Mode=Require;Trust Server Certificate=true");
+            }
 
-        //    //optionsBuilder.UseSqlServer("Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;");
+            //optionsBuilder.UseSqlServer("Server=LAP4HUNG\\MSSQLSERVER01;Database=DATN100;Trusted_Connection=True;TrustServerCertificate=true;");
 
-        //}
+        }
         public virtual DbSet<Account> Accounts { get; set; }
 
         public virtual DbSet<Address> Addresses { get; set; }
@@ -97,9 +97,9 @@ namespace DAL_Empty.Models
                 entity.ToTable("Account");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.Birthday).HasColumnType("timestamp");
+                //entity.Property(e => e.Birthday).HasColumnType("timestamp");
                 entity.Property(e => e.Email).HasMaxLength(100);
                 entity.Property(e => e.Gender).HasMaxLength(10);
                 entity.Property(e => e.Name).HasMaxLength(20);
@@ -119,7 +119,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Address");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 //entity.Property(e => e.City).HasMaxLength(100);
                 //entity.Property(e => e.Country).HasMaxLength(100);
@@ -138,7 +138,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("BillHistory");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
 
                 entity.HasOne(d => d.Bill).WithMany(p => p.BillHistories)
@@ -153,7 +153,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Brand");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Code)
                     .HasMaxLength(50)
@@ -168,9 +168,9 @@ namespace DAL_Empty.Models
                 entity.ToTable("Cart");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreateAt).HasColumnType("timestamp");
+                //entity.Property(e => e.CreateAt).HasColumnType("timestamp");
                
 
                 entity.HasOne(d => d.Customer).WithOne(p => p.Cart)
@@ -185,7 +185,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("CartItem");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
@@ -205,7 +205,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Category");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
             });
@@ -251,7 +251,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Color");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Code)
                     .HasMaxLength(50)
@@ -266,16 +266,16 @@ namespace DAL_Empty.Models
                 entity.ToTable("Customer");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.Birthday).HasColumnType("timestamp");
-                entity.Property(e => e.CreateAt).HasColumnType("timestamp");
+                //entity.Property(e => e.Birthday).HasColumnType("timestamp");
+                //entity.Property(e => e.CreateAt).HasColumnType("timestamp");
                 entity.Property(e => e.Email).HasMaxLength(100);
                 entity.Property(e => e.Fullname).HasMaxLength(100);
                 entity.Property(e => e.Gender).HasMaxLength(10);
                 entity.Property(e => e.Password).IsUnicode(false) ;
                 entity.Property(e => e.PhoneNumber).HasMaxLength(15);
-                entity.Property(e => e.UpdateAt).HasColumnType("timestamp");
+                //entity.Property(e => e.UpdateAt).HasColumnType("timestamp");
                 entity.Property(e => e.UserName).HasMaxLength(100);
                 //entity.Property(e => e.Status).HasMaxLength(20);
             });
@@ -287,9 +287,9 @@ namespace DAL_Empty.Models
                 entity.ToTable("CustomerVoucher");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.UsedDate).HasColumnType("timestamp");
+                //entity.Property(e => e.UsedDate).HasColumnType("timestamp");
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.CustomerVouchers)
                     .HasForeignKey(d => d.CustomerId)
@@ -307,7 +307,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Image");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Url)
                     .HasMaxLength(500)
@@ -325,7 +325,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Material");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
             });
@@ -337,11 +337,11 @@ namespace DAL_Empty.Models
                 entity.ToTable("ModeOfPayment");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreationDate).HasColumnType("timestamp");
+                //entity.Property(e => e.CreationDate).HasColumnType("timestamp");
                 entity.Property(e => e.Creator).HasMaxLength(100);
-                entity.Property(e => e.EditDate).HasColumnType("timestamp");
+                //entity.Property(e => e.EditDate).HasColumnType("timestamp");
                 entity.Property(e => e.Fixer).HasMaxLength(100);
                 entity.Property(e => e.Name).HasMaxLength(100);
                 entity.Property(e => e.Status).HasMaxLength(20);
@@ -354,7 +354,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("ModeOfPaymentOrder");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
 
                 entity.HasOne(d => d.ModeOfPayment).WithMany(p => p.ModeOfPaymentOrders)
@@ -373,7 +373,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("OrderDetail");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
@@ -393,11 +393,11 @@ namespace DAL_Empty.Models
                 entity.ToTable("OrderInfo");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreateAt).HasColumnType("timestamp");
+                //entity.Property(e => e.CreateAt).HasColumnType("timestamp");
                 entity.Property(e => e.CustomerName).HasMaxLength(100);
-                entity.Property(e => e.EstimatedDeliveryDate).HasColumnType("timestamp");
+                //entity.Property(e => e.EstimatedDeliveryDate).HasColumnType("timestamp");
                 entity.Property(e => e.PhoneNumber).HasMaxLength(15);
                 entity.Property(e => e.Qrcode)
                     .IsUnicode(false)
@@ -405,7 +405,7 @@ namespace DAL_Empty.Models
                 entity.Property(e => e.ShippingFee).HasColumnType("decimal(18, 2)");
                 entity.Property(e => e.Status).HasMaxLength(20);
                 entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.UpdateAt).HasColumnType("timestamp");
+                //entity.Property(e => e.UpdateAt).HasColumnType("timestamp");
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.OrderInfos)
                     .HasForeignKey(d => d.CustomerId)
@@ -426,7 +426,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("OrderPaymentMethod");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
 
                 entity.HasOne(d => d.Order).WithMany(p => p.OrderPaymentMethods)
@@ -445,7 +445,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Origin");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
             });
@@ -457,7 +457,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("PaymentMethod");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
                
@@ -470,11 +470,11 @@ namespace DAL_Empty.Models
                 entity.ToTable("Product");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
-                entity.Property(e => e.CreatedAt).HasColumnType("timestamp");
+                //entity.Property(e => e.CreatedAt).HasColumnType("timestamp");
                 entity.Property(e => e.Name).HasMaxLength(500);
-                entity.Property(e => e.UpdatedAt).HasColumnType("timestamp");
+                //entity.Property(e => e.UpdatedAt).HasColumnType("timestamp");
                 entity.HasOne(d => d.Brand).WithMany(p => p.Product)
                    .HasForeignKey(d => d.BrandId)
                    .HasConstraintName("FK__ProductDe__Brand__66603565");
@@ -491,7 +491,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("ProductDetail");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(100);
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
@@ -530,13 +530,13 @@ namespace DAL_Empty.Models
                 entity.ToTable("Promotion");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.DiscountType).HasMaxLength(100);
                 entity.Property(e => e.DiscountValue).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.EndDate).HasColumnType("timestamp");
+                //entity.Property(e => e.EndDate).HasColumnType("timestamp");
                 entity.Property(e => e.Name).HasMaxLength(100);
-                entity.Property(e => e.StartDate).HasColumnType("timestamp");
+                //entity.Property(e => e.StartDate).HasColumnType("timestamp");
                 entity.Property(e => e.Status).HasMaxLength(50);
             });
 
@@ -547,7 +547,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("PromotionProduct");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
 
                 entity.HasOne(d => d.ProductDetail).WithMany(p => p.PromotionProducts)
@@ -603,7 +603,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Role");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Name).HasMaxLength(20);
             });
@@ -615,7 +615,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Size");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Code)
                     .HasMaxLength(20)
@@ -630,7 +630,7 @@ namespace DAL_Empty.Models
                 entity.ToTable("Supplier");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Contact).HasMaxLength(100);
                 entity.Property(e => e.Email).HasMaxLength(100);
@@ -644,12 +644,12 @@ namespace DAL_Empty.Models
                 entity.ToTable("Voucher");
 
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("(gen_random_uuid())")
+                    //.HasDefaultValueSql("(gen_random_uuid())")
                     .HasColumnName("ID");
                 entity.Property(e => e.Code).HasMaxLength(50);
                 entity.Property(e => e.DiscountValue).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.EndDate).HasColumnType("timestamp");
-                entity.Property(e => e.StartDate).HasColumnType("timestamp");
+                //entity.Property(e => e.EndDate).HasColumnType("timestamp");
+                //entity.Property(e => e.StartDate).HasColumnType("timestamp");
                 entity.Property(e => e.Status).HasMaxLength(20);
                 entity.Property(e => e.Description).HasMaxLength(255).IsRequired(false);
             });

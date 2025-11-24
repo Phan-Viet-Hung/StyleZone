@@ -463,88 +463,264 @@
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // ============================================================
+            // 1. KHAI BÁO BIẾN & DOM ELEMENTS
+            // ============================================================
             const addBtn = document.getElementById("btnAddToCart");
             const addBtnMuaNgay = document.getElementById("btnMuaNgay");
             const formAdd = document.getElementById("addToCartForm");
             const formMuaNgay = document.getElementById("muaNgayForm");
+
             const qtyInput = document.getElementById("qty-input");
             const qtyHidden = document.getElementById("cartQuantityHidden");
             const qtyHiddenMuaNgay = document.getElementById("cartQuantityHiddenMuaNgay");
-
             const btnIncrease = document.getElementById("qty-increase");
             const btnDecrease = document.getElementById("qty-decrease");
 
-            // 🛒 Lấy tồn kho từ Razor
-            const maxStock = @Model.Quantity; // Ví dụ: 10
+            const sizeButtons = document.querySelectorAll(".size-btn");
+            const colorRadios = document.querySelectorAll('.color-radio');
+            const selectedSizeSpan = document.getElementById("selected-size");
 
-            function checkStock() {
+            // Thumbnail & Description elements
+            const thumbnails = document.querySelectorAll(".thumbnail-list img");
+            const mainImage = document.getElementById("main-product-image");
+            const descContent = document.getElementById("product-description");
+            const toggleDescBtn = document.getElementById("toggle-desc");
+
+            // ============================================================
+            // 2. DỮ LIỆU TỪ SERVER (JSON)
+            // ============================================================
+            const colorSizeMap = @Html.Raw(Json.Serialize(Model.ColorSizeMap ?? new Dictionary<Guid, List<Guid>>()));
+            const sizeColorMap = @Html.Raw(Json.Serialize(Model.SizeColorMap ?? new Dictionary<Guid, List<Guid>>()));
+            const productVariantMap = @Html.Raw(Json.Serialize(Model.ProductVariantMap ?? new Dictionary<string, string>()));
+            // Map tồn kho quan trọng: Key="ColorId-SizeId", Value=Int (Số lượng)
+            const productStockMap = @Html.Raw(Json.Serialize(Model.ProductStockMap ?? new Dictionary<string, int>()));
+
+            // ============================================================
+            // 3. QUẢN LÝ TRẠNG THÁI (STATE MANAGEMENT)
+            // ============================================================
+            // Lấy trạng thái mặc định từ UI (nếu server render sẵn checked/active)
+            let checkedColorRadio = document.querySelector('.color-radio:checked');
+            let activeSizeBtn = document.querySelector('.size-btn.active');
+
+            let lastSelectedColor = checkedColorRadio ? checkedColorRadio.value : null;
+            let lastSelectedSize = activeSizeBtn ? activeSizeBtn.dataset.size : null;
+            let currentProductCode = "@Model.CodeProductDetail";
+
+            // Khởi tạo maxStock: Nếu chưa chọn variant thì lấy tổng, nếu đã chọn thì lấy theo variant
+            let maxStock = @Model.Quantity;
+
+            // ============================================================
+            // 4. LOGIC XỬ LÝ TỒN KHO & CẬP NHẬT UI
+            // ============================================================
+
+            function updateProductCodeAndStock() {
+                // Reset về mã gốc
+                currentProductCode = "@Model.CodeProductDetail";
+
+                // Chỉ cập nhật chi tiết khi đã chọn đủ Màu và Size
+                if (lastSelectedColor && lastSelectedSize) {
+                    const key = `${lastSelectedColor}-${lastSelectedSize}`;
+
+                    // 1. Cập nhật Mã SP
+                    if (productVariantMap[key]) {
+                        currentProductCode = productVariantMap[key];
+                    }
+
+                    // 2. Cập nhật Tồn kho chuẩn xác theo biến thể
+                    if (productStockMap[key] !== undefined) {
+                        maxStock = productStockMap[key];
+                    } else {
+                        // Trường hợp hiếm: có variant map nhưng không có stock map -> mặc định là 0
+                        maxStock = 0;
+                    }
+                } else {
+                    // Nếu user bỏ chọn, có thể reset maxStock về 0 hoặc giữ nguyên tổng
+                    // Ở đây ta giữ nguyên tổng hoặc logic tùy chỉnh của bạn
+                     // maxStock = @Model.Quantity;
+                }
+
+                // UI Updates
+                selectedSizeSpan.textContent = currentProductCode;
+                document.getElementById("cartProductCodeHidden").value = currentProductCode;
+                document.getElementById("cartProductCodeHiddenMuaNgay").value = currentProductCode;
+
+                // Kiểm tra lại số lượng đang nhập có vượt quá tồn kho mới không
+                let currentQty = parseInt(qtyInput.value) || 1;
+                if (currentQty > maxStock) {
+                    qtyInput.value = maxStock > 0 ? maxStock : 1;
+                }
+
+                // Gọi hàm check giao diện nút
+                checkStockUI();
+            }
+
+            function checkStockUI() {
                 let val = parseInt(qtyInput.value) || 1;
+
+                // Xử lý khi hết hàng
+                if (maxStock <= 0) {
+                    btnIncrease.disabled = true;
+                    btnDecrease.disabled = true;
+                    qtyInput.value = 0;
+
+                    addBtn.disabled = true;
+                    addBtn.innerText = "Hết hàng";
+                    addBtn.classList.add("btn-secondary"); // Optional style
+
+                    addBtnMuaNgay.disabled = true;
+                    return;
+                }
+
+                // Có hàng -> Enable lại
+                addBtn.disabled = false;
+                addBtn.innerText = "Thêm vào giỏ";
+                addBtn.classList.remove("btn-secondary");
+                addBtnMuaNgay.disabled = false;
+
+                // Giới hạn input
+                if (val > maxStock) {
+                    val = maxStock;
+                    qtyInput.value = val;
+                }
+                if (val < 1) {
+                    val = 1;
+                    qtyInput.value = val;
+                }
+
+                // Disable nút +/-
                 btnIncrease.disabled = (val >= maxStock);
                 btnDecrease.disabled = (val <= 1);
             }
 
-            // Nút tăng
+            // ============================================================
+            // 5. EVENT LISTENERS: SỐ LƯỢNG (+ / -)
+            // ============================================================
             btnIncrease.addEventListener("click", function () {
-                let val = parseInt(qtyInput.value) || 1;
-                if (val < maxStock) qtyInput.value = val + 1;
-                checkStock();
-            });
-
-            // Nút giảm
-            btnDecrease.addEventListener("click", function () {
-                let val = parseInt(qtyInput.value) || 1;
-                if (val > 1) qtyInput.value = val - 1;
-                checkStock();
-            });
-
-            qtyInput.addEventListener("input", checkStock);
-            checkStock();
-
-            // === Thêm vào giỏ ===
-            addBtn.addEventListener("click", async function (e) {
-                e.preventDefault();
-                qtyHidden.value = qtyInput.value;
-                if (!validateColorSize()) return;
-
-                fetch(formAdd.action, {
-                    method: "POST",
-                    body: new FormData(formAdd),
-                })
-                    .then(res => {
-                        if (res.ok) {
-                            showSlideCart(qtyInput.value);
-                        } else {
-                            alert("Số lượng không đủ");
-                        }
-                    })
-                    .catch(err => console.error("Lỗi:", err));
-            });
-
-            // === Mua Ngay ===
-            addBtnMuaNgay.addEventListener("click", async function (e) {
-                e.preventDefault();
-                qtyHiddenMuaNgay.value = qtyInput.value;
-                if (!validateColorSize()) return;
-
-                try {
-                    const response = await fetch(formMuaNgay.action, {
-                        method: "POST",
-                        body: new FormData(formMuaNgay),
-                    });
-
-                    if (response.ok) {
-                        window.location.href = "/ThanhToanCustomer/IndexMuaNgay";  
-                    } else {
-                        const errorMessage = await response.text();
-                        alert(errorMessage || "Không thể mua ngay.");
-                    }
-                } catch (err) {
-                    console.error("Lỗi:", err);
-                    alert("Đã xảy ra lỗi khi thực hiện yêu cầu.");
+                let val = parseInt(qtyInput.value) || 0;
+                if (val < maxStock) {
+                    qtyInput.value = val + 1;
+                    checkStockUI();
                 }
             });
 
-            function validateColorSize() {
+            btnDecrease.addEventListener("click", function () {
+                let val = parseInt(qtyInput.value) || 0;
+                if (val > 1) {
+                    qtyInput.value = val - 1;
+                    checkStockUI();
+                }
+            });
+
+            qtyInput.addEventListener("input", checkStockUI);
+
+            // ============================================================
+            // 6. EVENT LISTENERS: MÀU SẮC & KÍCH THƯỚC (FILTER)
+            // ============================================================
+
+            // --- Logic Filter Helper ---
+            function filterSizesByColor(colorId) {
+                const validSizes = colorId ? (colorSizeMap[colorId] || []) : [];
+                sizeButtons.forEach(btn => {
+                    if (!colorId || validSizes.includes(btn.dataset.size)) {
+                        btn.classList.remove('disabled');
+                    } else {
+                        btn.classList.add('disabled');
+                    }
+                });
+            }
+
+            function filterColorsBySize(sizeId) {
+                const validColors = sizeId ? (sizeColorMap[sizeId] || []) : [];
+                colorRadios.forEach(radio => {
+                    const label = radio.nextElementSibling;
+                    if (!sizeId || validColors.includes(radio.value)) {
+                        radio.disabled = false;
+                        label.classList.remove('disabled');
+                    } else {
+                        radio.disabled = true;
+                        label.classList.add('disabled');
+                    }
+                });
+            }
+
+            function clearActiveSize() {
+                sizeButtons.forEach(b => b.classList.remove('active'));
+                lastSelectedSize = null;
+            }
+
+            function clearActiveColor() {
+                colorRadios.forEach(radio => {
+                    radio.checked = false;
+                    radio.nextElementSibling.classList.remove('active');
+                });
+                lastSelectedColor = null;
+            }
+
+            // --- Click Color ---
+            colorRadios.forEach(radio => {
+                const label = radio.nextElementSibling;
+                label.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (radio.disabled) return;
+
+                    if (lastSelectedColor === radio.value) {
+                        // Bỏ chọn
+                        radio.checked = false;
+                        label.classList.remove('active');
+                        lastSelectedColor = null;
+                        filterSizesByColor(null);
+                        clearActiveSize();
+                    } else {
+                        // Chọn mới
+                        colorRadios.forEach(r => r.nextElementSibling.classList.remove('active'));
+                        radio.checked = true;
+                        label.classList.add('active');
+                        lastSelectedColor = radio.value;
+
+                        // Reset size nếu không hợp lệ
+                        const validSizes = colorSizeMap[radio.value] || [];
+                        if (lastSelectedSize && !validSizes.includes(lastSelectedSize)) {
+                            clearActiveSize();
+                        }
+                        filterSizesByColor(radio.value);
+                    }
+                    updateProductCodeAndStock();
+                });
+            });
+
+            // --- Click Size ---
+            sizeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.classList.contains('disabled')) return;
+
+                    if (lastSelectedSize === btn.dataset.size) {
+                        // Bỏ chọn
+                        clearActiveSize();
+                        filterColorsBySize(null);
+                    } else {
+                        // Chọn mới
+                        sizeButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        lastSelectedSize = btn.dataset.size;
+
+                        // Reset màu nếu không hợp lệ
+                        const checkedColor = document.querySelector('.color-radio:checked');
+                        if (checkedColor && !sizeColorMap[btn.dataset.size]?.includes(checkedColor.value)) {
+                            clearActiveColor();
+                        }
+                        filterColorsBySize(btn.dataset.size);
+                    }
+                    updateProductCodeAndStock();
+                });
+            });
+
+            // ============================================================
+            // 7. EVENT LISTENERS: SUBMIT FORM (ADD TO CART / BUY NOW)
+            // ============================================================
+
+            function validateSelection() {
+                // Check chọn
                 const colorRadio = document.querySelector('.color-radio:checked');
                 const sizeBtn = document.querySelector('.size-btn.active');
                 const colorReadonly = document.querySelector('.color-option.readonly-option');
@@ -558,236 +734,165 @@
                     alert("Vui lòng chọn kích thước trước khi thêm!");
                     return false;
                 }
+
+                // Check tồn kho lần cuối
+                if (maxStock <= 0) {
+                    alert("Sản phẩm này hiện đang hết hàng.");
+                    return false;
+                }
+
+                const qty = parseInt(qtyInput.value) || 0;
+                if (qty > maxStock) {
+                    alert(`Số lượng yêu cầu vượt quá tồn kho (Còn lại: ${maxStock})`);
+                    qtyInput.value = maxStock; // Tự sửa về max
+                    return false;
+                }
+
                 return true;
             }
 
+            // Nút Thêm vào giỏ
+            addBtn.addEventListener("click", async function (e) {
+                e.preventDefault();
+                qtyHidden.value = qtyInput.value;
+
+                if (!validateSelection()) return;
+
+                try {
+                    const response = await fetch(formAdd.action, {
+                        method: "POST",
+                        body: new FormData(formAdd),
+                    });
+
+                    if (response.ok) {
+                        showSlideCart(qtyInput.value);
+                    } else {
+                        const msg = await response.text();
+                        alert(msg || "Lỗi thêm vào giỏ hàng.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Lỗi kết nối Server.");
+                }
+            });
+
+            // Nút Mua ngay
+            addBtnMuaNgay.addEventListener("click", async function (e) {
+                e.preventDefault();
+                qtyHiddenMuaNgay.value = qtyInput.value;
+
+                if (!validateSelection()) return;
+
+                try {
+                    const response = await fetch(formMuaNgay.action, {
+                        method: "POST",
+                        body: new FormData(formMuaNgay),
+                    });
+
+                    if (response.ok) {
+                        window.location.href = "/ThanhToanCustomer/IndexMuaNgay";
+                    } else {
+                        const errorMessage = await response.text();
+                        alert(errorMessage || "Không thể mua ngay.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Lỗi kết nối Server.");
+                }
+            });
+
+            // ============================================================
+            // 8. TIỆN ÍCH UI KHÁC (SLIDER, THUMBNAIL, SLIDE CART)
+            // ============================================================
+
+            // --- Slide Cart ---
             function showSlideCart(quantity) {
                 document.getElementById("cartQuantity").textContent = "Số lượng: " + quantity;
                 document.getElementById("slideCart").classList.add("show");
                 document.getElementById("cartOverlay").classList.add("active");
-
-                setTimeout(() => {
-                    closeSlideCart();
-                    window.location.reload();
-                }, 3000);
+                // Reload sau 2s để cập nhật Header Cart Count (nếu cần)
+                setTimeout(() => { closeSlideCart(); window.location.reload(); }, 2000);
             }
-
             function closeSlideCart() {
                 document.getElementById("slideCart").classList.remove("show");
                 document.getElementById("cartOverlay").classList.remove("active");
             }
+            document.querySelector(".btn-close-cart")?.addEventListener("click", closeSlideCart);
+            document.getElementById("cartOverlay")?.addEventListener("click", closeSlideCart);
 
-            document.querySelector(".btn-close-cart").addEventListener("click", closeSlideCart);
-            document.getElementById("cartOverlay").addEventListener("click", closeSlideCart);
+            // --- Thumbnails Click ---
+            thumbnails.forEach((thumb) => {
+                thumb.addEventListener("click", () => {
+                    thumbnails.forEach((t) => t.classList.remove("active"));
+                    thumb.classList.add("active");
+                    if(mainImage){
+                        mainImage.src = thumb.dataset.full;
+                        mainImage.alt = thumb.alt;
+                    }
+                });
+            });
+
+            // --- Description Toggle ---
+            if(toggleDescBtn && descContent) {
+                toggleDescBtn.addEventListener("click", () => {
+                    const expanded = descContent.classList.toggle("expanded");
+                    toggleDescBtn.textContent = expanded ? "Thu gọn" : "Xem thêm";
+                    toggleDescBtn.setAttribute("aria-expanded", expanded);
+                });
+            }
+
+            // --- Related Products Slider ---
+            const track = document.querySelector('.related-products-grid');
+            const items = document.querySelectorAll('.related-product-card');
+            const nextButton = document.querySelector('.related-product-arrow.next');
+            const prevButton = document.querySelector('.related-product-arrow.prev');
+
+            if (track && items.length > 0 && nextButton && prevButton) {
+                let itemsPerPage = window.innerWidth < 768 ? 2 : 4;
+                const totalItems = items.length;
+                let currentIndex = 0;
+
+                function updateArrows() {
+                    prevButton.disabled = currentIndex === 0;
+                    nextButton.disabled = currentIndex >= Math.ceil(totalItems / itemsPerPage) - 1;
+                }
+
+                function slide() {
+                    const container = document.querySelector('.related-products-viewport');
+                    const containerWidth = container.offsetWidth;
+                    const slideDistance = containerWidth * currentIndex;
+                    track.style.transform = `translateX(-${slideDistance}px)`;
+                    updateArrows();
+                }
+
+                nextButton.addEventListener('click', () => {
+                    if (currentIndex < Math.ceil(totalItems / itemsPerPage) - 1) {
+                        currentIndex++;
+                        slide();
+                    }
+                });
+
+                prevButton.addEventListener('click', () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        slide();
+                    }
+                });
+
+                window.addEventListener('resize', () => {
+                    itemsPerPage = window.innerWidth < 768 ? 2 : 4;
+                    updateArrows();
+                    slide();
+                });
+                // Init slider state
+                updateArrows();
+            }
+
+            // ============================================================
+            // 9. KHỞI CHẠY LẦN ĐẦU
+            // ============================================================
+            // Cập nhật tồn kho ban đầu theo variant đang chọn (nếu có)
+            updateProductCodeAndStock();
         });
     </script>
 }
-
-
-<script>
-
-    // Thumbnail click to update main image
-    const thumbnails = document.querySelectorAll(".thumbnail-list img");
-    const mainImage = document.getElementById("main-product-image");
-    thumbnails.forEach((thumb) => {
-        thumb.addEventListener("click", () => {
-            thumbnails.forEach((t) => t.classList.remove("active"));
-            thumb.classList.add("active");
-            mainImage.src = thumb.dataset.full;
-            mainImage.alt = thumb.alt;
-        });
-    });
-
-    // Product description toggle
-    const desc = document.getElementById("product-description");
-    const toggleBtn = document.getElementById("toggle-desc");
-    toggleBtn.addEventListener("click", () => {
-        const expanded = desc.classList.toggle("expanded");
-        toggleBtn.textContent = expanded ? "Thu gọn" : "Xem thêm";
-        toggleBtn.setAttribute("aria-expanded", expanded);
-    });
-    // co thể bạn sẽ thích 
-    document.addEventListener('DOMContentLoaded', function () {
-        const track = document.querySelector('.related-products-grid');
-        const items = document.querySelectorAll('.related-product-card');
-        const nextButton = document.querySelector('.related-product-arrow.next');
-        const prevButton = document.querySelector('.related-product-arrow.prev');
-
-        if (!track || items.length === 0 || !nextButton || !prevButton) return;
-
-        let itemsPerPage = window.innerWidth < 768 ? 2 : 4;
-
-        const totalItems = items.length;
-        let currentIndex = 0;
-
-        function updateArrows() {
-            prevButton.disabled = currentIndex === 0;
-            nextButton.disabled = currentIndex >= Math.ceil(totalItems / itemsPerPage) - 1;
-        }
-
-        function slide() {
-            const container = document.querySelector('.related-products-viewport');
-            const containerWidth = container.offsetWidth;
-            const slideDistance = containerWidth * currentIndex;
-            track.style.transform = `translateX(-${slideDistance}px)`;
-            updateArrows();
-        }
-
-        nextButton.addEventListener('click', () => {
-            if (currentIndex < Math.ceil(totalItems / itemsPerPage) - 1) {
-                currentIndex++;
-                slide();
-            }
-        });
-
-        prevButton.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                slide();
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            itemsPerPage = window.innerWidth < 768 ? 2 : 4;
-            updateArrows();
-            slide();
-        });
-    });
-
-document.addEventListener('DOMContentLoaded', function () {
-    const sizeButtons = document.querySelectorAll(".size-btn");
-    const colorRadios = document.querySelectorAll('.color-radio');
-    const selectedSizeSpan = document.getElementById("selected-size");
-
-    const colorSizeMap = @Html.Raw(Json.Serialize(Model.ColorSizeMap ?? new Dictionary<Guid, List<Guid>>()));
-    const sizeColorMap = @Html.Raw(Json.Serialize(Model.SizeColorMap ?? new Dictionary<Guid, List<Guid>>()));
-    const productVariantMap = @Html.Raw(Json.Serialize(Model.ProductVariantMap ?? new Dictionary<string, string>()));
-
-    let lastSelectedColor = null;
-    let lastSelectedSize = null;
-    let currentProductCode = "@Model.CodeProductDetail";
-
-    // ==== COLOR TOGGLE ====
-    colorRadios.forEach(radio => {
-        const label = radio.nextElementSibling;
-        label.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (radio.disabled) return;
-
-            if (lastSelectedColor === radio.value) {
-                // Bỏ chọn màu hiện tại
-                radio.checked = false;
-                label.classList.remove('active');
-                lastSelectedColor = null;
-                filterSizesByColor(null);
-                clearActiveSize(); // clear size khi bỏ chọn màu
-                updateProductCode();
-            } else {
-                // Chọn màu mới
-                colorRadios.forEach(r => r.nextElementSibling.classList.remove('active'));
-                radio.checked = true;
-                label.classList.add('active');
-                lastSelectedColor = radio.value;
-
-                // === XÓA ACTIVE SIZE KHI CHỌN MÀU LẦN ĐẦU ===
-                clearActiveSize();
-
-                // Lọc size theo màu
-                filterSizesByColor(radio.value);
-
-                // Nếu size hiện tại không hợp với màu mới -> clear size
-                const validSizes = colorSizeMap[radio.value] || [];
-                if (lastSelectedSize && !validSizes.includes(lastSelectedSize)) {
-                    clearActiveSize();
-                }
-
-                updateProductCode();
-            }
-        });
-    });
-
-    // ==== SIZE TOGGLE ====
-    sizeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (btn.classList.contains('disabled')) return;
-
-            if (lastSelectedSize === btn.dataset.size) {
-                // Bỏ chọn size
-                clearActiveSize();
-                filterColorsBySize(null);
-                updateProductCode();
-            } else {
-                // Chọn size mới
-                sizeButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                lastSelectedSize = btn.dataset.size;
-
-                // Lọc màu theo size
-                filterColorsBySize(btn.dataset.size);
-
-                // Nếu màu hiện tại không hợp với size mới -> clear màu
-                const checkedColor = document.querySelector('.color-radio:checked');
-                if (checkedColor && !sizeColorMap[btn.dataset.size]?.includes(checkedColor.value)) {
-                    clearActiveColor();
-                }
-
-                updateProductCode();
-            }
-        });
-    });
-
-    // ==== FILTER ====
-    function filterSizesByColor(colorId) {
-        const validSizes = colorId ? (colorSizeMap[colorId] || []) : [];
-        sizeButtons.forEach(btn => {
-            if (!colorId || validSizes.includes(btn.dataset.size)) {
-                btn.classList.remove('disabled');
-            } else {
-                btn.classList.add('disabled');
-            }
-        });
-    }
-
-    function filterColorsBySize(sizeId) {
-        const validColors = sizeId ? (sizeColorMap[sizeId] || []) : [];
-        colorRadios.forEach(radio => {
-            const label = radio.nextElementSibling;
-            if (!sizeId || validColors.includes(radio.value)) {
-                radio.disabled = false;
-                label.classList.remove('disabled');
-            } else {
-                radio.disabled = true;
-                label.classList.add('disabled');
-            }
-        });
-    }
-
-    // ==== CLEAR ACTIVE ====
-    function clearActiveSize() {
-        sizeButtons.forEach(b => b.classList.remove('active'));
-        lastSelectedSize = null;
-    }
-
-    function clearActiveColor() {
-        colorRadios.forEach(radio => {
-            radio.checked = false;
-            radio.nextElementSibling.classList.remove('active');
-        });
-        lastSelectedColor = null;
-    }
-
-    // ==== UPDATE MÃ SP ====
-    function updateProductCode() {
-        currentProductCode = "@Model.CodeProductDetail";
-        if (lastSelectedColor && lastSelectedSize) {
-            const key = `${lastSelectedColor}-${lastSelectedSize}`;
-            if (productVariantMap[key]) {
-                currentProductCode = productVariantMap[key];
-            }
-        }
-        selectedSizeSpan.textContent = currentProductCode;
-        document.getElementById("cartProductCodeHidden").value = currentProductCode;
-        document.getElementById("cartProductCodeHiddenMuaNgay").value = currentProductCode;
-    }
-});
-</script>

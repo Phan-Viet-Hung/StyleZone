@@ -39,7 +39,6 @@ namespace MVC.Controllers
         public async Task<IActionResult> AddMuaNgay(MuaNgayCustomerRequest request)
         {
             string username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
-
             if (!string.IsNullOrEmpty(username))
                 return RedirectToAction("Index", "Home");
 
@@ -48,19 +47,38 @@ namespace MVC.Controllers
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // URL tương đối
                 var response = await _httpClient.PostAsync("CartCustomer/addmua-ngay", content);
+
                 if (!response.IsSuccessStatusCode)
                 {
-                    return BadRequest("Số lượng không đủ.");
+                    // ===== SỬA ĐOẠN NÀY =====
+                    // Đọc nội dung lỗi thực sự từ API gửi về
+                    var errorContent = await response.Content.ReadAsStringAsync();
+
+                    // Nếu API trả về lỗi 404 (Not Found) -> Sai đường dẫn
+                    if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return BadRequest("Lỗi 404: Sai đường dẫn API (CartCustomer/addmua-ngay).");
+                    }
+
+                    // Nếu API trả về lỗi 500 -> Lỗi Code Server (thường là thiếu Session)
+                    if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    {
+                        return BadRequest("Lỗi 500: Server API gặp sự cố (Kiểm tra lại cấu hình Session).");
+                    }
+
+                    // Trả về thông báo lỗi gốc từ API (ví dụ: "Sản phẩm hết hàng", "Yêu cầu không hợp lệ")
+                    return BadRequest($"Lỗi API: {errorContent}");
                 }
+
                 return RedirectToAction("IndexMuaNgay", "ThanhToanCustomer");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+                return StatusCode(500, $"Lỗi ngoại lệ MVC: {ex.Message}");
             }
         }
+
 
         // ========== TẠO ĐƠN HÀNG ==========
 
