@@ -59,13 +59,13 @@ namespace MVC.Controllers
                         await _httpClient.DeleteAsync("CartCustomer/clear");
 
                         HttpContext.Session.Remove("MomoPendingOrder");
-                        TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString().ToUpper();
+                        TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString();
                         return RedirectToAction("Index", "Home");
                     }
                     else
                     {
                         HttpContext.Session.Remove("MomoPendingOrder");
-                        TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString().ToUpper();
+                        TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString();
                         return RedirectToAction("Index", "Home");
                     }
 
@@ -161,12 +161,12 @@ namespace MVC.Controllers
                             Response.Cookies.Delete("CustomerCart");
                             await _httpClient.DeleteAsync("CartCustomer/clear");
 
-                            TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString().ToUpper();
+                            TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString();
                             return RedirectToAction("Index", "Home");
                         }
                         else
                         {
-                            TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString().ToUpper();
+                            TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString();
                             return RedirectToAction("Index", "Home");
                         }
                     }

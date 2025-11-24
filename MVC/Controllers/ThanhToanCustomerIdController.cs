@@ -130,30 +130,37 @@ namespace MVC.Controllers
         public async Task<IActionResult> ListCartthanhtoanId()
         {
             string username = HttpContext.Request.Cookies["UserName"] ?? HttpContext.Request.Cookies["LoginMethod"];
-
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                return BadRequest("Username không được để trống");
-            }
-
             try
             {
-                // URL tương đối
-                var response = await _httpClient.GetAsync($"ThanhToanCustomerId/{username}");
-
-                if (!response.IsSuccessStatusCode)
+                if (string.IsNullOrWhiteSpace(username))
                 {
-                    return View("Error");
+                    return BadRequest("Username không được để trống");
                 }
 
-                var model = await response.Content.ReadFromJsonAsync<ThanhToanCartIdDto>();
+                try
+                {
+                    // URL tương đối
+                    var response = await _httpClient.GetAsync($"ThanhToanCustomerId/{username}");
 
-                return View(model);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return View("Error");
+                    }
+
+                    var model = await response.Content.ReadFromJsonAsync<ThanhToanCartIdDto>();
+
+                    return View(model);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Lỗi ngoại lệ: {ex.Message}");
+                return RedirectToAction("ListDonHang", "DonMuaCustomer");
             }
+            
         }
 
         [HttpPost]
