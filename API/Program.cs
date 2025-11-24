@@ -204,7 +204,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         // CHỈ chạy lệnh SQL đặc thù này nếu là PostgreSQL
-        if (string.Equals(dbType, "Postgres", StringComparison.OrdinalIgnoreCase))
+        if (isPostgres)
         {
             logger.LogInformation("--> 🛠️ Đang tạo hàm newid() cho PostgreSQL...");
             await dbContext.Database.ExecuteSqlRawAsync(@"
