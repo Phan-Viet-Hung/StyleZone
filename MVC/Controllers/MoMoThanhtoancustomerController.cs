@@ -162,11 +162,13 @@ namespace MVC.Controllers
                             await _httpClient.DeleteAsync("CartCustomer/clear");
 
                             TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString();
+                            TempData.Keep("SuccessMessagethanhtoan");
                             return RedirectToAction("Index", "Home");
                         }
                         else
                         {
                             TempData["SuccessMessagethanhtoan"] = "Đặt hàng thành công! mã đơn hàng của bạn là: " + orderIdObj.Id.ToString();
+                            TempData.Keep("SuccessMessagethanhtoan");
                             return RedirectToAction("Index", "Home");
                         }
                     }
